@@ -15,4 +15,12 @@ class Prasarana
     private $kapasitasUjian;
     private $tahunPengadaan;
     private $statusKeaktifan;
+
+    public function setLuas() {
+        $this->luas = $this->panjang * $this->lebar;
+    }
+
+    public function getLuas() {
+        return $this->luas;
+    }
 }
