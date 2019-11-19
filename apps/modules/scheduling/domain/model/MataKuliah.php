@@ -8,7 +8,7 @@ class MataKuliah
     private $kodeMatkul;
     private $nama;
     private $namaInggris;
-    private $SKS;
+    private $sks;
     private $nomorUrutTranskrip;
     private $hitungPengumpulan;
     private $deskripsi;
