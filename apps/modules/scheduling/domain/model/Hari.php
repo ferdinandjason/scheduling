@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+namespace Siakad\Scheduling\Domain\Model;
 
 interface Hari
 {
