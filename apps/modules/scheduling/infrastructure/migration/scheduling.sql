@@ -156,6 +156,7 @@ CREATE TABLE `semester` (
   `id` int(10) UNSIGNED AUTO_INCREMENT NOT NULL,
   `nama` varchar(100) NOT NULL,
   `singkatan` varchar(10) NOT NULL,
+  `tahun_ajaran` int(11) NOT NULL,
   `semester` int(11) NOT NULL,
   `aktif` tinyint(1) NOT NULL,
   `tanggal_mulai` int(11) DEFAULT NULL,

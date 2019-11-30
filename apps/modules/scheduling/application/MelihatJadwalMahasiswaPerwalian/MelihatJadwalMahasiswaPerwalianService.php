@@ -2,7 +2,7 @@
 
 namespace Siakad\Scheduling\Application;
 
-class MelihatJadwalMahasiswaPerwalian
+class MelihatJadwalMahasiswaPerwalianService
 {
 
 }

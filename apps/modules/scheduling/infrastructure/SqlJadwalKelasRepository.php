@@ -10,15 +10,12 @@ use Siakad\Scheduling\Domain\Model\MataKuliah;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliah;
 use Siakad\Scheduling\Domain\Model\Prasarana;
 use Siakad\Scheduling\Domain\Model\Semester;
-use Siakad\Scheduling\Domain\Model\TipePeriodeKuliah;
 
 class SqlJadwalKelasRepository implements JadwalKelasRepository
 {
     private $connection;
     private $statement;
     private $statementTypes;
-
-    const HASHED_MULTIPLIER = 10;
 
     public function __construct($di)
     {
@@ -32,43 +29,27 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                                     INNER JOIN `semester` ON `semester`.`id` = `kelas`.`id_semester`
                                     INNER JOIN `mata_kuliah` ON `mata_kuliah`.`id` = `kelas`.`id_mata_kuliah`
                                     INNER JOIN `prasarana` ON `prasarana`.`id` = `jadwal_kelas`.`id_prasarana`
-                WHERE `semester`.`semester` = :semesterHashed;
+                WHERE `semester`.`semester` = :semester AND `semester`.`tahun_ajaran` = :tahunAjaran;
             "),
         ];
 
         $this->statementTypes = [
             'find_by_periode_kuliah' => [
-                'semesterHashed' => Column::BIND_PARAM_INT,
+                'semester' => Column::BIND_PARAM_INT,
+                'tahunAjaran' => Column::BIND_PARAM_INT,
             ]
         ];
 
     }
 
-    public function getHashedPeriodeKuliah($tipe, $tahun)
-    {
-        $tipeInteger = TipePeriodeKuliah::Null;
-        switch ($tipe)
-        {
-            case TipePeriodeKuliah::GasalString:
-                $tipeInteger = TipePeriodeKuliah::Gasal;
-                break;
-            case TipePeriodeKuliah::GenapString:
-                $tipeInteger = TipePeriodeKuliah::Genap;
-                break;
-            case TipePeriodeKuliah::PendekString:
-                $tipeInteger = TipePeriodeKuliah::Pendek;
-                break;
-        }
-        return $tahun * self::HASHED_MULTIPLIER + $tipeInteger;
-    }
-
     public function byPeriodeKuliah($tipe, $tahun)
     {
         $statementData = [
-            'semesterHashed' => $this->getHashedPeriodeKuliah($tipe, $tahun),
+            'semester' => $tipe,
+            'tahunAjaran' => $tahun 
         ];
 
-        $result =$this->connection->executePrepared(
+        $result = $this->connection->executePrepared(
             $this->statement['find_by_periode_kuliah'],
             $statementData,
             $this->statementTypes['find_by_periode_kuliah']
@@ -77,46 +58,49 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
         $jadwalKelas = array();
         foreach ($result as $item) {
             array_push($jadwalKelas, new JadwalKelas(
-                $result[0],
-                new Kelas(
-                    $result[5],
-                    new Semester(
-                        $result[20],
-                        $result[21],
-                        $result[22],
-                        $result[23],
-                        $result[24],
-                        $result[25],
-                        $result[26]
+                $result[0],             // jadwal_kelas.id
+                new Kelas(              // jadwal_kelas.id_kelas
+                    $result[5],         // kelas.id
+                    new Semester(       // kelas.id_semester
+                        $result[20],    // semezter.id
+                        $result[21],    // semester.nama
+                        $result[22],    // semester.singkatan
+                        $result[23],    // semester.tahun_ajaran
+                        $result[24],    // semester.semester
+                        $result[25],    // semester.aktif
+                        $result[26],    // semester.tanggal_mulai
+                        $result[27]     // semester.tanggal_selesai
                     ),
-                    new MataKuliah(
-                        $result[27],
-                        $result[28],
-                        $result[29],
-                        $result[30],
-                        $result[31],
-                        $result[32]
+                    new MataKuliah(     // kelas.id_mata_kuliah
+                        $result[28],    // mata_kuliah.id
+                        $result[29],    // mata_kuliah.kode_mata_kuliah
+                        $result[30],    // mata_kuliah.nama
+                        $result[31],    // mata_kuliah.nama_inggris
+                        $result[32],    // mata_kuliah.sks
+                        $result[33]     // mata_kuliah.deskripsi
                     ),
-                    $result[8],
-                    $result[9],
-                    $result[10],
-                    $result[11],
-                    $result[12],
-                    $result[13],
-                    $result[15],
-                    $result[16]
+                    $result[8],         // kelas.nama
+                    $result[9],         // kelas.nama_inggris
+                    $result[10],        // kelas.daya_tampung
+                    $result[11],        // kelas.jumlah_terisi
+                    $result[12],        // kelas.sks_kelas
+                    $result[13],        // kelas.rencana_tatap_muka
+                    $result[15],        // kelas.kelas_jarak_jauh
+                    $result[16]         // kelas.validasi_tatap_muka
                 ),
-                new PeriodeKuliah(
-                    $result[17],
-                    $result[18],
-                    $result[19]
+                new PeriodeKuliah(      // jadwal_kelas.id_periode_kuliah
+                    $result[17],        // periode_kuliah.id
+                    $result[18],        // periode_kuliah.mulai
+                    $result[19]         // periode_kuliah.selesai
                 ),
-                new Prasarana(
-                    $result[33],
-                    $result[34]
+                new Prasarana(          // jadwal_kelas.id_prasarana
+                    $result[34],        // prasarana.id
+                    $result[35]         // prasarana.nama
                 ),
-                $result[4]
+                $result[4]              // jadwal_kelas.hari
             ));
         }
+
+        return $jadwalKelas;
     }
 }

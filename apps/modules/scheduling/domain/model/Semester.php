@@ -7,16 +7,18 @@ class Semester
     private $id;
     private $nama;
     private $singkatan;
+    private $tahunAjaran;
     private $semester;
     private $aktif;
     private $tanggalMulai;
     private $tanggalSelesai;
 
-    public function __construct($id, $nama, $singkatan, $semester, $aktif, $tanggalMulai, $tanggalSelesai)
+    public function __construct($id, $nama, $singkatan, $tahunAjaran, $semester, $aktif, $tanggalMulai, $tanggalSelesai)
     {
         $this->id = $id;
         $this->nama = $nama;
         $this->singkatan = $singkatan;
+        $this->tahunAjaran = $tahunAjaran;
         $this->semester = $semester;
         $this->aktif = $aktif;
         $this->tanggalMulai = $tanggalMulai;
@@ -41,6 +43,26 @@ class Semester
     public function setNama($nama)
     {
         $this->nama = $nama;
+    }
+
+    public function getSingkatan()
+    {
+        return $this->singkatan;
+    }
+
+    public function setSingkatan($singkatan)
+    {
+        $this->singkatan = $singkatan;
+    }
+
+    public function getTahunAjaran()
+    {
+        return $this->tahunAjaran;
+    }
+
+    public function setTahunAjaran($tahunAjaran)
+    {
+        $this->tahunAjaran = $tahunAjaran;
     }
 
     public function getSemester()
