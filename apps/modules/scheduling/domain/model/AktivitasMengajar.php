@@ -4,53 +4,51 @@ namespace Siakad\Scheduling\Domain\Model;
 
 class AktivitasMengajar
 {
-    private $idDosen;
-    private $idKelas;
-    private $urutan;
-    private $SKSMengajar;
+    private $dosen;
+    private $kelas;
+    private $sksMengajar;
     private $rencanaTatapMuka;
     private $realisasiTatapMuka;
     private $validasiTatapMuka;
-    private $waktuValidasiTatapMuka;
 
-    public function getIdDosen()
+    public function __construct(Dosen $dosen, Kelas $kelas, $sksMengajar, $rencanaTatapMuka, $realisasiTatapMuka, $validasiTatapMuka)
     {
-        return $this->idDosen;
+        $this->dosen = $dosen;
+        $this->kelas = $kelas;
+        $this->sksMengajar = $sksMengajar;
+        $this->rencanaTatapMuka = $rencanaTatapMuka;
+        $this->realisasiTatapMuka = $realisasiTatapMuka;
+        $this->validasiTatapMuka = $validasiTatapMuka;
     }
 
-    public function setIdDosen($idDosen)
+    public function getDosen()
     {
-        $this->idDosen = $idDosen;
+        return $this->dosen;
     }
 
-    public function getIdKelas()
+    public function setDosen($dosen)
     {
-        return $this->idKelas;
+        $this->dosen = $dosen;
     }
 
-    public function setIdKelas($idKelas)
+    public function getKelas()
     {
-        $this->idKelas = $idKelas;
+        return $this->kelas;
     }
 
-    public function getUrutan()
+    public function setKelas($kelas)
     {
-        return $this->urutan;
-    }
-
-    public function setUrutan($urutan)
-    {
-        $this->urutan = $urutan;
+        $this->kelas = $kelas;
     }
 
     public function getSKSMengajar()
     {
-        return $this->SKSMengajar;
+        return $this->sksMengajar;
     }
 
-    public function setSKSMengajar($SKSMengajar)
+    public function setSKSMengajar($sksMengajar)
     {
-        $this->SKSMengajar = $SKSMengajar;
+        $this->sksMengajar = $sksMengajar;
     }
 
     public function getRencanaTatapMuka()
@@ -81,16 +79,6 @@ class AktivitasMengajar
     public function setValidasiTatapMuka($validasiTatapMuka)
     {
         $this->validasiTatapMuka = $validasiTatapMuka;
-    }
-
-    public function getWaktuValidasiTatapMuka()
-    {
-        return $this->waktuValidasiTatapMuka;
-    }
-
-    public function setWaktuValidasiTatapMuka($waktuValidasiTatapMuka)
-    {
-        $this->waktuValidasiTatapMuka = $waktuValidasiTatapMuka;
     }
 
 }

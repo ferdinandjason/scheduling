@@ -4,30 +4,39 @@ namespace Siakad\Scheduling\Domain\Model;
 
 class Kuliah
 {
-    private $idRegistrasiMahasiswa;
-    private $idKelas;
+    private $nrpMahasiswa;
+    private $kelas;
     private $nilaiAngka;
     private $nilaiHuruf;
     private $lulus;
 
-    public function getIdRegistrasiMahasiswa()
+    public function __construct($nrpMahasiswa, Kelas $kelas, $nilaiAngka, $nilaiHuruf, $lulus)
     {
-        return $this->idRegistrasiMahasiswa;
+        $this->nrpMahasiswa = $nrpMahasiswa;
+        $this->kelas = $kelas;
+        $this->nilaiAngka = $nilaiAngka;
+        $this->nilaiHuruf = $nilaiHuruf;
+        $this->lulus = $lulus;
     }
 
-    public function setIdRegistrasiMahasiswa($idRegistrasiMahasiswa)
+    public function getNrpMahasiswa()
     {
-        $this->idRegistrasiMahasiswa = $idRegistrasiMahasiswa;
+        return $this->nrpMahasiswa;
     }
 
-    public function getIdKelas()
+    public function setNrpMahasiswa($nrpMahasiswa)
     {
-        return $this->idKelas;
+        $this->nrpMahasiswa = $nrpMahasiswa;
     }
 
-    public function setIdKelas($idKelas)
+    public function getKelas()
     {
-        $this->idKelas = $idKelas;
+        return $this->kelas;
+    }
+
+    public function setKelas($kelas)
+    {
+        $this->kelas = $kelas;
     }
 
     public function getNilaiAngka()

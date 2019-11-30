@@ -2,25 +2,25 @@
 
 namespace Siakad\Scheduling\Domain\Model;
 
-class Mahasiswa
+class Prasarana
 {
-    private $nrp;
+    private $id;
     private $nama;
 
-    public function __construct($nrp, $nama)
+    public function __construct($id, $nama)
     {
-        $this->nrp = $nrp;
+        $this->id = $id;
         $this->nama = $nama;
     }
 
-    public function getNRP()
+    public function getId()
     {
-        return $this->nrp;
+        return $this->id;
     }
 
-    public function setNRP($nrp)
+    public function setId($id)
     {
-        $this->nrp = $nrp;
+        $this->id = $id;
     }
 
     public function getNama()
@@ -32,7 +32,5 @@ class Mahasiswa
     {
         $this->nama = $nama;
     }
-
-
 
 }

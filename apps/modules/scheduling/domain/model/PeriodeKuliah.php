@@ -8,6 +8,13 @@ class PeriodeKuliah
     private $mulai;
     private $selesai;
 
+    public function __construct($id, $mulai, $selesai)
+    {
+        $this->id = $id;
+        $this->mulai = $mulai;
+        $this->selesai = $selesai;
+    }
+
     public function getId()
     {
         return $this->id;

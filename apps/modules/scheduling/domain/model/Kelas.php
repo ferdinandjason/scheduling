@@ -5,17 +5,32 @@ namespace Siakad\Scheduling\Domain\Model;
 class Kelas
 {
     private $id;
-    private $idSemester;
-    private $idMataKuliah;
+    private $semester;
+    private $mataKuliah;
     private $nama;
     private $namaInggris;
     private $dayaTampung;
     private $jumlahTerisi;
-    private $SKSKelas;
+    private $sksKelas;
     private $rencanaTatapMuka;
     private $realisasiTatapMuka;
     private $kelasJarakJauh;
     private $validasiTatapMuka;
+
+    public function __construct($id, Semester $semester, MataKuliah $mataKuliah, $nama, $namaInggris, $dayaTampung, $jumlahTerisi, $sksKelas, $rencanaTatapMuka, $kelasJarakJauh, $validasiTatapMuka)
+    {
+        $this->id = $id;
+        $this->semester = $semester;
+        $this->mataKuliah = $mataKuliah;
+        $this->nama = $nama;
+        $this->namaInggris = $namaInggris;
+        $this->dayaTampung = $dayaTampung;
+        $this->jumlahTerisi = $jumlahTerisi;
+        $this->sksKelas = $sksKelas;
+        $this->rencanaTatapMuka = $rencanaTatapMuka;
+        $this->kelasJarakJauh = $kelasJarakJauh;
+        $this->validasiTatapMuka = $validasiTatapMuka;
+    }
 
     public function getId()
     {
@@ -27,24 +42,24 @@ class Kelas
         $this->id = $id;
     }
 
-    public function getIdSemester()
+    public function getSemester()
     {
-        return $this->idSemester;
+        return $this->semester;
     }
 
-    public function setIdSemester($idSemester)
+    public function setSemester($semester)
     {
-        $this->idSemester = $idSemester;
+        $this->semester = $semester;
     }
 
-    public function getIdMataKuliah()
+    public function getMataKuliah()
     {
-        return $this->idMataKuliah;
+        return $this->mataKuliah;
     }
 
-    public function setIdMataKuliah($idMataKuliah)
+    public function setMataKuliah($mataKuliah)
     {
-        $this->idMataKuliah = $idMataKuliah;
+        $this->mataKuliah = $mataKuliah;
     }
 
     public function getNama()
@@ -87,14 +102,14 @@ class Kelas
         $this->jumlahTerisi = $jumlahTerisi;
     }
 
-    public function getSKSKelas()
+    public function getSksKelas()
     {
-        return $this->SKSKelas;
+        return $this->sksKelas;
     }
 
-    public function setSKSKelas($SKSKelas)
+    public function setSksKelas($sksKelas)
     {
-        $this->SKSKelas = $SKSKelas;
+        $this->sksKelas = $sksKelas;
     }
 
     public function getRencanaTatapMuka()

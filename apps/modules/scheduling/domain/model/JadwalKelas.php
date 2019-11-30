@@ -5,10 +5,19 @@ namespace Siakad\Scheduling\Domain\Model;
 class JadwalKelas 
 {
     private $id;
-    private $idKelas;
-    private $idPeriodeKuliah;
-    private $idPrasarana;    
+    private $kelas;
+    private $periodeKuliah;
+    private $prasarana;
     private $hari;
+
+    public function __construct($id, Kelas $kelas, PeriodeKuliah $periodeKuliah, Prasarana $prasarana, $hari)
+    {
+        $this->id = $id;
+        $this->kelas = $kelas;
+        $this->periodeKuliah = $periodeKuliah;
+        $this->prasarana = $prasarana;
+        $this->hari = $hari;
+    }
 
     public function getId()
     {
@@ -20,34 +29,34 @@ class JadwalKelas
         $this->id = $id;
     }
 
-    public function getIdKelas()
+    public function getKelas()
     {
-        return $this->idKelas;
+        return $this->kelas;
     }
 
-    public function setIdKelas($idKelas)
+    public function setKelas($kelas)
     {
-        $this->idKelas = $idKelas;
+        $this->kelas = $kelas;
     }
 
-    public function getIdPeriodeKuliah()
+    public function getPeriodeKuliah()
     {
-        return $this->idPeriodeKuliah;
+        return $this->periodeKuliah;
     }
 
-    public function setIdPeriodeKuliah($idPeriodeKuliah)
+    public function setPeriodeKuliah($periodeKuliah)
     {
-        $this->idPeriodeKuliah = $idPeriodeKuliah;
+        $this->periodeKuliah = $periodeKuliah;
     }
 
-    public function getIdPrasarana()
+    public function getPrasarana()
     {
-        return $this->idPrasarana;
+        return $this->prasarana;
     }
 
-    public function setIdPrasarana($idPrasarana)
+    public function setPrasarana($prasarana)
     {
-        $this->idPrasarana = $idPrasarana;
+        $this->prasarana = $prasarana;
     }
 
     public function getHari()

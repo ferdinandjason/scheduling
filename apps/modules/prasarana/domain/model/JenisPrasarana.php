@@ -1,5 +1,7 @@
 <?php
 
+namespace Siakad\Prasarana\Domain\Model;
+
 class JenisPrasarana {
     private $id;
     private $nama;

@@ -8,10 +8,18 @@ class MataKuliah
     private $kodeMatkul;
     private $nama;
     private $namaInggris;
-    private $sks;
-    private $nomorUrutTranskrip;
-    private $hitungPengumpulan;
+    private $SKS;
     private $deskripsi;
+
+    public function __construct($id, $kodeMatkul, $nama, $namaInggris, $SKS, $deskripsi)
+    {
+        $this->id = $id;
+        $this->kodeMatkul = $kodeMatkul;
+        $this->nama = $nama;
+        $this->namaInggris = $namaInggris;
+        $this->SKS = $SKS;
+        $this->deskripsi = $deskripsi;
+    }
 
     public function getId()
     {
@@ -61,26 +69,6 @@ class MataKuliah
     public function setSKS($SKS)
     {
         $this->SKS = $SKS;
-    }
-
-    public function getNomorUrutTranskrip()
-    {
-        return $this->nomorUrutTranskrip;
-    }
-
-    public function setNomorUrutTranskrip($nomorUrutTranskrip)
-    {
-        $this->nomorUrutTranskrip = $nomorUrutTranskrip;
-    }
-
-    public function getHitungPengumpulan()
-    {
-        return $this->hitungPengumpulan;
-    }
-
-    public function setHitungPengumpulan($hitungPengumpulan)
-    {
-        $this->hitungPengumpulan = $hitungPengumpulan;
     }
 
     public function getDeskripsi()
