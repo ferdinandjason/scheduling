@@ -9,14 +9,16 @@ class JadwalKelas
     private $periodeKuliah;
     private $prasarana;
     private $hari;
+    private $dosen;
 
-    public function __construct($id, Kelas $kelas, PeriodeKuliah $periodeKuliah, Prasarana $prasarana, $hari)
+    public function __construct($id, Kelas $kelas, PeriodeKuliah $periodeKuliah, Prasarana $prasarana, $hari, Dosen $dosen)
     {
         $this->id = $id;
         $this->kelas = $kelas;
         $this->periodeKuliah = $periodeKuliah;
         $this->prasarana = $prasarana;
         $this->hari = $hari;
+        $this->dosen = $dosen;
     }
 
     public function getId()
@@ -72,6 +74,16 @@ class JadwalKelas
     public function setHari($hari)
     {
         $this->hari = $hari;
+    }
+
+    public function getDosen()
+    {
+        return $this->dosen;
+    }
+
+    public function setDosen($dosen)
+    {
+        $this->dosen = $dosen;
     }
 
 }

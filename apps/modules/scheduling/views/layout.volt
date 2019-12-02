@@ -191,7 +191,7 @@
                             <div class="content-header-item">
                                 <a class="link-effect font-w700" href="">
                                     <i class="si si-fire text-primary"></i>
-                                    <span class="font-size-xl text-dual-primary-dark">code</span><span class="font-size-xl text-primary">base</span>
+                                    <span class="font-size-xl text-dual-primary-dark">ITS</span><span class="font-size-xl text-primary">Jadwal</span>
                                 </a>
                             </div>
                             <!-- END Logo -->
@@ -334,7 +334,7 @@
             <footer id="page-footer" class="opacity-0">
                 <div class="content py-20 font-size-xs clearfix">
                     <div class="float-right">
-                        Crafted with <i class="fa fa-heart text-pulse"></i> by <a class="font-w600" href="https://1.envato.market/ydb" target="_blank">pixelcave</a>
+                        Crafted with <i class="fa fa-heart text-pulse"></i> by Kelompok 2
                     </div>
                     <div class="float-left">
                         <a class="font-w600" href="https://1.envato.market/95j" target="_blank">Konstruksi Perangkat Lunak</a> &copy; <span class="js-year-copy"></span>

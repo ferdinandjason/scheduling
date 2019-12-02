@@ -3,6 +3,7 @@
 namespace Siakad\Scheduling\Infrastructure;
 
 use Phalcon\Db\Column;
+use Siakad\Scheduling\Domain\Model\Dosen;
 use Siakad\Scheduling\Domain\Model\JadwalKelas;
 use Siakad\Scheduling\Domain\Model\JadwalKelasRepository;
 use Siakad\Scheduling\Domain\Model\Kelas;
@@ -28,6 +29,7 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
           INDEX_MATA_KULIAH_NAMA_INGGRIS = 31, INDEX_MATA_KULIAH_SKS = 32, INDEX_MATA_KULIAH_DESKRIPSI = 33;
     const INDEX_PERIODE_KULIAH_ID = 17, INDEX_PERIODE_KULIAH_MULAI = 18, INDEX_PERIODE_KULIAH_SELESAI = 19;
     const INDEX_PRASARANA_ID = 34, INDEX_PRASARANA_NAMA = 35;
+    const INDEX_DOSEN_ID = 42, INDEX_DOSEN_NAMA = 43;
 
 
     public function __construct($di)
@@ -41,7 +43,9 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                                     INNER JOIN `periode_kuliah` ON `jadwal_kelas`.`id_periode_kuliah` = `periode_kuliah`.`id`
                                     INNER JOIN `semester` ON `semester`.`id` = `kelas`.`id_semester`
                                     INNER JOIN `mata_kuliah` ON `mata_kuliah`.`id` = `kelas`.`id_mata_kuliah`
-                                    INNER JOIN `prasarana` ON `prasarana`.`id` = `jadwal_kelas`.`id_prasarana`;
+                                    INNER JOIN `prasarana` ON `prasarana`.`id` = `jadwal_kelas`.`id_prasarana`
+                                    INNER JOIN `aktivitas_mengajar` on `jadwal_kelas`.id_kelas = `aktivitas_mengajar`.`id_kelas`
+                                    INNER JOIN `dosen` ON `aktivitas_mengajar`.id_dosen = `dosen`.`id`;
             "),
             'find_by_periode_kuliah' => $this->connection->prepare("
                 SELECT *
@@ -50,6 +54,8 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                                     INNER JOIN `semester` ON `semester`.`id` = `kelas`.`id_semester`
                                     INNER JOIN `mata_kuliah` ON `mata_kuliah`.`id` = `kelas`.`id_mata_kuliah`
                                     INNER JOIN `prasarana` ON `prasarana`.`id` = `jadwal_kelas`.`id_prasarana`
+                                    INNER JOIN `aktivitas_mengajar` on `jadwal_kelas`.id_kelas = `aktivitas_mengajar`.`id_kelas`
+                                    INNER JOIN `dosen` ON `aktivitas_mengajar`.id_dosen = `dosen`.`id`
                 WHERE `semester`.`semester` = :semester AND `semester`.`tahun_ajaran` = :tahunAjaran;
             "),
         ];
@@ -107,7 +113,11 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                 $item[self::INDEX_PRASARANA_ID],
                 $item[self::INDEX_PRASARANA_NAMA]
             ),
-            $item[self::INDEX_JADWAL_HARI]
+            $item[self::INDEX_JADWAL_HARI],
+            new Dosen(
+                $item[self::INDEX_DOSEN_ID],
+                $item[self::INDEX_DOSEN_NAMA]
+            )
         );
     }
 

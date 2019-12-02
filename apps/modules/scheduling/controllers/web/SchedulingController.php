@@ -19,8 +19,8 @@ class SchedulingController extends Controller
 
     public function prodiAction()
     {
-        $periodeKuliahTipe = $this->dispatcher->getParam('tipe');
-        $periodeKuliahTahun = $this->dispatcher->getParam('tahun');
+        $periodeKuliahTipe = $this->request->get('tipe');
+        $periodeKuliahTahun = $this->request->get('tahun');
 
         $jadwalKuliahRepository = $this->di->getShared('sql_jadwal_kelas_repository');
         $service = new MelihatJadwalKuliahProdiService($jadwalKuliahRepository);

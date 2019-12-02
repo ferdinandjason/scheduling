@@ -191,7 +191,7 @@
                             <div class="content-header-item">
                                 <a class="link-effect font-w700" href="">
                                     <i class="si si-fire text-primary"></i>
-                                    <span class="font-size-xl text-dual-primary-dark">code</span><span class="font-size-xl text-primary">base</span>
+                                    <span class="font-size-xl text-dual-primary-dark">ITS</span><span class="font-size-xl text-primary">Jadwal</span>
                                 </a>
                             </div>
                             <!-- END Logo -->
@@ -329,6 +329,28 @@
         <h3 class="block-title">Jadwal Kuliah Prodi</h3>
     </div>
     <div class="block-content">
+        <form action="/jadwal/prodi" method="GET" style="width: 50%;margin: 0 auto;">
+            <div class="form-group row" style="display: flex;">
+                <label for="material-select" style="line-height: 2.3;margin-right: 10px;">Pilih Periode Kuliah : </label>
+                <div class="" style="display: flex;">
+                    <div class="form-material" style="display: flex;padding-top:0">
+                        <select class="form-control" id="tahun" name="tahun" style="width: 100px;">
+                            <option><?= $this->request->getQuery('tahun') ?></option>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                        </select>
+                        <select class="form-control" id="tipe" name="tipe" style="width: 100px;">
+                            <option><?= $this->request->getQuery('tipe') ?></option>
+                            <option value="1">Gasal</option>
+                            <option value="2">Genap</option>
+                            <option value="3">Pendek</option>
+                        </select>
+                        <button type="submit" class="btn btn-alt-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
         <table class="table table-hover table-vcenter">
             <thead>
                 <tr>
@@ -339,7 +361,7 @@
                     <th class="text-center">Hari</th>
                     <th class="text-center">Pukul</th>
                     <th class="text-center">Ruang</th>
-                    <th class="text-center">Action</th>
+                    <th class="text-center">Dosen</th>
                 </tr>
             </thead>
             <tbody>
@@ -352,7 +374,7 @@
                         <th class="text-center" scope="row"><?= $jadwal->getHariString() ?></th>
                         <th class="text-center" scope="row"><?= $jadwal->getPeriodeKuliah()->getStringForm() ?></th>
                         <th class="text-center" scope="row"><?= $jadwal->getPrasarana()->getNama() ?></th>
-                        <th class="text-center" scope="row"> - </th>
+                        <th class="text-center" scope="row"><?= $jadwal->getDosen()->getNama() ?></th>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -369,7 +391,7 @@
             <footer id="page-footer" class="opacity-0">
                 <div class="content py-20 font-size-xs clearfix">
                     <div class="float-right">
-                        Crafted with <i class="fa fa-heart text-pulse"></i> by <a class="font-w600" href="https://1.envato.market/ydb" target="_blank">pixelcave</a>
+                        Crafted with <i class="fa fa-heart text-pulse"></i> by Kelompok 2
                     </div>
                     <div class="float-left">
                         <a class="font-w600" href="https://1.envato.market/95j" target="_blank">Konstruksi Perangkat Lunak</a> &copy; <span class="js-year-copy"></span>

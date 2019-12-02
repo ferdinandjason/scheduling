@@ -18,7 +18,7 @@ a:7:{i:0;s:211:"<!doctype html>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
         <link rel="stylesheet" id="css-main" href="<?= $this->url->get('/assets/css/codebase.min.css') ?>">
 
-        ";s:6:"styles";N;i:2;s:17332:"
+        ";s:6:"styles";N;i:2;s:17333:"
     </head>
     <body>
         <!-- Page Container -->
@@ -191,7 +191,7 @@ a:7:{i:0;s:211:"<!doctype html>
                             <div class="content-header-item">
                                 <a class="link-effect font-w700" href="">
                                     <i class="si si-fire text-primary"></i>
-                                    <span class="font-size-xl text-dual-primary-dark">code</span><span class="font-size-xl text-primary">base</span>
+                                    <span class="font-size-xl text-dual-primary-dark">ITS</span><span class="font-size-xl text-primary">Jadwal</span>
                                 </a>
                             </div>
                             <!-- END Logo -->
@@ -324,7 +324,7 @@ a:7:{i:0;s:211:"<!doctype html>
                 <!-- Page Content -->
                 <div class="content">
                      ";s:7:"content";a:1:{i:0;a:4:{s:4:"type";i:357;s:5:"value";s:23:"
-                     ";s:4:"file";s:70:"D:\Git\scheduling\apps\modules\scheduling\config/../views/\layout.volt";s:4:"line";i:327;}}i:3;s:1139:"
+                     ";s:4:"file";s:70:"D:\Git\scheduling\apps\modules\scheduling\config/../views/\layout.volt";s:4:"line";i:327;}}i:3;s:1064:"
                 </div>
                 <!-- END Page Content -->
             </main>
@@ -334,7 +334,7 @@ a:7:{i:0;s:211:"<!doctype html>
             <footer id="page-footer" class="opacity-0">
                 <div class="content py-20 font-size-xs clearfix">
                     <div class="float-right">
-                        Crafted with <i class="fa fa-heart text-pulse"></i> by <a class="font-w600" href="https://1.envato.market/ydb" target="_blank">pixelcave</a>
+                        Crafted with <i class="fa fa-heart text-pulse"></i> by Kelompok 2
                     </div>
                     <div class="float-left">
                         <a class="font-w600" href="https://1.envato.market/95j" target="_blank">Konstruksi Perangkat Lunak</a> &copy; <span class="js-year-copy"></span>
