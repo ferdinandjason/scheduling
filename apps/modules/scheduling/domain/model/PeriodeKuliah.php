@@ -55,7 +55,11 @@ class PeriodeKuliah
         $jamSelesai = intdiv($this->selesai, self::MINUTE_PER_HOUR);
         $menitSelesai = fmod($this->selesai, self::MINUTE_PER_HOUR);
 
-        return sprintf("%d.%d - %d.%d", $jamMulai, $menitMulai, $jamSelesai, $menitSelesai);
+        return sprintf("%s.%s - %s.%s", str_pad($jamMulai, 2, '0', STR_PAD_LEFT),
+                                                str_pad($menitMulai, 2, '0', STR_PAD_LEFT),
+                                                str_pad($jamSelesai, 2, '0', STR_PAD_LEFT),
+                                                str_pad($menitSelesai, 2, '0',STR_PAD_LEFT)
+        );
     }
 
 }

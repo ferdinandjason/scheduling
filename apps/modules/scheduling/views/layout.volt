@@ -9,14 +9,14 @@
         <!-- Icons -->
         <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
         <link rel="shortcut icon" href="{{ url('assets/media/favicons/favicon.png') }}">
-        <link rel="icon" type="image/png" sizes="192x192" href="{{ url('assets/media/favicons/favicon-192x192.png') }}">
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ url('assets/media/favicons/apple-touch-icon-180x180.png') }}">
+        <link rel="icon" type="image/png" sizes="192x192" href="{{ url('/assets/media/favicons/favicon-192x192.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ url('/assets/media/favicons/apple-touch-icon-180x180.png') }}">
         <!-- END Icons -->
 
         <!-- Stylesheets -->
         <!-- Fonts and Codebase framework -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
-        <link rel="stylesheet" id="css-main" href="{{ url('assets/css/codebase.min.css') }}">
+        <link rel="stylesheet" id="css-main" href="{{ url('/assets/css/codebase.min.css') }}">
 
         {% block styles %}{% endblock %}
     </head>
@@ -200,40 +200,6 @@
                     </div>
                     <!-- END Side Header -->
 
-                    <!-- Side User -->
-                    <div class="content-side content-side-full content-side-user px-10 align-parent">
-                        <!-- Visible only in mini mode -->
-                        <div class="sidebar-mini-visible-b align-v animated fadeIn">
-                            <img class="img-avatar img-avatar32" src="assets/media/avatars/avatar0.jpg" alt="">
-                        </div>
-                        <!-- END Visible only in mini mode -->
-
-                        <!-- Visible only in normal mode -->
-                        <div class="sidebar-mini-hidden-b text-center">
-                            <a class="img-link" href="">
-                                <img class="img-avatar" src="assets/media/avatars/avatar0.jpg" alt="">
-                            </a>
-                            <ul class="list-inline mt-10">
-                                <li class="list-inline-item">
-                                    <a class="link-effect text-dual-primary-dark font-size-xs font-w600 text-uppercase" href="">J. Smith</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <!-- Layout API, functionality initialized in Codebase() -> uiApiLayout() -->
-                                    <a class="link-effect text-dual-primary-dark" data-toggle="layout" data-action="sidebar_style_inverse_toggle" href="javascript:void(0)">
-                                        <i class="si si-drop"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="link-effect text-dual-primary-dark" href="">
-                                        <i class="si si-logout"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- END Visible only in normal mode -->
-                    </div>
-                    <!-- END Side User -->
-
                     <!-- Side Navigation -->
                     <div class="content-side content-side-full">
                         <ul class="nav-main">
@@ -273,6 +239,8 @@
             <header id="page-header">
                 <!-- Header Content -->
                 <div class="content-header">
+                    <div class="content-header-section">
+                    </div>
 
                     <!-- Right Section -->
                     <div class="content-header-section">
@@ -378,7 +346,7 @@
         <!-- END Page Container -->
 
         <!-- Codebase JS -->
-        <script src="{{ url('assets/js/codebase.core.min.js') }}"></script>
-        <script src="{{ url('assets/js/codebase.app.min.js') }}"></script>
+        <script src="{{ url('/assets/js/codebase.core.min.js') }}"></script>
+        <script src="{{ url('/assets/js/codebase.app.min.js') }}"></script>
     </body>
 </html>

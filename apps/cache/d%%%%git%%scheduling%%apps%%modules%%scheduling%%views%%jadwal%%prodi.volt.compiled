@@ -9,14 +9,14 @@
         <!-- Icons -->
         <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
         <link rel="shortcut icon" href="<?= $this->url->get('assets/media/favicons/favicon.png') ?>">
-        <link rel="icon" type="image/png" sizes="192x192" href="<?= $this->url->get('assets/media/favicons/favicon-192x192.png') ?>">
-        <link rel="apple-touch-icon" sizes="180x180" href="<?= $this->url->get('assets/media/favicons/apple-touch-icon-180x180.png') ?>">
+        <link rel="icon" type="image/png" sizes="192x192" href="<?= $this->url->get('/assets/media/favicons/favicon-192x192.png') ?>">
+        <link rel="apple-touch-icon" sizes="180x180" href="<?= $this->url->get('/assets/media/favicons/apple-touch-icon-180x180.png') ?>">
         <!-- END Icons -->
 
         <!-- Stylesheets -->
         <!-- Fonts and Codebase framework -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
-        <link rel="stylesheet" id="css-main" href="<?= $this->url->get('assets/css/codebase.min.css') ?>">
+        <link rel="stylesheet" id="css-main" href="<?= $this->url->get('/assets/css/codebase.min.css') ?>">
 
         
     </head>
@@ -200,40 +200,6 @@
                     </div>
                     <!-- END Side Header -->
 
-                    <!-- Side User -->
-                    <div class="content-side content-side-full content-side-user px-10 align-parent">
-                        <!-- Visible only in mini mode -->
-                        <div class="sidebar-mini-visible-b align-v animated fadeIn">
-                            <img class="img-avatar img-avatar32" src="assets/media/avatars/avatar0.jpg" alt="">
-                        </div>
-                        <!-- END Visible only in mini mode -->
-
-                        <!-- Visible only in normal mode -->
-                        <div class="sidebar-mini-hidden-b text-center">
-                            <a class="img-link" href="">
-                                <img class="img-avatar" src="assets/media/avatars/avatar0.jpg" alt="">
-                            </a>
-                            <ul class="list-inline mt-10">
-                                <li class="list-inline-item">
-                                    <a class="link-effect text-dual-primary-dark font-size-xs font-w600 text-uppercase" href="">J. Smith</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <!-- Layout API, functionality initialized in Codebase() -> uiApiLayout() -->
-                                    <a class="link-effect text-dual-primary-dark" data-toggle="layout" data-action="sidebar_style_inverse_toggle" href="javascript:void(0)">
-                                        <i class="si si-drop"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="link-effect text-dual-primary-dark" href="">
-                                        <i class="si si-logout"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- END Visible only in normal mode -->
-                    </div>
-                    <!-- END Side User -->
-
                     <!-- Side Navigation -->
                     <div class="content-side content-side-full">
                         <ul class="nav-main">
@@ -273,6 +239,8 @@
             <header id="page-header">
                 <!-- Header Content -->
                 <div class="content-header">
+                    <div class="content-header-section">
+                    </div>
 
                     <!-- Right Section -->
                     <div class="content-header-section">
@@ -358,12 +326,7 @@
                      
 <div class="block">
     <div class="block-header block-header-default">
-        <h3 class="block-title">Hover Table</h3>
-        <div class="block-options">
-            <div class="block-options-item">
-                <code>.table-hover</code>
-            </div>
-        </div>
+        <h3 class="block-title">Jadwal Kuliah Prodi</h3>
     </div>
     <div class="block-content">
         <table class="table table-hover table-vcenter">
@@ -384,33 +347,14 @@
                     <tr>
                         <th class="text-center" scope="row"><?= $jadwal->getKelas()->getMataKuliah()->getKodeMatkul() ?></th>
                         <th class="text-center" scope="row"><?= $jadwal->getKelas()->getMataKuliah()->getNama() ?></th>
+                        <th class="text-center" scope="row"><?= $jadwal->getKelas()->getSksKelas() ?></th>
                         <th class="text-center" scope="row"><?= $jadwal->getKelas()->getNama() ?></th>
                         <th class="text-center" scope="row"><?= $jadwal->getHariString() ?></th>
-                        <th class="text-center" scope="row"><?= $jadwal->getHariString() ?></th>
-                        <th class="text-center" scope="row"><?= $jadwal->getJadwalKelas()->getStringForm() ?></th>
+                        <th class="text-center" scope="row"><?= $jadwal->getPeriodeKuliah()->getStringForm() ?></th>
                         <th class="text-center" scope="row"><?= $jadwal->getPrasarana()->getNama() ?></th>
                         <th class="text-center" scope="row"> - </th>
                     </tr>
                 <?php } ?>
-
-                 <tr>
-                      <th class="text-center" scope="row"></th>
-                      <td>Jesse Fisher</td>
-                      <td class="d-none d-sm-table-cell">
-                          <span class="badge badge-primary">Personal</span>
-                      </td>
-                      <td class="text-center">
-                          <div class="btn-group">
-                              <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
-                                  <i class="fa fa-pencil"></i>
-                              </button>
-                              <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Delete">
-                                  <i class="fa fa-times"></i>
-                              </button>
-                          </div>
-                      </td>
-                </tr>
-
             </tbody>
         </table>
     </div>
@@ -437,7 +381,7 @@
         <!-- END Page Container -->
 
         <!-- Codebase JS -->
-        <script src="<?= $this->url->get('assets/js/codebase.core.min.js') ?>"></script>
-        <script src="<?= $this->url->get('assets/js/codebase.app.min.js') ?>"></script>
+        <script src="<?= $this->url->get('/assets/js/codebase.core.min.js') ?>"></script>
+        <script src="<?= $this->url->get('/assets/js/codebase.app.min.js') ?>"></script>
     </body>
 </html>
