@@ -13,15 +13,15 @@ class MenambahPeriodeKuliahRequest {
         $this->$jamSelesai = $jamSelesai;
     }
 
-    public function convertJam() {
-        $this->jamMulai = convertStringToInt($this->jamMulai);
-        $this->jamSelesai = convertStringToInt($this->jamSelesai);
-    }
+    // public function convertJam() {
+    //     $this->jamMulai = convertStringToInt($this->jamMulai);
+    //     $this->jamSelesai = convertStringToInt($this->jamSelesai);
+    // }
 
-    private function convertStringToInt($jam) {
-        $string = explode(".", $jam);
-        $jam = intval($string[0]) * MINUTE_PER_HOUR;
-        $menit = intval($string[1]);
-        return $jam + $menit;
-    }
+    // private function convertStringToInt($jam) {
+    //     $string = explode(".", $jam);
+    //     $jam = intval($string[0]) * MINUTE_PER_HOUR;
+    //     $menit = intval($string[1]);
+    //     return $jam + $menit;
+    // }
 }

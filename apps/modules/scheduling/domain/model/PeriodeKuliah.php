@@ -83,4 +83,18 @@ class PeriodeKuliah
         );
     }
 
+    public static function convertToTimestamp($jamMulai, $jamSelesai) {
+        $newMulai = convertStringToInt($jamMulai);
+        $newSelesai = convertStringToInt($jamSelesai);
+        $newPeriode = new PeriodeKuliah(null, $newMulai, $newSelesai);
+        return $newPeriode;
+    }
+
+    public function convertStringToInt($jam) {
+        $string = explode(".", $jam);
+        $jam = intval($string[0]) * MINUTE_PER_HOUR;
+        $menit = intval($string[1]);
+        return $jam + $menit;
+    }
+
 }

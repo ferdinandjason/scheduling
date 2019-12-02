@@ -67,7 +67,6 @@ class SchedulingController extends Controller
             $jamMulaiString = $this->request->getPost('jam_mulai');
             $jamSelesaiString = $this->request->getPost('jam_selesai');
             $request = new MenambahPeriodeKuliahRequest($jamMulaiString, $jamSelesaiString);
-            $request->convertJam();
 
             $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
             $service = new MenambahPeriodeKuliahService($periodeKuliahRepository);
