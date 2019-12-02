@@ -3,27 +3,34 @@
 namespace Siakad\Scheduling\Controllers\Web;
 
 use Phalcon\Mvc\Controller;
-use Phalcon\Di;
+use Siakad\Scheduling\Application\MelihatJadwalKuliahProdiRequest;
+use Siakad\Scheduling\Application\MelihatJadwalKuliahProdiService;
 
 class SchedulingController extends Controller
 {
-    public function jadwalKuliahAction()
+    const HEHE = 'hehe';
+
+    public function indexAction()
+    {
+
+    }
+
+    public function prodiAction()
     {
         $periodeKuliahTipe = $this->dispatcher->getParam('tipe');
         $periodeKuliahTahun = $this->dispatcher->getParam('tahun');
 
-        $jadwalKuliahRepository = $this->di->get('sql_jadwal_kuliah_repository');
+        $jadwalKuliahRepository = $this->di->getShared('sql_jadwal_kelas_repository');
         $service = new MelihatJadwalKuliahProdiService($jadwalKuliahRepository);
         $response = $service->execute(
             new MelihatJadwalKuliahProdiRequest(
                 $periodeKuliahTipe,
-                $periodeKuliahTipe
+                $periodeKuliahTahun
             )
         );
 
         $this->view->setVar('jadwalKuliah', $response->data);
-        return $this->view->pick('jadwal-kuliah/index');
+        return $this->view->pick('jadwal/prodi');
     }
-
 
 }

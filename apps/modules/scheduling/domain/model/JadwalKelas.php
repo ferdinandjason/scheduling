@@ -64,10 +64,14 @@ class JadwalKelas
         return $this->hari;
     }
 
+    public function getHariString()
+    {
+        return Hari::StringForm[$this->hari];
+    }
+
     public function setHari($hari)
     {
         $this->hari = $hari;
     }
-
 
 }

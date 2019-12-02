@@ -17,7 +17,7 @@ class Kelas
     private $kelasJarakJauh;
     private $validasiTatapMuka;
 
-    public function __construct($id, Semester $semester, MataKuliah $mataKuliah, $nama, $namaInggris, $dayaTampung, $jumlahTerisi, $sksKelas, $rencanaTatapMuka, $kelasJarakJauh, $validasiTatapMuka)
+    public function __construct($id, Semester $semester, MataKuliah $mataKuliah, $nama, $namaInggris, $dayaTampung, $jumlahTerisi, $sksKelas, $rencanaTatapMuka, $realisasiTatapMuka, $kelasJarakJauh, $validasiTatapMuka)
     {
         $this->id = $id;
         $this->semester = $semester;
@@ -28,6 +28,7 @@ class Kelas
         $this->jumlahTerisi = $jumlahTerisi;
         $this->sksKelas = $sksKelas;
         $this->rencanaTatapMuka = $rencanaTatapMuka;
+        $this->realisasiTatapMuka = $realisasiTatapMuka;
         $this->kelasJarakJauh = $kelasJarakJauh;
         $this->validasiTatapMuka = $validasiTatapMuka;
     }

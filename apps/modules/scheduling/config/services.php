@@ -1,5 +1,6 @@
 <?php
 
+use Phalcon\Mvc\View;
 use Siakad\Scheduling\Infrastructure\SqlJadwalKelasRepository;
 
 $di['voltServiceMail'] = function($view) use ($di) {

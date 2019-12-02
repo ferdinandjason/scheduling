@@ -20,6 +20,8 @@ class Module implements ModuleDefinitionInterface
             'Siakad\Scheduling\Controllers\Api' => __DIR__ . '/controllers/api',
             'Siakad\Scheduling\Controllers\Validators' => __DIR__ . '/controllers/validators',
         ]);
+
+        $loader->register();
     }
 
     public function registerServices(DiInterface $di = null)

@@ -17,11 +17,32 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
     private $statement;
     private $statementTypes;
 
+    const INDEX_JADWAL_ID = 0, INDEX_JADWAL_HARI = 4;
+    const INDEX_KELAS_ID = 5, INDEX_KELAS_NAMA = 9, INDEX_KELAS_NAMA_INGGRIS = 10, INDEX_KELAS_DAYA_TAMPUNG = 11,
+          INDEX_KELAS_JUMLAH_TERISI = 12, INDEX_KELAS_SKS_KELAS = 13, INDEX_KELAS_RENCANA_TATAP_MUKA = 14,
+          INDEX_KELAS_REALISASI_TATAP_MUKA = 15, INDEX_KELAS_KELAS_JARAK_JAUH = 16,INDEX_KELAS_VALIDASI_TATAP_MUKA = 17;
+    const INDEX_SEMESTER_ID = 21, INDEX_SEMESTER_NAMA = 22, INDEX_SEMESTER_SINGKATAN = 23,
+          INDEX_SEMESTER_TAHUN_AJARAN = 24, INDEX_SEMESTER_SEMESTER = 25, INDEX_SEMESTER_AKTIF = 26,
+          INDEX_SEMESTER_TANGGAL_MULAI = 27, INDEX_SEMESTER_TANGGAL_SELESAI = 28;
+    const INDEX_MATA_KULIAH_ID = 29, INDEX_MATA_KULIAH_KODE_MATA_KULIAH = 30, INDEX_MATA_KULIAH_NAMA = 31,
+          INDEX_MATA_KULIAH_NAMA_INGGRIS = 32, INDEX_MATA_KULIAH_SKS = 33, INDEX_MATA_KULIAH_DESKRIPSI = 34;
+    const INDEX_PERIODE_KULIAH_ID = 18, INDEX_PERIODE_KULIAH_MULAI = 19, INDEX_PERIODE_KULIAH_SELESAI = 20;
+    const INDEX_PRASARANA_ID = 35, INDEX_PRASARANA_NAMA = 36;
+
+
     public function __construct($di)
     {
         $this->connection = $di->get('db');
 
         $this->statement = [
+            'all' => $this->connection->prepare("
+                SELECT *
+                FROM `jadwal_kelas` INNER JOIN `kelas` ON `jadwal_kelas`.`id_kelas` = `kelas`.`id`
+                                    INNER JOIN `periode_kuliah` ON `jadwal_kelas`.`id_periode_kuliah` = `periode_kuliah`.`id`
+                                    INNER JOIN `semester` ON `semester`.`id` = `kelas`.`id_semester`
+                                    INNER JOIN `mata_kuliah` ON `mata_kuliah`.`id` = `kelas`.`id_mata_kuliah`
+                                    INNER JOIN `prasarana` ON `prasarana`.`id` = `jadwal_kelas`.`id_prasarana`;
+            "),
             'find_by_periode_kuliah' => $this->connection->prepare("
                 SELECT *
                 FROM `jadwal_kelas` INNER JOIN `kelas` ON `jadwal_kelas`.`id_kelas` = `kelas`.`id`
@@ -34,12 +55,74 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
         ];
 
         $this->statementTypes = [
+            'all' => [],
             'find_by_periode_kuliah' => [
                 'semester' => Column::BIND_PARAM_INT,
                 'tahunAjaran' => Column::BIND_PARAM_INT,
             ]
         ];
 
+    }
+
+    public static function transformResultSetToEntity($item)
+    {
+        return new JadwalKelas(
+            $item[self::INDEX_JADWAL_ID],
+            new Kelas(
+                $item[self::INDEX_KELAS_ID],
+                new Semester(
+                    $item[self::INDEX_SEMESTER_ID],
+                    $item[self::INDEX_SEMESTER_NAMA],
+                    $item[self::INDEX_SEMESTER_SINGKATAN],
+                    $item[self::INDEX_SEMESTER_TAHUN_AJARAN],
+                    $item[self::INDEX_SEMESTER_SEMESTER],
+                    $item[self::INDEX_SEMESTER_AKTIF],
+                    $item[self::INDEX_SEMESTER_TANGGAL_MULAI],
+                    $item[self::INDEX_SEMESTER_TANGGAL_SELESAI]
+                ),
+                new MataKuliah(
+                    $item[self::INDEX_MATA_KULIAH_ID],
+                    $item[self::INDEX_MATA_KULIAH_KODE_MATA_KULIAH],
+                    $item[self::INDEX_MATA_KULIAH_NAMA],
+                    $item[self::INDEX_MATA_KULIAH_NAMA_INGGRIS],
+                    $item[self::INDEX_MATA_KULIAH_SKS],
+                    $item[self::INDEX_MATA_KULIAH_DESKRIPSI]
+                ),
+                $item[self::INDEX_KELAS_NAMA],
+                $item[self::INDEX_KELAS_NAMA_INGGRIS],
+                $item[self::INDEX_KELAS_DAYA_TAMPUNG],
+                $item[self::INDEX_KELAS_JUMLAH_TERISI],
+                $item[self::INDEX_KELAS_SKS_KELAS],
+                $item[self::INDEX_KELAS_RENCANA_TATAP_MUKA],
+                $item[self::INDEX_KELAS_REALISASI_TATAP_MUKA],
+                $item[self::INDEX_KELAS_KELAS_JARAK_JAUH],
+                $item[self::INDEX_KELAS_VALIDASI_TATAP_MUKA]
+            ),
+            new PeriodeKuliah(
+                $item[self::INDEX_PERIODE_KULIAH_ID],
+                $item[self::INDEX_PERIODE_KULIAH_MULAI],
+                $item[self::INDEX_PERIODE_KULIAH_SELESAI]
+            ),
+            new Prasarana(
+                $item[self::INDEX_PRASARANA_ID],
+                $item[self::INDEX_PRASARANA_NAMA]
+            ),
+            $item[self::INDEX_JADWAL_HARI]
+        );
+    }
+
+    public function all()
+    {
+        $result = $this->connection->executePrepared(
+            $this->statement['all'], [], []
+        );
+
+        $jadwalKelas = array();
+        foreach ($result as $item) {
+            array_push($jadwalKelas, self::transformResultSetToEntity($item));
+        }
+
+        return $jadwalKelas;
     }
 
     public function byPeriodeKuliah($tipe, $tahun)
@@ -57,48 +140,7 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
 
         $jadwalKelas = array();
         foreach ($result as $item) {
-            array_push($jadwalKelas, new JadwalKelas(
-                $result[0],             // jadwal_kelas.id
-                new Kelas(              // jadwal_kelas.id_kelas
-                    $result[5],         // kelas.id
-                    new Semester(       // kelas.id_semester
-                        $result[20],    // semezter.id
-                        $result[21],    // semester.nama
-                        $result[22],    // semester.singkatan
-                        $result[23],    // semester.tahun_ajaran
-                        $result[24],    // semester.semester
-                        $result[25],    // semester.aktif
-                        $result[26],    // semester.tanggal_mulai
-                        $result[27]     // semester.tanggal_selesai
-                    ),
-                    new MataKuliah(     // kelas.id_mata_kuliah
-                        $result[28],    // mata_kuliah.id
-                        $result[29],    // mata_kuliah.kode_mata_kuliah
-                        $result[30],    // mata_kuliah.nama
-                        $result[31],    // mata_kuliah.nama_inggris
-                        $result[32],    // mata_kuliah.sks
-                        $result[33]     // mata_kuliah.deskripsi
-                    ),
-                    $result[8],         // kelas.nama
-                    $result[9],         // kelas.nama_inggris
-                    $result[10],        // kelas.daya_tampung
-                    $result[11],        // kelas.jumlah_terisi
-                    $result[12],        // kelas.sks_kelas
-                    $result[13],        // kelas.rencana_tatap_muka
-                    $result[15],        // kelas.kelas_jarak_jauh
-                    $result[16]         // kelas.validasi_tatap_muka
-                ),
-                new PeriodeKuliah(      // jadwal_kelas.id_periode_kuliah
-                    $result[17],        // periode_kuliah.id
-                    $result[18],        // periode_kuliah.mulai
-                    $result[19]         // periode_kuliah.selesai
-                ),
-                new Prasarana(          // jadwal_kelas.id_prasarana
-                    $result[34],        // prasarana.id
-                    $result[35]         // prasarana.nama
-                ),
-                $result[4]              // jadwal_kelas.hari
-            ));
+            array_push($jadwalKelas, self::transformResultSetToEntity($item));
         }
 
         return $jadwalKelas;

@@ -12,6 +12,8 @@ class SqlSemesterRepository implements SemesterRepository
     private $statement;
     private $statementTypes;
 
+    const INDEX_ID = 0, INDEX_NAMA = 1, INDEX_SINGKATAN = 2, INDEX_TAHUN_AJARAN = 3, INDEX_SEMESTER = 4, INDEX_AKTIF = 5, INDEX_TANGGAL_MULAI = 6, INDEX_TANGGAL_SELESAI = 7;
+
     public function __construct($di)
     {
         $this->connection = $di->get('db');
@@ -20,11 +22,32 @@ class SqlSemesterRepository implements SemesterRepository
             'all' => $this->connection->prepare("
                 SELECT * FROM `semester`;
             "),
+            'find_by_id' => $this->connection->prepare("
+                SELECT * FROM `semester`
+                WHERE id = :id;
+            ")
         ];
 
         $this->statementTypes = [
             'all' => [],
+            'find_by_id' => [
+                'id' => Column::BIND_PARAM_INT,
+            ]
         ];
+    }
+
+    public static function transformResultSetToEntity($item)
+    {
+        return new Semester(
+            $item[self::INDEX_ID],
+            $item[self::INDEX_NAMA],
+            $item[self::INDEX_SINGKATAN],
+            $item[self::INDEX_TAHUN_AJARAN],
+            $item[self::INDEX_SEMESTER],
+            $item[self::INDEX_AKTIF],
+            $item[self::INDEX_TANGGAL_MULAI],
+            $item[self::INDEX_TANGGAL_SELESAI]
+        );
     }
 
     public function all()
@@ -35,18 +58,24 @@ class SqlSemesterRepository implements SemesterRepository
 
         $semester = array();
         foreach ($result as $item) {
-            array_push($semester, new Semester(
-                $result[0],     // semester.id
-                $result[1],     // semester.nama
-                $result[2],     // semester.singkatan
-                $result[3],     // semester.tahun_ajaran
-                $result[4],     // semester.semester
-                $result[5],     // semester.aktif
-                $result[6],     // semester.tanggal_mulai
-                $result[7]      // semester.tanggal_selesai
-            ));
+            array_push($semester, self::transformResultSetToEntity($item));
         }
         
         return $semester;
+    }
+
+    public function byId($id)
+    {
+        $statementData = [
+            'id' => $id,
+        ];
+
+        $result = $this->connection->executePrepare(
+            $this->statement['find_by_id'],
+            $statementData,
+            $this->statementTypes['find_by_id']
+        );
+
+        return self::transformResultSetToEntity($result);
     }
 }

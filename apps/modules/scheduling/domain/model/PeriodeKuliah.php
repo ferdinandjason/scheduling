@@ -8,6 +8,8 @@ class PeriodeKuliah
     private $mulai;
     private $selesai;
 
+    const MINUTE_PER_HOUR = 60;
+
     public function __construct($id, $mulai, $selesai)
     {
         $this->id = $id;
@@ -45,5 +47,15 @@ class PeriodeKuliah
         $this->selesai = $selesai;
     }
 
+    public function getStringForm()
+    {
+        $jamMulai = intdiv($this->mulai, self::MINUTE_PER_HOUR);
+        $menitMulai = fmod($this->mulai, self::MINUTE_PER_HOUR);
+
+        $jamSelesai = intdiv($this->selesai, self::MINUTE_PER_HOUR);
+        $menitSelesai = fmod($this->selesai, self::MINUTE_PER_HOUR);
+
+        return sprintf("%d.%d - %d.%d", $jamMulai, $menitMulai, $jamSelesai, $menitSelesai);
+    }
 
 }

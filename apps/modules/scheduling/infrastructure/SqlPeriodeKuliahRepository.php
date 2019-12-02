@@ -12,6 +12,8 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
     private $statement;
     private $statementTypes;
 
+    const INDEX_ID = 0, INDEX_MULAI = 1, INDEX_SELESAI = 2;
+
     public function __construct($di)
     {
         $this->connection = $di->get('db');
@@ -20,11 +22,27 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             'all' => $this->connection->prepare("
                 SELECT * FROM `periode_kuliah`;
             "),
+            'find_by_id' => $this->connection->prepare("
+                SELECT * FROM `periode_kuliah`
+                WHERE id = :id;
+            ")
         ];
 
         $this->statementTypes = [
             'all' => [],
+            'find_by_id' => [
+                'id' => Column::BIND_PARAM_INT
+            ]
         ];
+    }
+
+    public static function transformResultSetToEntity($item)
+    {
+        return new PeriodeKuliah(
+            $item[self::INDEX_ID],
+            $item[self::INDEX_MULAI],
+            $item[self::INDEX_SELESAI]
+        );
     }
 
     public function all()
@@ -35,13 +53,24 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
 
         $periodeKuliah = array();
         foreach ($result as $item) {
-            array_push($periodeKuliah, new PeriodeKuliah(
-                $result[0],     // periode_kuliah.id
-                $result[1],     // periode_kuliah.mulai
-                $result[2]      // periode_kuliah.selesai
-            ));
+            array_push($periodeKuliah, self::transformResultSetToEntity($item));
         }
         
         return $periodeKuliah;
+    }
+
+    public function byId($id)
+    {
+        $statementData = [
+            'id' => $id,
+        ];
+
+        $result = $this->connection->executePrepared(
+            $this->statement['find_by_id'],
+            $statementData,
+            $this->statementTypes['find_by_id']
+        );
+
+        return self::transformResultSetToEntity($result);
     }
 }

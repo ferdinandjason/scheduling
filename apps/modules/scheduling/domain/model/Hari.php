@@ -11,4 +11,15 @@ interface Hari
     const Jumat  = 4;
     const Sabtu  = 5;
     const Minggu = 6;
+
+    const StringForm = [
+        "Senin",
+        "Selasa",
+        "Rabu",
+        "Kamis",
+        "Jumat",
+        "Sabtu",
+        "Minggu"
+    ];
+
 }
