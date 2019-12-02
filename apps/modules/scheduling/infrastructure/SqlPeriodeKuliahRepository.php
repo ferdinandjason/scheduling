@@ -80,13 +80,14 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
 
     public function save(PeriodeKuliah $periodeKuliah) {
         $statementData = [
-            'mulai' => $periodeKuliah->mulai,
-            'selesai' => $periodeKuliah->selesai
+            'mulai' => $periodeKuliah->getMulai(),
+            'selesai' => $periodeKuliah->getSelesai()
         ];
 
         $result = $this->connection->executePrepared(
             $this->statement['save'],
-            $statementData
+            $statementData,
+            []
         );
     }
 }
