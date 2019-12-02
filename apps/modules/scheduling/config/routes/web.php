@@ -1,6 +1,5 @@
 <?php
 
-$module = 'scheduling';
 $namespaceWeb = 'Siakad\Scheduling\Controllers\Web';
 
 $router->add('/jadwal/prodi',[

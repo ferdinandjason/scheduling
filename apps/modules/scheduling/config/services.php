@@ -2,6 +2,8 @@
 
 use Phalcon\Mvc\View;
 use Siakad\Scheduling\Infrastructure\SqlJadwalKelasRepository;
+use Siakad\Scheduling\Infrastructure\SqlPeriodeKuliahRepository;
+use Siakad\Scheduling\Infrastructure\SqlSemesterRepository;
 
 $di['voltServiceMail'] = function($view) use ($di) {
 
@@ -37,5 +39,15 @@ $di['view'] = function () {
 
 $di->setShared('sql_jadwal_kelas_repository', function() use ($di) {
     $repo = new SqlJadwalKelasRepository($di);
+    return $repo;
+});
+
+$di->setShared('sql_semester_repository', function() use ($di) {
+    $repo = new SqlSemesterRepository($di);
+    return $repo;
+});
+
+$di->setShared('sql_periode_kuliah_repository', function() use ($di) {
+    $repo = new SqlPeriodeKuliahRepository($di);
     return $repo;
 });

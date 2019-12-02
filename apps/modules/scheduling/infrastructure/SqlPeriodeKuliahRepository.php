@@ -48,7 +48,7 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
     public function all()
     {
         $result = $this->connection->executePrepared(
-            $this->statement['all']
+            $this->statement['all'], [], []
         );
 
         $periodeKuliah = array();

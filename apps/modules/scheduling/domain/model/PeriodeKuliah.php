@@ -62,4 +62,25 @@ class PeriodeKuliah
         );
     }
 
+    public function getStringFormMulai()
+    {
+        $jamMulai = intdiv($this->mulai, self::MINUTE_PER_HOUR);
+        $menitMulai = fmod($this->mulai, self::MINUTE_PER_HOUR);
+
+        return sprintf("%s.%s", str_pad($jamMulai, 2, '0', STR_PAD_LEFT),
+                                        str_pad($menitMulai, 2, '0', STR_PAD_LEFT)
+        );
+    }
+
+    public function getStringFormSelesai()
+    {
+        $jamSelesai = intdiv($this->selesai, self::MINUTE_PER_HOUR);
+        $menitSelesai = fmod($this->selesai, self::MINUTE_PER_HOUR);
+
+        return sprintf("%s.%s",
+            str_pad($jamSelesai, 2, '0', STR_PAD_LEFT),
+            str_pad($menitSelesai, 2, '0',STR_PAD_LEFT)
+        );
+    }
+
 }

@@ -53,7 +53,7 @@ class SqlSemesterRepository implements SemesterRepository
     public function all()
     {
         $result = $this->connection->executePrepared(
-            $this->statement['all']
+            $this->statement['all'], [], []
         );
 
         $semester = array();
