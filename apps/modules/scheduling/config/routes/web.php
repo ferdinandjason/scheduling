@@ -9,3 +9,17 @@ $router->add('/jadwal/prodi',[
     'controller' => 'scheduling',
     'action' => 'prodi'
 ]);
+
+$router->add('/periode-kuliah',[
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'scheduling',
+    'action' => 'periodeKuliah'
+]);
+
+$router->add('/semester',[
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'scheduling',
+    'action' => 'periodeSemester'
+]);
