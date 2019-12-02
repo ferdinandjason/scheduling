@@ -25,6 +25,10 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             'find_by_id' => $this->connection->prepare("
                 SELECT * FROM `periode_kuliah`
                 WHERE id = :id;
+            "),
+            'save' => $this->connection->prepare("
+                INSERT INTO periode_kuliah(mulai,selesai)
+                VALUES(:mulai, :selesai);
             ")
         ];
 
@@ -72,5 +76,17 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
         );
 
         return self::transformResultSetToEntity($result);
+    }
+
+    public function save(PeriodeKuliah $periodeKuliah) {
+        $statementData = [
+            'mulai' => $periodeKuliah->mulai,
+            'selesai' => $periodeKuliah->selesai
+        ];
+
+        $result = $this->connection->executePrepared(
+            $this->statement['save'],
+            $statementData
+        );
     }
 }

@@ -1,11 +1,15 @@
 {% extends 'layout.volt' %}
 
-{% block title %}Jadwal Kuliah Prodi{% endblock %}
+{% block title %}Periode Kuliah{% endblock %}
 
 {% block content %}
+
+<a class="btn btn-primary mb-5" href="periode-kuliah/tambah" role="button">
+    <i class="fa fa-plus"></i> Tambah Data</a>
+
 <div class="block">
     <div class="block-header block-header-default">
-        <h3 class="block-title">Periode Semester</h3>
+        <h3 class="block-title">Periode Kuliah</h3>
     </div>
     <div class="block-content">
         <table class="table table-hover table-vcenter">

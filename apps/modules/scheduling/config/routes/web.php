@@ -16,6 +16,20 @@ $router->add('/periode-kuliah',[
     'action' => 'periodeKuliah'
 ]);
 
+$router->add('/periode-kuliah/tambah',[
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'scheduling',
+    'action' => 'periodeKuliahTambah'
+]);
+
+$router->add('/periode-kuliah/edit',[
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'scheduling',
+    'action' => 'periodeKuliahEdit'
+]);
+
 $router->add('/semester',[
     'namespace' => $namespaceWeb,
     'module' => 'scheduling',
