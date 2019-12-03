@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 02 Des 2019 pada 09.34
+-- Waktu pembuatan: 03 Des 2019 pada 02.49
 -- Versi server: 5.7.24
 -- Versi PHP: 7.2.19
 
@@ -37,6 +37,13 @@ CREATE TABLE `aktivitas_mengajar` (
   `validasi_tatap_muka` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `aktivitas_mengajar`
+--
+
+INSERT INTO `aktivitas_mengajar` (`id_dosen`, `id_kelas`, `sks_mengajar`, `rencana_tatap_muka`, `realisasi_tatap_muka`, `validasi_tatap_muka`) VALUES
+(1, 1, 4, 16, 16, 16);
+
 -- --------------------------------------------------------
 
 --
@@ -47,6 +54,13 @@ CREATE TABLE `dosen` (
   `id` int(10) UNSIGNED NOT NULL,
   `nama` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `dosen`
+--
+
+INSERT INTO `dosen` (`id`, `nama`) VALUES
+(1, 'Rizky Januar Akbar, S.Kom., M.Eng.');
 
 -- --------------------------------------------------------
 
@@ -161,7 +175,10 @@ CREATE TABLE `periode_kuliah` (
 --
 
 INSERT INTO `periode_kuliah` (`id`, `mulai`, `selesai`) VALUES
-(1, 450, 600);
+(1, 450, 600),
+(2, 0, 0),
+(3, 0, 0),
+(4, 720, 780);
 
 -- --------------------------------------------------------
 
@@ -194,8 +211,8 @@ CREATE TABLE `semester` (
   `tahun_ajaran` int(11) NOT NULL,
   `semester` int(11) NOT NULL,
   `aktif` tinyint(1) NOT NULL,
-  `tanggal_mulai` int(11) DEFAULT NULL,
-  `tanggal_selesai` int(11) DEFAULT NULL
+  `tanggal_mulai` date DEFAULT NULL,
+  `tanggal_selesai` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -203,7 +220,7 @@ CREATE TABLE `semester` (
 --
 
 INSERT INTO `semester` (`id`, `nama`, `singkatan`, `tahun_ajaran`, `semester`, `aktif`, `tanggal_mulai`, `tanggal_selesai`) VALUES
-(1, 'Genap 2019', 'Gn', 2019, 2, 1, NULL, NULL);
+(1, 'Genap 2019', 'Gn', 2019, 2, 1, '2019-12-02', '2019-12-02');
 
 --
 -- Indexes for dumped tables
@@ -266,7 +283,7 @@ ALTER TABLE `semester`
 -- AUTO_INCREMENT untuk tabel `dosen`
 --
 ALTER TABLE `dosen`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `jadwal_kelas`
@@ -290,7 +307,7 @@ ALTER TABLE `mata_kuliah`
 -- AUTO_INCREMENT untuk tabel `periode_kuliah`
 --
 ALTER TABLE `periode_kuliah`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `prasarana`
