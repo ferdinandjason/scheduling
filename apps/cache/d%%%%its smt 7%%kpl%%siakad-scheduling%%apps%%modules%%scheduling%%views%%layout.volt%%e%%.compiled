@@ -18,7 +18,7 @@ a:7:{i:0;s:211:"<!doctype html>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
         <link rel="stylesheet" id="css-main" href="<?= $this->url->get('/assets/css/codebase.min.css') ?>">
 
-        ";s:6:"styles";N;i:2;s:17333:"
+        ";s:6:"styles";N;i:2;s:17582:"
     </head>
     <body>
         <!-- Page Container -->
@@ -211,20 +211,23 @@ a:7:{i:0;s:211:"<!doctype html>
                             </li>
                             <li class="nav-main-heading">
                                 <span class="sidebar-mini-visible">HD</span>
-                                <span class="sidebar-mini-hidden">Heading</span>
+                                <span class="sidebar-mini-hidden">Biro</span>
                             </li>
                             <li>
                                 <a class="nav-submenu" data-toggle="nav-submenu" href="#">
-                                    <i class="si si-puzzle"></i>
-                                    <span class="sidebar-mini-hide">Dropdown</span>
+                                    <i class="si si-notebook"></i>
+                                    <span class="sidebar-mini-hide">Akademik</span>
                                 </a>
                                 <ul>
                                     <li>
-                                        <a href="javascript:void(0)">Link #1</a>
+                                        <a href="<?= $this->url->get('/periode-kuliah') ?>">Periode Kuliah</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)">Link #2</a>
+                                        <a href="<?= $this->url->get('/semester') ?>">Semester</a>
                                     </li>
+                                    <li>
+                                            <a href="<?= $this->url->get('/jadwal/prodi') ?>">Jadwal Kuliah</a>
+                                        </li>
                                 </ul>
                             </li>
                         </ul>
@@ -324,7 +327,7 @@ a:7:{i:0;s:211:"<!doctype html>
                 <!-- Page Content -->
                 <div class="content">
                      ";s:7:"content";a:1:{i:0;a:4:{s:4:"type";i:357;s:5:"value";s:23:"
-                     ";s:4:"file";s:87:"D:\ITS SMT 7\KPL\siakad-scheduling\apps\modules\scheduling\config/../views/\layout.volt";s:4:"line";i:327;}}i:3;s:1064:"
+                     ";s:4:"file";s:87:"D:\ITS SMT 7\KPL\siakad-scheduling\apps\modules\scheduling\config/../views/\layout.volt";s:4:"line";i:330;}}i:3;s:1064:"
                 </div>
                 <!-- END Page Content -->
             </main>

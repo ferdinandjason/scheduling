@@ -110,4 +110,4 @@ fabric.properties
 
 apps/.env
 *.compiled
-apps/cache/d%%%%git%%scheduling%%apps%%modules%%scheduling%%views%%jadwal%%periode-kuliah.volt.compiled
+apps/cache/**

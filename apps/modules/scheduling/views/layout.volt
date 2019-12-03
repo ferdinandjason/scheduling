@@ -211,20 +211,23 @@
                             </li>
                             <li class="nav-main-heading">
                                 <span class="sidebar-mini-visible">HD</span>
-                                <span class="sidebar-mini-hidden">Heading</span>
+                                <span class="sidebar-mini-hidden">Biro</span>
                             </li>
                             <li>
                                 <a class="nav-submenu" data-toggle="nav-submenu" href="#">
-                                    <i class="si si-puzzle"></i>
-                                    <span class="sidebar-mini-hide">Dropdown</span>
+                                    <i class="si si-notebook"></i>
+                                    <span class="sidebar-mini-hide">Akademik</span>
                                 </a>
                                 <ul>
                                     <li>
-                                        <a href="javascript:void(0)">Link #1</a>
+                                        <a href="{{ url ('/periode-kuliah') }}">Periode Kuliah</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)">Link #2</a>
+                                        <a href="{{ url ('/semester') }}">Semester</a>
                                     </li>
+                                    <li>
+                                            <a href="{{ url ('/jadwal/prodi') }}">Jadwal Kuliah</a>
+                                        </li>
                                 </ul>
                             </li>
                         </ul>
