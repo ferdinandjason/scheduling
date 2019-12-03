@@ -83,10 +83,10 @@ class PeriodeKuliah
         );
     }
 
-    public static function convertToTimestamp($jamMulai, $jamSelesai) {
+    public static function convertToTimestamp($id, $jamMulai, $jamSelesai) {
         $newMulai = self::convertStringToInt($jamMulai);
         $newSelesai = self::convertStringToInt($jamSelesai);
-        $newPeriode = new PeriodeKuliah(null, $newMulai, $newSelesai);
+        $newPeriode = new PeriodeKuliah($id, $newMulai, $newSelesai);
         return $newPeriode;
     }
 

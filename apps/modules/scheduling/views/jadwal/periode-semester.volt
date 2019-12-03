@@ -30,7 +30,14 @@
                         <th class="text-center" scope="row">{{ semester.getNama() }}</th>
                         <th class="text-center" scope="row">{{ semester.getSingkatan() }}</th>
                         <th class="text-center" scope="row">{{ semester.getSemester() }}</th>
-                        <th class="text-center" scope="row">{{ semester.getAktif() }}</th>
+                        <th class="text-center" scope="row">
+                            {% if semester.getAktif() == 1 %}
+                                <span class="badge badge-pill badge-primary">Aktif</span>
+                            {% else %}
+                                <span class="badge badge-pill badge-danger">Tidak Aktif</span>
+                            {% endif %}
+                            <!-- {{ semester.getAktif() }} -->
+                        </th>
                         <th class="text-center" scope="row">{{ semester.getTanggalMulai() }}</th>
                         <th class="text-center" scope="row">{{ semester.getTanggalSelesai() }}</th>
                         <th class="text-center" scope="row"> - </th>

@@ -29,6 +29,10 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             'save' => $this->connection->prepare("
                 INSERT INTO periode_kuliah(mulai,selesai)
                 VALUES(:mulai, :selesai);
+            "),
+            'update' => $this->connection->prepare("
+                UPDATE periode_kuliah SET mulai=:mulai, selesai=:selesai
+                WHERE  id = :id;
             ")
         ];
 
@@ -40,7 +44,12 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             'save' => [
                 'mulai' => Column::BIND_PARAM_INT,
                 'selesai' => Column::BIND_PARAM_INT,
-            ]
+            ],
+            'update' => [
+                'id' => Column::BIND_PARAM_INT,
+                'mulai' => Column::BIND_PARAM_INT,
+                'selesai' => Column::BIND_PARAM_INT,
+            ],
         ];
     }
 
@@ -56,14 +65,16 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
     public function all()
     {
         $result = $this->connection->executePrepared(
-            $this->statement['all'], [], []
+            $this->statement['all'],
+            [],
+            []
         );
 
         $periodeKuliah = array();
         foreach ($result as $item) {
             array_push($periodeKuliah, self::transformResultSetToEntity($item));
         }
-        
+
         return $periodeKuliah;
     }
 
@@ -79,19 +90,37 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             $this->statementTypes['find_by_id']
         );
 
-        return self::transformResultSetToEntity($result);
+        foreach ($result as $item) {
+            return self::transformResultSetToEntity($item);
+        }
     }
 
-    public function save(PeriodeKuliah $periodeKuliah) {
-        $statementData = [
-            'mulai' => $periodeKuliah->getMulai(),
-            'selesai' => $periodeKuliah->getSelesai()
-        ];
+    public function save(PeriodeKuliah $periodeKuliah)
+    {
+        if ($periodeKuliah->getId() == null) {
+            $statementData = [
+                'mulai' => $periodeKuliah->getMulai(),
+                'selesai' => $periodeKuliah->getSelesai()
+            ];
 
-        $result = $this->connection->executePrepared(
-            $this->statement['save'],
-            $statementData,
-            $this->statementTypes['save']
-        );
+            $result = $this->connection->executePrepared(
+                $this->statement['save'],
+                $statementData,
+                $this->statementTypes['save']
+            );
+        }
+        else {
+            $statementData = [
+                'id' => $periodeKuliah->getId(),
+                'mulai' => $periodeKuliah->getMulai(),
+                'selesai' => $periodeKuliah->getSelesai()
+            ];
+
+            $result = $this->connection->executePrepared(
+                $this->statement['update'],
+                $statementData,
+                $this->statementTypes['update']
+            );
+        }
     }
 }

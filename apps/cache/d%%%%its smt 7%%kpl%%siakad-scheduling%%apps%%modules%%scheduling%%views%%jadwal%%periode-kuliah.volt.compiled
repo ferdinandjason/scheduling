@@ -348,7 +348,14 @@
                         <th class="text-center" scope="row"><?= $periode->getId() ?></th>
                         <th class="text-center" scope="row"><?= $periode->getStringFormMulai() ?></th>
                         <th class="text-center" scope="row"><?= $periode->getStringFormSelesai() ?></th>
-                        <th class="text-center" scope="row"> - </th>
+                        <th class="text-center" scope="row">
+                            <a class="btn btn-sm btn-circle btn-outline-info mr-5 mb-5" role="button"
+                            href="<?= $this->url->get('/periode-kuliah/' . $periode->getId() . '/edit') ?>"
+                            >
+                                <i class="fa fa-edit"></i></a>
+                            <a class="btn btn-sm btn-circle btn-outline-danger mr-5 mb-5" role="button">
+                                <i class="fa fa-trash"></i></a>
+                        </th>
                     </tr>
                 <?php } ?>
             </tbody>

@@ -23,7 +23,7 @@ $router->add('/periode-kuliah/tambah',[
     'action' => 'periodeKuliahTambah'
 ]);
 
-$router->add('/periode-kuliah/edit',[
+$router->add('/periode-kuliah/{id}/edit',[
     'namespace' => $namespaceWeb,
     'module' => 'scheduling',
     'controller' => 'scheduling',

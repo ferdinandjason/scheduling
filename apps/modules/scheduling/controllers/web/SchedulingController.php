@@ -7,10 +7,11 @@ use Siakad\Scheduling\Application\MelihatJadwalKuliahProdiRequest;
 use Siakad\Scheduling\Application\MelihatJadwalKuliahProdiService;
 use Siakad\Scheduling\Application\MelihatPeriodeKuliahRequest;
 use Siakad\Scheduling\Application\MelihatPeriodeKuliahService;
-use Siakad\Scheduling\Application\MenambahPeriodeKuliahRequest;
 use Siakad\Scheduling\Application\MelihatPeriodeSemesterRequest;
 use Siakad\Scheduling\Application\MelihatPeriodeSemesterService;
-use Siakad\Scheduling\Application\MenambahPeriodeKuliahService;
+use Siakad\Scheduling\Application\MengelolaPeriodeKuliahRequest;
+use Siakad\Scheduling\Application\MengelolaPeriodeKuliahService;
+use Siakad\Scheduling\Domain\Model\PeriodeKuliah;
 
 class SchedulingController extends Controller
 {
@@ -68,21 +69,39 @@ class SchedulingController extends Controller
             $jamSelesai = $this->request->getPost('jam_selesai');
 
             $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
-            $service = new MenambahPeriodeKuliahService($periodeKuliahRepository);
-            $service->execute(new MenambahPeriodeKuliahRequest(
-                $jamMulai,
-                $jamSelesai
+            $service = new MengelolaPeriodeKuliahService($periodeKuliahRepository);
+            $service->execute(new MengelolaPeriodeKuliahRequest(
+                null, $jamMulai,$jamSelesai
             ));
 
             $this->flashSession->success('Periode kuliah tersimpan!');
         }
-        $this->view->setVar('id_periode_kuliah', '');
-        $this->view->setVar('jam_mulai', '');
-        $this->view->setVar('jam_selesai', '');
+        $periodeKuliahNull = new PeriodeKuliah(null, null, null);
+        $this->view->setVar('periodeKuliah', $periodeKuliahNull);
         return $this->view->pick('jadwal/periode-kuliah-tambah');
     }
 
-    public function periodeKuliahEditAction() {
+    public function periodeKuliahEditAction($id) {
+        if ($this->request->isPost()) {
+            $id = $this->request->getPost('id_periode_kuliah');
+            $jamMulai = $this->request->getPost('jam_mulai');
+            $jamSelesai = $this->request->getPost('jam_selesai');
+
+            $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
+            $service = new MengelolaPeriodeKuliahService($periodeKuliahRepository);
+            $response = $service->execute(new MengelolaPeriodeKuliahRequest(
+                $id, $jamMulai,$jamSelesai
+            ));
+
+            $this->flashSession->success('Periode kuliah diperbarui!');
+        }
+
+        $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
+        $service = new MelihatPeriodeKuliahService($periodeKuliahRepository);
+        $response = $service->execute(
+            new MelihatPeriodeKuliahRequest($id)
+        );
+        $this->view->setVar('periodeKuliah', $response->data);
         $this->view->setVar('action', 'Edit');
         return $this->view->pick('jadwal/periode-kuliah-tambah');
     }

@@ -351,7 +351,14 @@
                         <th class="text-center" scope="row"><?= $semester->getNama() ?></th>
                         <th class="text-center" scope="row"><?= $semester->getSingkatan() ?></th>
                         <th class="text-center" scope="row"><?= $semester->getSemester() ?></th>
-                        <th class="text-center" scope="row"><?= $semester->getAktif() ?></th>
+                        <th class="text-center" scope="row">
+                            <?php if ($semester->getAktif() == 1) { ?>
+                                <span class="badge badge-pill badge-primary">Aktif</span>
+                            <?php } else { ?>
+                                <span class="badge badge-pill badge-danger">Tidak Aktif</span>
+                            <?php } ?>
+                            <!-- <?= $semester->getAktif() ?> -->
+                        </th>
                         <th class="text-center" scope="row"><?= $semester->getTanggalMulai() ?></th>
                         <th class="text-center" scope="row"><?= $semester->getTanggalSelesai() ?></th>
                         <th class="text-center" scope="row"> - </th>
