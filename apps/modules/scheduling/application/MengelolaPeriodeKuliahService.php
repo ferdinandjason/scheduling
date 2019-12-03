@@ -19,4 +19,8 @@ class MengelolaPeriodeKuliahService
         $periode = PeriodeKuliah::convertToTimestamp($request->id, $request->mulai, $request->selesai);
         $this->periodeKuliahRepository->save($periode);
     }
+
+    public function delete($id) {
+        $this->periodeKuliahRepository->delete($id);
+    }
 }

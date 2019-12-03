@@ -30,6 +30,13 @@ $router->add('/periode-kuliah/{id}/edit',[
     'action' => 'periodeKuliahEdit'
 ]);
 
+$router->add('/periode-kuliah/{id}/hapus',[
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'scheduling',
+    'action' => 'periodeKuliahHapus'
+]);
+
 $router->add('/semester',[
     'namespace' => $namespaceWeb,
     'module' => 'scheduling',

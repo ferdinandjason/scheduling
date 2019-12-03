@@ -33,6 +33,9 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             'update' => $this->connection->prepare("
                 UPDATE periode_kuliah SET mulai=:mulai, selesai=:selesai
                 WHERE  id = :id;
+            "),
+            'delete' => $this->connection->prepare("
+                DELETE FROM periode_kuliah WHERE id = :id;
             ")
         ];
 
@@ -50,6 +53,9 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
                 'mulai' => Column::BIND_PARAM_INT,
                 'selesai' => Column::BIND_PARAM_INT,
             ],
+            'delete' => [
+                'id' => Column::BIND_PARAM_INT
+            ]
         ];
     }
 
@@ -122,5 +128,17 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
                 $this->statementTypes['update']
             );
         }
+    }
+
+    public function delete($id) {
+        $statementData = [
+            'id' => $id,
+        ];
+
+        $result = $this->connection->executePrepared(
+            $this->statement['delete'],
+            $statementData,
+            $this->statementTypes['delete']
+        );
     }
 }

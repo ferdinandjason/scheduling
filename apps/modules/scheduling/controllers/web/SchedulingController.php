@@ -106,4 +106,15 @@ class SchedulingController extends Controller
         return $this->view->pick('jadwal/periode-kuliah-tambah');
     }
 
+    public function periodeKuliahHapusAction($id) {
+        if ($this->request->isPost()) {
+            $id = $this->request->getPost('id_periode_kuliah');
+            $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
+            $service = new MengelolaPeriodeKuliahService($periodeKuliahRepository);
+            $service->delete($id);
+            $this->flashSession->notice('Data telah dihapus!');
+        }
+        return $this->response->redirect('/periode-kuliah');
+    }
+
 }
