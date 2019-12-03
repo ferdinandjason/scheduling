@@ -36,6 +36,10 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             'all' => [],
             'find_by_id' => [
                 'id' => Column::BIND_PARAM_INT
+            ],
+            'save' => [
+                'mulai' => Column::BIND_PARAM_INT,
+                'selesai' => Column::BIND_PARAM_INT,
             ]
         ];
     }
@@ -87,7 +91,7 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
         $result = $this->connection->executePrepared(
             $this->statement['save'],
             $statementData,
-            []
+            $this->statementTypes['save']
         );
     }
 }

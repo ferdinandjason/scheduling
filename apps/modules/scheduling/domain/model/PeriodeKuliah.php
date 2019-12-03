@@ -92,7 +92,7 @@ class PeriodeKuliah
 
     public static function convertStringToInt($jam) {
         $string = explode(".", $jam);
-        $jam = intval($string[0]) * MINUTE_PER_HOUR;
+        $jam = intval($string[0]) * self::MINUTE_PER_HOUR;
         $menit = intval($string[1]);
         return $jam + $menit;
     }

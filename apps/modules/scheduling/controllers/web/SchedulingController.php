@@ -66,14 +66,13 @@ class SchedulingController extends Controller
         if ($this->request->isPost()) {
             $jamMulai = $this->request->getPost('jam_mulai');
             $jamSelesai = $this->request->getPost('jam_selesai');
-            $periodeKuliahRequest = new MenambahPeriodeKuliahRequest($jamMulai, $jamSelesai);
-
-            var_dump($periodeKuliahRequest->jamMulai);
-            var_dump($periodeKuliahRequest->jamSelesai);
 
             $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
             $service = new MenambahPeriodeKuliahService($periodeKuliahRepository);
-            $service->execute($periodeKuliahRequest);
+            $service->execute(new MenambahPeriodeKuliahRequest(
+                $jamMulai,
+                $jamSelesai
+            ));
 
             $this->flashSession->success('Periode kuliah tersimpan!');
         }

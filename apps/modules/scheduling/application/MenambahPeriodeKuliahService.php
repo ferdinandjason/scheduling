@@ -15,7 +15,7 @@ class MenambahPeriodeKuliahService {
 
     public function execute(MenambahPeriodeKuliahRequest $request)
     {
-        $periode = PeriodeKuliah::convertToTimestamp($request->jamMulai, $request->jamSelesai);
+        $periode = PeriodeKuliah::convertToTimestamp($request->mulai, $request->selesai);
         $this->periodeKuliahRepository->save($periode);
     }
 }

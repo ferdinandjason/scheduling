@@ -7,7 +7,7 @@ class MenambahPeriodeKuliahRequest {
     public $selesai;
 
     public function __construct($mulai, $selesai) {
-        $this->$mulai = $mulai;
-        $this->$selesai = $selesai;
+        $this->mulai = $mulai;
+        $this->selesai = $selesai;
     }
 }

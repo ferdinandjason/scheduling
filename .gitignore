@@ -107,3 +107,7 @@ fabric.properties
 .history
 
 # End of https://www.gitignore.io/api/phalcon,phpstorm,visualstudiocode
+
+apps/.env
+*.compiled
+apps/cache/d%%%%git%%scheduling%%apps%%modules%%scheduling%%views%%jadwal%%periode-kuliah.volt.compiled
