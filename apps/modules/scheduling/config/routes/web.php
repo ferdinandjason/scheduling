@@ -9,32 +9,34 @@ $router->add('/jadwal/prodi',[
     'action' => 'prodi'
 ]);
 
+/* Periode Kuliah */
+
 $router->add('/periode-kuliah',[
     'namespace' => $namespaceWeb,
     'module' => 'scheduling',
-    'controller' => 'scheduling',
-    'action' => 'periodeKuliah'
+    'controller' => 'periodeKuliah',
+    'action' => 'index'
 ]);
 
 $router->add('/periode-kuliah/tambah',[
     'namespace' => $namespaceWeb,
     'module' => 'scheduling',
-    'controller' => 'scheduling',
-    'action' => 'periodeKuliahTambah'
+    'controller' => 'periodeKuliah',
+    'action' => 'add'
 ]);
 
 $router->add('/periode-kuliah/{id}/edit',[
     'namespace' => $namespaceWeb,
     'module' => 'scheduling',
-    'controller' => 'scheduling',
-    'action' => 'periodeKuliahEdit'
+    'controller' => 'periodeKuliah',
+    'action' => 'edit'
 ]);
 
 $router->add('/periode-kuliah/{id}/hapus',[
     'namespace' => $namespaceWeb,
     'module' => 'scheduling',
-    'controller' => 'scheduling',
-    'action' => 'periodeKuliahHapus'
+    'controller' => 'periodeKuliah',
+    'action' => 'delete'
 ]);
 
 

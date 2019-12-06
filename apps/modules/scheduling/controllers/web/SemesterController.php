@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Siakad\Scheduling\Controllers\Web;
-
 
 use Phalcon\Mvc\Controller;
 use Siakad\Scheduling\Application\MelihatPeriodeSemesterRequest;
@@ -13,10 +11,16 @@ use Siakad\Scheduling\Domain\Model\Semester;
 
 class SemesterController extends Controller
 {
+    private $semesterRepository;
+
+    public function initialize()
+    {
+        $this->semesterRepository = $this->di->getShared('sql_semester_repository');
+    }
+
     public function indexAction()
     {
-        $semesterRepository = $this->di->getShared('sql_semester_repository');
-        $service = new MelihatPeriodeSemesterService($semesterRepository);
+        $service = new MelihatPeriodeSemesterService($this->semesterRepository);
         $response = $service->execute(
             new MelihatPeriodeSemesterRequest()
         );
@@ -27,8 +31,6 @@ class SemesterController extends Controller
 
     public function addAction()
     {
-        $semesterRepository = $this->di->getShared('sql_semester_repository');
-
         if($this->request->isPost()) {
             $nama = $this->request->getPost('nama');
             $singkatan = $this->request->getPost('singkatan');
@@ -38,7 +40,7 @@ class SemesterController extends Controller
             $tanggalMulai = $this->request->getPost('tanggal_mulai');
             $tanggalSelesai = $this->request->getPost('tanggal_selesai');
 
-            $service = new MengelolaPeriodeSemesterService($semesterRepository);
+            $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
             $service->execute(
                 new MengelolaPeriodeSemesterRequest(
                     new Semester(
@@ -60,8 +62,6 @@ class SemesterController extends Controller
 
     public function editAction($id)
     {
-        $semesterRepository = $this->di->getShared('sql_semester_repository');
-
         if ($this->request->isPost()) {
             $idSemester = $this->request->getPost('id_semester');
             $nama = $this->request->getPost('nama');
@@ -72,7 +72,7 @@ class SemesterController extends Controller
             $tanggalMulai = $this->request->getPost('tanggal_mulai');
             $tanggalSelesai = $this->request->getPost('tanggal_selesai');
 
-            $service = new MengelolaPeriodeSemesterService($semesterRepository);
+            $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
             $service->execute(
                 new MengelolaPeriodeSemesterRequest(
                     new Semester(
@@ -85,7 +85,7 @@ class SemesterController extends Controller
             $this->flashSession->success('Semester diperbarui!');
         }
 
-        $service = new MelihatPeriodeSemesterService($semesterRepository);
+        $service = new MelihatPeriodeSemesterService($this->semesterRepository);
         $response = $service->execute((
             new MelihatPeriodeSemesterRequest($id)
         ));
@@ -100,12 +100,13 @@ class SemesterController extends Controller
     {
         if ($this->request->isPost()) {
             $id = $this->request->getPost('id_semester');
-            $semesterRepository = $this->di->getShared('sql_semester_repository');
-            $service = new MengelolaPeriodeSemesterService($semesterRepository);
+
+            $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
             $service->delete($id);
 
             $this->flashSession->notice('Data telah dihapus!');
         }
+        
         return $this->response->redirect('/semester');
     }
 }

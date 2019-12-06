@@ -15,6 +15,13 @@ use Siakad\Scheduling\Domain\Model\PeriodeKuliah;
 
 class SchedulingController extends Controller
 {
+    public $jadwalKuliahRepository;
+
+    public function initialize()
+    {
+        $this->jadwalKuliahRepository = $this->di->getShared('sql_jadwal_kelas_repository');
+    }
+
     public function indexAction()
     {
 
@@ -25,8 +32,7 @@ class SchedulingController extends Controller
         $periodeKuliahTipe = $this->request->get('tipe');
         $periodeKuliahTahun = $this->request->get('tahun');
 
-        $jadwalKuliahRepository = $this->di->getShared('sql_jadwal_kelas_repository');
-        $service = new MelihatJadwalKuliahProdiService($jadwalKuliahRepository);
+        $service = new MelihatJadwalKuliahProdiService($this->jadwalKuliahRepository);
         $response = $service->execute(
             new MelihatJadwalKuliahProdiRequest(
                 $periodeKuliahTipe,
@@ -37,77 +43,4 @@ class SchedulingController extends Controller
         $this->view->setVar('jadwalKuliah', $response->data);
         return $this->view->pick('jadwal/prodi');
     }
-
-    public function periodeSemesterAction()
-    {
-
-    }
-
-    public function periodeKuliahAction()
-    {
-        $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
-        $service = new MelihatPeriodeKuliahService($periodeKuliahRepository);
-        $response = $service->execute(
-            new MelihatPeriodeKuliahRequest()
-        );
-
-        $this->view->setVar('periodeKuliah', $response->data);
-        return $this->view->pick('jadwal/periode-kuliah');
-    }
-
-    public function periodeKuliahTambahAction() {
-        $this->view->setVar('action', 'Tambah');
-        if ($this->request->isPost()) {
-            $jamMulai = $this->request->getPost('jam_mulai');
-            $jamSelesai = $this->request->getPost('jam_selesai');
-
-            $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
-            $service = new MengelolaPeriodeKuliahService($periodeKuliahRepository);
-            $service->execute(new MengelolaPeriodeKuliahRequest(
-                null, $jamMulai,$jamSelesai
-            ));
-
-            $this->flashSession->success('Periode kuliah tersimpan!');
-        }
-        $periodeKuliahNull = new PeriodeKuliah(null, null, null);
-        $this->view->setVar('periodeKuliah', $periodeKuliahNull);
-        return $this->view->pick('jadwal/periode-kuliah-tambah');
-    }
-
-    public function periodeKuliahEditAction($id) {
-        if ($this->request->isPost()) {
-            $id = $this->request->getPost('id_periode_kuliah');
-            $jamMulai = $this->request->getPost('jam_mulai');
-            $jamSelesai = $this->request->getPost('jam_selesai');
-
-            $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
-            $service = new MengelolaPeriodeKuliahService($periodeKuliahRepository);
-            $service->execute(new MengelolaPeriodeKuliahRequest(
-                $id, $jamMulai,$jamSelesai
-            ));
-
-            $this->flashSession->success('Periode kuliah diperbarui!');
-        }
-
-        $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
-        $service = new MelihatPeriodeKuliahService($periodeKuliahRepository);
-        $response = $service->execute(
-            new MelihatPeriodeKuliahRequest($id)
-        );
-        $this->view->setVar('periodeKuliah', $response->data);
-        $this->view->setVar('action', 'Edit');
-        return $this->view->pick('jadwal/periode-kuliah-tambah');
-    }
-
-    public function periodeKuliahHapusAction($id) {
-        if ($this->request->isPost()) {
-            $id = $this->request->getPost($id);
-            $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
-            $service = new MengelolaPeriodeKuliahService($periodeKuliahRepository);
-            $service->delete($id);
-            $this->flashSession->notice('Data telah dihapus!');
-        }
-        return $this->response->redirect('/periode-kuliah');
-    }
-
 }
