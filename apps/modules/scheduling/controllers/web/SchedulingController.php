@@ -40,14 +40,7 @@ class SchedulingController extends Controller
 
     public function periodeSemesterAction()
     {
-        $semesterRepository = $this->di->getShared('sql_semester_repository');
-        $service = new MelihatPeriodeSemesterService($semesterRepository);
-        $response = $service->execute(
-            new MelihatPeriodeSemesterRequest()
-        );
 
-        $this->view->setVar('periodeSemester', $response->data);
-        return $this->view->pick('jadwal/periode-semester');
     }
 
     public function periodeKuliahAction()
@@ -89,7 +82,7 @@ class SchedulingController extends Controller
 
             $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
             $service = new MengelolaPeriodeKuliahService($periodeKuliahRepository);
-            $response = $service->execute(new MengelolaPeriodeKuliahRequest(
+            $service->execute(new MengelolaPeriodeKuliahRequest(
                 $id, $jamMulai,$jamSelesai
             ));
 
@@ -108,7 +101,7 @@ class SchedulingController extends Controller
 
     public function periodeKuliahHapusAction($id) {
         if ($this->request->isPost()) {
-            $id = $this->request->getPost('id_periode_kuliah');
+            $id = $this->request->getPost($id);
             $periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
             $service = new MengelolaPeriodeKuliahService($periodeKuliahRepository);
             $service->delete($id);

@@ -3,6 +3,12 @@
 {% block title %}Jadwal Kuliah Prodi{% endblock %}
 
 {% block content %}
+
+{{ flashSession.output() }}
+
+<a class="btn btn-primary mb-5" href="semester/tambah" role="button">
+    <i class="fa fa-plus"></i> Tambah Data</a>
+
 <div class="block">
     <div class="block-header block-header-default">
         <h3 class="block-title">Periode Semester</h3>
@@ -40,7 +46,19 @@
                         </th>
                         <th class="text-center" scope="row">{{ semester.getTanggalMulai() }}</th>
                         <th class="text-center" scope="row">{{ semester.getTanggalSelesai() }}</th>
-                        <th class="text-center" scope="row"> - </th>
+                        <th class="text-center" scope="row">
+                            <form method="POST" action="{{ url('/semester/' ~semester.getId()~ '/hapus') }}"
+                            onsubmit="return confirm('Apakah yakin untuk menghapus data?')">
+                                    <a class="btn btn-sm btn-circle btn-outline-info mr-5 mb-5" role="button"
+                                    href="{{ url('/semester/' ~ semester.getId() ~ '/edit') }}"
+                                    >
+                                        <i class="fa fa-edit"></i></a>
+                                    <input type="hidden" name="id_semester" value="{{ semester.getId() }}" />
+                                    <button type="submit" class="btn btn-sm btn-circle btn-outline-danger mr-5 mb-5">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                            </form>
+                        </th>
                     </tr>
                 {% endfor %}
             </tbody>

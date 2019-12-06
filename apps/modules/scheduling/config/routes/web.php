@@ -37,9 +37,33 @@ $router->add('/periode-kuliah/{id}/hapus',[
     'action' => 'periodeKuliahHapus'
 ]);
 
+
+/* Semester */
+
 $router->add('/semester',[
     'namespace' => $namespaceWeb,
     'module' => 'scheduling',
-    'controller' => 'scheduling',
-    'action' => 'periodeSemester'
+    'controller' => 'semester',
+    'action' => 'index'
+]);
+
+$router->add('/semester/tambah',[
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'semester',
+    'action' => 'add'
+]);
+
+$router->add('/semester/{id}/edit',[
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'semester',
+    'action' => 'edit'
+]);
+
+$router->add('/semester/{id}/hapus',[
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'semester',
+    'action' => 'delete'
 ]);

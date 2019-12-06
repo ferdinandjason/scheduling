@@ -25,12 +25,53 @@ class SqlSemesterRepository implements SemesterRepository
             'find_by_id' => $this->connection->prepare("
                 SELECT * FROM `semester`
                 WHERE id = :id;
+            "),
+            'save' => $this->connection->prepare("
+                INSERT INTO `semester` (nama, singkatan, tahun_ajaran, semester, aktif, tanggal_mulai, tanggal_selesai) 
+                VALUES (:nama, :singkatan, :tahunAjaran, :semester, :aktif, :tanggalMulai, :tanggalSelesai); 
+            "),
+            'update' => $this->connection->prepare("
+                UPDATE `semester`
+                SET 
+                    `nama` = :nama,
+                    `singkatan` = :singkatan,
+                    `tahun_ajaran` = :tahunAjaran,
+                    `semester` = :semester,
+                    `aktif` = :aktif,
+                    `tanggal_mulai` = :tanggalMulai,
+                    `tanggal_selesai` = :tanggalSelesai
+                WHERE `semester`.`id` = :id;
+            "),
+            'delete' => $this->connection->prepare("
+                DELETE FROM semester WHERE id = :id;
             ")
         ];
 
         $this->statementTypes = [
             'all' => [],
             'find_by_id' => [
+                'id' => Column::BIND_PARAM_INT,
+            ],
+            'save' => [
+                'nama' => Column::BIND_PARAM_STR,
+                'singkatan' => Column::BIND_PARAM_STR,
+                'tahunAjaran' => Column::BIND_PARAM_INT,
+                'semester' => Column::BIND_PARAM_INT,
+                'aktif' => Column::BIND_PARAM_INT,
+                'tanggalMulai' => Column::BIND_PARAM_STR,
+                'tanggalSelesai' => Column::BIND_PARAM_STR,
+            ],
+            'update' => [
+                'nama' => Column::BIND_PARAM_STR,
+                'singkatan' => Column::BIND_PARAM_STR,
+                'tahunAjaran' => Column::BIND_PARAM_INT,
+                'semester' => Column::BIND_PARAM_INT,
+                'aktif' => Column::BIND_PARAM_INT,
+                'tanggalMulai' => Column::BIND_PARAM_STR,
+                'tanggalSelesai' => Column::BIND_PARAM_STR,
+                'id' => Column::BIND_PARAM_INT,
+            ],
+            'delete' => [
                 'id' => Column::BIND_PARAM_INT,
             ]
         ];
@@ -70,12 +111,65 @@ class SqlSemesterRepository implements SemesterRepository
             'id' => $id,
         ];
 
-        $result = $this->connection->executePrepare(
+        $result = $this->connection->executePrepared(
             $this->statement['find_by_id'],
             $statementData,
             $this->statementTypes['find_by_id']
         );
 
-        return self::transformResultSetToEntity($result);
+        foreach ($result as $item) {
+            return self::transformResultSetToEntity($item);
+        }
+    }
+
+    public function save(Semester $periodeSemester)
+    {
+        if ($periodeSemester->getId() == null) {
+            $statementData = [
+                'nama' => $periodeSemester->getNama(),
+                'singkatan' => $periodeSemester->getSingkatan(),
+                'tahunAjaran' => $periodeSemester->getTahunAjaran(),
+                'semester' => $periodeSemester->getSemester(),
+                'aktif' => $periodeSemester->getAktif(),
+                'tanggalMulai' => $periodeSemester->getTanggalMulai(),
+                'tanggalSelesai' => $periodeSemester->getTanggalSelesai(),
+            ];
+
+            $result = $this->connection->executePrepared(
+                $this->statement['save'],
+                $statementData,
+                $this->statementTypes['save']
+            );
+        }
+        else {
+            $statementData = [
+                'nama' => $periodeSemester->getNama(),
+                'singkatan' => $periodeSemester->getSingkatan(),
+                'tahunAjaran' => $periodeSemester->getTahunAjaran(),
+                'semester' => $periodeSemester->getSemester(),
+                'aktif' => $periodeSemester->getAktif(),
+                'tanggalMulai' => $periodeSemester->getTanggalMulai(),
+                'tanggalSelesai' => $periodeSemester->getTanggalSelesai(),
+                'id' => $periodeSemester->getId(),
+            ];
+
+            $result = $this->connection->executePrepared(
+                $this->statement['update'],
+                $statementData,
+                $this->statementTypes['update']
+            );
+        }
+    }
+
+    public function delete($id) {
+        $statementData = [
+            'id' => $id,
+        ];
+
+        $result = $this->connection->executePrepared(
+            $this->statement['delete'],
+            $statementData,
+            $this->statementTypes['delete']
+        );
     }
 }
