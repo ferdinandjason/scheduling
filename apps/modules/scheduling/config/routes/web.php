@@ -9,6 +9,13 @@ $router->add('/jadwal/prodi',[
     'action' => 'prodi'
 ]);
 
+$router->add('/kelola-jadwal',[
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'jadwal',
+    'action' => 'index'
+]);
+
 /* Periode Kuliah */
 
 $router->add('/periode-kuliah',[
