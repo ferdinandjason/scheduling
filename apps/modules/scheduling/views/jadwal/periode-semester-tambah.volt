@@ -50,19 +50,23 @@
 
                         <div class="form-group row">
                             <label>Aktif</label>
-                            <input type="text" class="form-control" name="aktif"
-                                value="{{ periodeSemester.getAktif() }}" />
+                            <!-- <input type="text" class="form-control" name="aktif"
+                                value="{{ periodeSemester.getAktif() }}" /> -->
+                            <select class="form-control" name="aktif">
+                                <option value="1" {% if periodeSemester.getAktif() == 1 %} selected {% endif %}>Aktif</option>
+                                <option value="0" {% if periodeSemester.getAktif() == 0 %} selected {% endif %}>Tidak Aktif</option>
+                            </select>
                         </div>
 
                         <div class="form-group row">
                             <label>Tanggal Mulai</label>
-                            <input type="text" class="form-control" name="tanggal_mulai"
+                            <input type="date" class="form-control" name="tanggal_mulai"
                                 value="{{ periodeSemester.getTanggalMulai() }}" />
                         </div>
 
                         <div class="form-group row">
                             <label>Tanggal Selesai</label>
-                            <input type="text" class="form-control" name="tanggal_selesai"
+                            <input type="date" class="form-control" name="tanggal_selesai"
                                 value="{{ periodeSemester.getTanggalSelesai() }}" />
                         </div>
 

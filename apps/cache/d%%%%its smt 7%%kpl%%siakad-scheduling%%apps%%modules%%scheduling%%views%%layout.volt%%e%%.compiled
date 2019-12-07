@@ -1,4 +1,4 @@
-a:7:{i:0;s:211:"<!doctype html>
+a:9:{i:0;s:211:"<!doctype html>
 <html lang="en" class="no-focus">
     <head>
         <meta charset="utf-8">
@@ -327,7 +327,7 @@ a:7:{i:0;s:211:"<!doctype html>
                 <!-- Page Content -->
                 <div class="content">
                      ";s:7:"content";a:1:{i:0;a:4:{s:4:"type";i:357;s:5:"value";s:23:"
-                     ";s:4:"file";s:87:"D:\ITS SMT 7\KPL\siakad-scheduling\apps\modules\scheduling\config/../views/\layout.volt";s:4:"line";i:330;}}i:3;s:1064:"
+                     ";s:4:"file";s:87:"D:\ITS SMT 7\KPL\siakad-scheduling\apps\modules\scheduling\config/../views/\layout.volt";s:4:"line";i:330;}}i:3;s:1052:"
                 </div>
                 <!-- END Page Content -->
             </main>
@@ -351,6 +351,8 @@ a:7:{i:0;s:211:"<!doctype html>
         <!-- Codebase JS -->
         <script src="<?= $this->url->get('/assets/js/codebase.core.min.js') ?>"></script>
         <script src="<?= $this->url->get('/assets/js/codebase.app.min.js') ?>"></script>
+
+        ";s:7:"scripts";N;i:4;s:24:"
     </body>
 </html>
 ";}

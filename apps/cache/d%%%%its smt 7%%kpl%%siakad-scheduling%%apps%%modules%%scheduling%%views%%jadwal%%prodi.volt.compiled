@@ -344,10 +344,10 @@
                             <option value="2019">2019</option>
                         </select>
                         <select class="form-control" id="tipe" name="tipe" style="width: 100px;">
-                            <option><?= $this->request->getQuery('tipe') ?></option>
-                            <option value="1">Gasal</option>
-                            <option value="2">Genap</option>
-                            <option value="3">Pendek</option>
+                            <!-- <option><?= $this->request->getQuery('tipe') ?></option> -->
+                            <option value="1" <?php if ($this->request->getQuery('tipe') == 1) { ?> selected <?php } ?>>Gasal</option>
+                            <option value="2" <?php if ($this->request->getQuery('tipe') == 2) { ?> selected <?php } ?>>Genap</option>
+                            <option value="3" <?php if ($this->request->getQuery('tipe') == 3) { ?> selected <?php } ?>>Pendek</option>
                         </select>
                         <button type="submit" class="btn btn-alt-primary">Submit</button>
                     </div>
@@ -408,5 +408,9 @@
         <!-- Codebase JS -->
         <script src="<?= $this->url->get('/assets/js/codebase.core.min.js') ?>"></script>
         <script src="<?= $this->url->get('/assets/js/codebase.app.min.js') ?>"></script>
+
+        
+
+
     </body>
 </html>

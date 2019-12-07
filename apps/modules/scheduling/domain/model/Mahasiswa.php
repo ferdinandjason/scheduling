@@ -6,11 +6,13 @@ class Mahasiswa
 {
     private $nrp;
     private $nama;
+    private $dosenWali;
 
-    public function __construct($nrp, $nama)
+    public function __construct($nrp, $nama, $dosenWali)
     {
         $this->nrp = $nrp;
         $this->nama = $nama;
+        $this->dosenWali = $dosenWali;
     }
 
     public function getNRP()
@@ -33,6 +35,14 @@ class Mahasiswa
         $this->nama = $nama;
     }
 
+    public function getDosenWali()
+    {
+        return $this->dosenWali;
+    }
 
+    public function setDosenWali($dosenWali)
+    {
+        $this->dosenWali = $dosenWali;
+    }
 
 }
