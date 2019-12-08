@@ -43,10 +43,8 @@ class SemesterController extends Controller
             $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
             $service->execute(
                 new MengelolaPeriodeSemesterRequest(
-                    new Semester(
-                        null, $nama, $singkatan, $tahunAjaran, $semester,
-                        $aktif, $tanggalMulai, $tanggalSelesai
-                    )
+                    null, $nama, $singkatan, $tahunAjaran, $semester,
+                    $aktif, $tanggalMulai, $tanggalSelesai
                 )
             );
 
@@ -75,10 +73,8 @@ class SemesterController extends Controller
             $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
             $service->execute(
                 new MengelolaPeriodeSemesterRequest(
-                    new Semester(
-                        $idSemester, $nama, $singkatan, $tahunAjaran, $semester,
-                        $aktif, $tanggalMulai, $tanggalSelesai
-                    )
+                    $idSemester, $nama, $singkatan, $tahunAjaran, $semester,
+                    $aktif, $tanggalMulai, $tanggalSelesai
                 )
             );
 
@@ -106,7 +102,7 @@ class SemesterController extends Controller
 
             $this->flashSession->notice('Data telah dihapus!');
         }
-        
+
         return $this->response->redirect('/semester');
     }
 }

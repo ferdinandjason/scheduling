@@ -43,7 +43,8 @@ CREATE TABLE `aktivitas_mengajar` (
 
 INSERT INTO `aktivitas_mengajar` (`id_dosen`, `id_kelas`, `sks_mengajar`, `rencana_tatap_muka`, `realisasi_tatap_muka`, `validasi_tatap_muka`) VALUES
 (1, 1, 4, 16, 16, 16);
-
+INSERT INTO `aktivitas_mengajar` (`id_dosen`, `id_kelas`, `sks_mengajar`, `rencana_tatap_muka`, `realisasi_tatap_muka`, `validasi_tatap_muka`) VALUES
+(2, 2, 4, 16, 16, 16);
 -- --------------------------------------------------------
 
 --
@@ -61,6 +62,8 @@ CREATE TABLE `dosen` (
 
 INSERT INTO `dosen` (`id`, `nama`) VALUES
 (1, 'Rizky Januar Akbar, S.Kom., M.Eng.');
+INSERT INTO `dosen` (`id`, `nama`) VALUES
+(2, 'Dr. Radityo Anggoro, S.Kom., M.Eng.Sc');
 
 -- --------------------------------------------------------
 
@@ -82,7 +85,8 @@ CREATE TABLE `jadwal_kelas` (
 
 INSERT INTO `jadwal_kelas` (`id`, `id_kelas`, `id_periode_kuliah`, `id_prasarana`, `hari`) VALUES
 (1, 1, 1, 1, 0);
-
+INSERT INTO `jadwal_kelas` (`id`, `id_kelas`, `id_periode_kuliah`, `id_prasarana`, `hari`) VALUES
+(2, 2, 3, 2, 0);
 -- --------------------------------------------------------
 
 --
@@ -110,9 +114,25 @@ CREATE TABLE `kelas` (
 
 INSERT INTO `kelas` (`id`, `id_semester`, `id_mata_kuliah`, `nama`, `nama_inggris`, `daya_tampung`, `jumlah_terisi`, `sks_kelas`, `rencana_tatap_muka`, `realisasi_tatap_muka`, `kelas_jarak_jauh`, `validasi_tatap_muka`) VALUES
 (1, 1, 1, 'A', 'A', 40, 40, 4, 16, 16, 0, 1);
+INSERT INTO `kelas` (`id`, `id_semester`, `id_mata_kuliah`, `nama`, `nama_inggris`, `daya_tampung`, `jumlah_terisi`, `sks_kelas`, `rencana_tatap_muka`, `realisasi_tatap_muka`, `kelas_jarak_jauh`, `validasi_tatap_muka`) VALUES
+(2, 1, 2, 'A', 'A', 160, 100, 4, 16, 16, 0, 1);
 
 -- --------------------------------------------------------
 
+--
+-- Struktur dari tabel `mahasiswa`
+--
+
+CREATE TABLE `mahasiswa` (
+  `nrp` char(20) NOT NULL,
+  `id_dosen_wali` int(10) UNSIGNED NOT NULL,
+  `nama` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `mahasiswa`(`nrp`,`id_dosen_wali`,`nama`) VALUES ('05111640000001', 1, 'Sebastian Lewis');
+INSERT INTO `mahasiswa`(`nrp`,`id_dosen_wali`,`nama`) VALUES ('05111640000002', 1, 'Caitlin Steele');
+
+-- --------------------------------------------------------
 --
 -- Struktur dari tabel `kuliah`
 --
@@ -125,22 +145,10 @@ CREATE TABLE `kuliah` (
   `lulus` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `mahasiswa`
---
-
-CREATE TABLE `mahasiswa` (
-  `nrp` char(20) NOT NULL,
-  `id_dosen_wali` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`nrp`),
-  FOREIGN KEY (`id_dosen_wali`) REFERENCES `dosen`(`id`),
-  `nama` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-INSERT INTO `mahasiswa`(`nrp`,`id_dosen_wali`,`nama`) VALUES ('05111640000001', 1, 'John Doe');
-
+INSERT INTO `kuliah`(`nrp_mahasiswa`, `id_kelas`, `nilai_angka`, `nilai_huruf`, `lulus`) VALUES
+('05111640000001', 1, 90, 'A', 1);
+INSERT INTO `kuliah`(`nrp_mahasiswa`, `id_kelas`, `nilai_angka`, `nilai_huruf`, `lulus`) VALUES
+('05111640000002', 2, 80, 'AB', 1);
 -- --------------------------------------------------------
 
 --
@@ -161,7 +169,10 @@ CREATE TABLE `mata_kuliah` (
 --
 
 INSERT INTO `mata_kuliah` (`id`, `kode_matkul`, `nama`, `nama_inggris`, `sks`, `deskripsi`) VALUES
-(1, 'IF184101', 'Dasar Pemrograman', 'Fundamental Programming', 4, 'Sebuah Mata Kuliah');
+(1, 'IF184101', 'Dasar Pemrograman', 'Programming Fundamental', 4, 'Sebuah Mata Kuliah');
+
+INSERT INTO `mata_kuliah` (`id`, `kode_matkul`, `nama`, `nama_inggris`, `sks`, `deskripsi`) VALUES
+(2, 'IF184802', 'Tugas Akhir', 'Undergraduate Thesis', 4, 'Tugas Akhir');
 
 -- --------------------------------------------------------
 
@@ -203,7 +214,8 @@ CREATE TABLE `prasarana` (
 
 INSERT INTO `prasarana` (`id`, `nama`) VALUES
 (1, 'IF-106');
-
+INSERT INTO `prasarana` (`id`, `nama`) VALUES
+(2, 'IF-101');
 -- --------------------------------------------------------
 
 --

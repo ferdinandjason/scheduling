@@ -4,10 +4,10 @@ namespace Siakad\Scheduling\Application;
 
 class MelihatJadwalMahasiswaPerwalianRequest
 {
-    public $dosenId;
+    public $nrpMahasiswa;
 
-    public function __construct($dosenId = null)
+    public function __construct($nrpMahasiswa)
     {
-        $this->dosenId = $dosenId;
+        $this->nrpMahasiswa = $nrpMahasiswa;
     }
 }

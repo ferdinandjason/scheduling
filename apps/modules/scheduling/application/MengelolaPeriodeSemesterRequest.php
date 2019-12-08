@@ -2,14 +2,26 @@
 
 namespace Siakad\Scheduling\Application;
 
-use Siakad\Scheduling\Domain\Model\Semester;
-
 class MengelolaPeriodeSemesterRequest
 {
-    public $semesterData;
+    public $id;
+    public $nama;
+    public $singkatan;
+    public $tahunAjaran;
+    public $semester;
+    public $aktif;
+    public $tanggalMulai;
+    public $tanggalSelesai;
 
-    public function __construct(Semester $semester)
+    public function __construct($id, $nama, $singkatan, $tahunAjaran, $semester, $aktif, $tanggalMulai, $tanggalSelesai)
     {
-        $this->semesterData = $semester;
+        $this->id = $id;
+        $this->nama = $nama;
+        $this->singkatan = $singkatan;
+        $this->tahunAjaran = $tahunAjaran;
+        $this->semester = $semester;
+        $this->aktif = $aktif;
+        $this->tanggalMulai = $tanggalMulai;
+        $this->tanggalSelesai = $tanggalSelesai;
     }
 }
