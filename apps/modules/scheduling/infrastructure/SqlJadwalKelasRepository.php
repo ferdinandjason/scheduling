@@ -71,6 +71,17 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                                 INNER JOIN `kuliah` ON `kuliah`.`id_kelas` = `kelas`.`id`
                                 WHERE `kuliah`.`nrp_mahasiswa` = :nrpMahasiswa;
             "),
+            'find_by_day' => $this->connection->prepare("
+                SELECT *
+                FROM `jadwal_kelas` INNER JOIN `kelas` ON `jadwal_kelas`.`id_kelas` = `kelas`.`id`
+                                    INNER JOIN `periode_kuliah` ON `jadwal_kelas`.`id_periode_kuliah` = `periode_kuliah`.`id`
+                                    INNER JOIN `semester` ON `semester`.`id` = `kelas`.`id_semester`
+                                    INNER JOIN `mata_kuliah` ON `mata_kuliah`.`id` = `kelas`.`id_mata_kuliah`
+                                    INNER JOIN `prasarana` ON `prasarana`.`id` = `jadwal_kelas`.`id_prasarana`
+                                    INNER JOIN `aktivitas_mengajar` on `jadwal_kelas`.id_kelas = `aktivitas_mengajar`.`id_kelas`
+                                    INNER JOIN `dosen` ON `aktivitas_mengajar`.id_dosen = `dosen`.`id`
+                WHERE `jadwal_kelas`.`hari` = :day;
+            ")
         ];
 
         $this->statementTypes = [
@@ -81,6 +92,9 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             ],
             'find_by_mahasiswa' => [
                 'nrpMahasiswa' => Column::BIND_PARAM_STR
+            ],
+            'find_by_day' => [
+                'day' => Column::BIND_PARAM_STR,
             ]
         ];
 
@@ -190,5 +204,18 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
         }
 
         return $jadwalKelas;
+        
+    }
+    public function byDay($day)
+    {
+        $statementData = [
+            'day' => $day,
+        ];
+
+        $result = $this->connection->executePrepared(
+            $this->statement['find_by_day'],
+            $statementData,
+            $this->statementTypes['find_by_day']
+        );
     }
 }
