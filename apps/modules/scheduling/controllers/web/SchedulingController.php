@@ -5,13 +5,6 @@ namespace Siakad\Scheduling\Controllers\Web;
 use Phalcon\Mvc\Controller;
 use Siakad\Scheduling\Application\MelihatJadwalKuliahProdiRequest;
 use Siakad\Scheduling\Application\MelihatJadwalKuliahProdiService;
-use Siakad\Scheduling\Application\MelihatPeriodeKuliahRequest;
-use Siakad\Scheduling\Application\MelihatPeriodeKuliahService;
-use Siakad\Scheduling\Application\MelihatPeriodeSemesterRequest;
-use Siakad\Scheduling\Application\MelihatPeriodeSemesterService;
-use Siakad\Scheduling\Application\MengelolaPeriodeKuliahRequest;
-use Siakad\Scheduling\Application\MengelolaPeriodeKuliahService;
-use Siakad\Scheduling\Domain\Model\PeriodeKuliah;
 
 class SchedulingController extends Controller
 {

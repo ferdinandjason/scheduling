@@ -19,6 +19,7 @@
         <link rel="stylesheet" id="css-main" href="<?= $this->url->get('/assets/css/codebase.min.css') ?>">
 
         
+
     </head>
     <body>
         <!-- Page Container -->
@@ -211,20 +212,23 @@
                             </li>
                             <li class="nav-main-heading">
                                 <span class="sidebar-mini-visible">HD</span>
-                                <span class="sidebar-mini-hidden">Heading</span>
+                                <span class="sidebar-mini-hidden">Biro</span>
                             </li>
                             <li>
                                 <a class="nav-submenu" data-toggle="nav-submenu" href="#">
-                                    <i class="si si-puzzle"></i>
-                                    <span class="sidebar-mini-hide">Dropdown</span>
+                                    <i class="si si-notebook"></i>
+                                    <span class="sidebar-mini-hide">Akademik</span>
                                 </a>
                                 <ul>
                                     <li>
-                                        <a href="javascript:void(0)">Link #1</a>
+                                        <a href="<?= $this->url->get('/periode-kuliah') ?>">Periode Kuliah</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)">Link #2</a>
+                                        <a href="<?= $this->url->get('/semester') ?>">Semester</a>
                                     </li>
+                                    <li>
+                                            <a href="<?= $this->url->get('/jadwal/prodi') ?>">Jadwal Kuliah</a>
+                                        </li>
                                 </ul>
                             </li>
                         </ul>
@@ -391,5 +395,8 @@
         <!-- Codebase JS -->
         <script src="<?= $this->url->get('/assets/js/codebase.core.min.js') ?>"></script>
         <script src="<?= $this->url->get('/assets/js/codebase.app.min.js') ?>"></script>
+
+        
+
     </body>
 </html>

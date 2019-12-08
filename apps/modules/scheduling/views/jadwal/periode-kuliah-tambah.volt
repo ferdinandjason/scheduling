@@ -2,6 +2,9 @@
 
 {% block title %}Periode Kuliah{% endblock %}
 
+{% block styles %}
+{% endblock %}
+
 {% block content %}
 
 {{ flashSession.output() }}
@@ -49,5 +52,4 @@
 {% endblock %}
 
 {% block scripts %}
-
 {% endblock %}

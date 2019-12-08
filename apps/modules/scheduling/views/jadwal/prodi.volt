@@ -20,10 +20,10 @@
                             <option value="2019">2019</option>
                         </select>
                         <select class="form-control" id="tipe" name="tipe" style="width: 100px;">
-                            <option>{{ request.getQuery('tipe') }}</option>
-                            <option value="1">Gasal</option>
-                            <option value="2">Genap</option>
-                            <option value="3">Pendek</option>
+                            <!-- <option>{{ request.getQuery('tipe') }}</option> -->
+                            <option value="1" {% if request.getQuery('tipe') == 1 %} selected {% endif %}>Gasal</option>
+                            <option value="2" {% if request.getQuery('tipe') == 2 %} selected {% endif %}>Genap</option>
+                            <option value="3" {% if request.getQuery('tipe') == 3 %} selected {% endif %}>Pendek</option>
                         </select>
                         <button type="submit" class="btn btn-alt-primary">Submit</button>
                     </div>

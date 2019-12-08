@@ -4,7 +4,7 @@ namespace Siakad\Scheduling\Application;
 
 use Siakad\Scheduling\Domain\Model\MahasiswaPerwalianRepository;
 
-class MelihatJadwalMahasiswaPerwalianService
+class MelihatMahasiswaPerwalianService
 {
     private $mahasiswaPerwalianRepository;
 
@@ -13,7 +13,8 @@ class MelihatJadwalMahasiswaPerwalianService
         $this->mahasiswaPerwalianRepository = $mahasiswaPerwalianRepository;
     }
 
-    public function execute(MelihatJadwalMahasiswaPerwalianRequest $request) {
-        
+    public function execute(MelihatMahasiswaPerwalianRequest $request) {
+        $mahasiswa = $this->mahasiswaPerwalianRepository->findByDosenWali($request->dosenId);
+        return new MelihatMahasiswaPerwalianResponse($mahasiswa);
     }
 }
