@@ -2,6 +2,8 @@
 
 namespace Siakad\Scheduling\Domain\Model;
 
+use Siakad\Scheduling\Application\MengelolaJadwalKuliahRequest;
+
 interface JadwalKelasRepository
 {
     public function all();
@@ -9,4 +11,6 @@ interface JadwalKelasRepository
     public function byMahasiswa($nrp);
     public function byDay($day);
     public function delete($id);
+    public function byId($id);
+    public function save($id, $idKelas, $idPeriodeKuliah, $idPrasarana, $hari);
 }

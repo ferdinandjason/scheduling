@@ -85,6 +85,21 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             "),
             'delete' => $this->connection->prepare("
                 DELETE FROM `jadwal_kelas` WHERE id = :id;
+            "),
+            'byId' => $this->connection->prepare("
+                SELECT *
+                FROM `jadwal_kelas` INNER JOIN `kelas` ON `jadwal_kelas`.`id_kelas` = `kelas`.`id`
+                                    INNER JOIN `periode_kuliah` ON `jadwal_kelas`.`id_periode_kuliah` = `periode_kuliah`.`id`
+                                    INNER JOIN `semester` ON `semester`.`id` = `kelas`.`id_semester`
+                                    INNER JOIN `mata_kuliah` ON `mata_kuliah`.`id` = `kelas`.`id_mata_kuliah`
+                                    INNER JOIN `prasarana` ON `prasarana`.`id` = `jadwal_kelas`.`id_prasarana`
+                                    INNER JOIN `aktivitas_mengajar` on `jadwal_kelas`.id_kelas = `aktivitas_mengajar`.`id_kelas`
+                                    INNER JOIN `dosen` ON `aktivitas_mengajar`.id_dosen = `dosen`.`id`
+                WHERE `jadwal_kelas`.`id` = :id;
+            "),
+            'update' => $this->connection->prepare("
+                UPDATE jadwal_kelas SET id_kelas=:id_kelas, id_periode_kuliah=:id_periode_kuliah, id_prasarana=:id_prasarana, hari=:hari
+                WHERE  id = :id;
             ")
         ];
 
@@ -102,6 +117,16 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             ],
             'delete' => [
                 'id' => Column::BIND_PARAM_INT
+            ],
+            'byId' => [
+                'id' => Column::BIND_PARAM_INT
+            ],
+            'update' => [
+                'id' => Column::BIND_PARAM_INT,
+                'id_kelas' => Column::BIND_PARAM_INT,
+                'id_periode_kuliah' => Column::BIND_PARAM_INT,
+                'id_prasarana' => Column::BIND_PARAM_INT,
+                'hari' => Column::BIND_PARAM_INT
             ]
         ];
 
@@ -241,10 +266,6 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
         foreach ($result as $item) {
             array_push($jadwalKelas, self::transformResultSetToEntity($item));
         }
-
-        if ( count($jadwalKelas) == 0) {
-            throw new JadwalKelasNotFoundException("No Jadwal Kelas found with this criteria");
-        }
         
         return $jadwalKelas;
     }
@@ -264,5 +285,38 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
         if($this->connection->affectedRows() == 0) {
             throw new JadwalKelasNotFoundException("Jadwal Kelas with id = {$id} not found");
         }
+    }
+
+    public function byId($id)
+    {
+        $statementData = [
+            'id' => $id
+        ];
+        $result = $this->connection->executePrepared(
+            $this->statement['byId'], 
+            $statementData, 
+            $this->statementTypes['byId']
+        );
+
+        foreach ($result as $item){
+            return self::transformResultSetToEntity($item);
+        }
+    }
+
+    public function save($id, $idKelas, $idPeriodeKuliah, $idPrasarana, $hari)
+    {
+        $statementData = [
+            'id' => $id,
+            'id_kelas' => $idKelas,
+            'id_periode_kuliah' => $idPeriodeKuliah,
+            'id_prasarana' => $idPrasarana,
+            'hari' => $hari
+        ];
+
+        $result = $this->connection->executePrepared(
+            $this->statement['update'], 
+            $statementData, 
+            $this->statementTypes['update']
+        );
     }
 }

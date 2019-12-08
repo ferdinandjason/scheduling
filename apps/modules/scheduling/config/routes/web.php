@@ -25,6 +25,13 @@ $router->add('/kelola-jadwal/{id}/hapus',[
     'action' => 'delete'
 ]);
 
+$router->add('/kelola-jadwal/{id}/edit',[
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'jadwal',
+    'action' => 'edit'
+]);
+
 /* Periode Kuliah */
 
 $router->add('/periode-kuliah',[

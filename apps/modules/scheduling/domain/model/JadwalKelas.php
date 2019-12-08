@@ -92,4 +92,11 @@ class JadwalKelas
             " (".$this->kelas->getNama().") ".
             $this->kelas->getSksKelas();
     }
+
+    public function getNamaMatkulNamaKelasSKS()
+    {
+        return $this->kelas->getMataKuliah()->getNama().
+            " (".$this->kelas->getNama().") ".
+            $this->kelas->getSksKelas();
+    }
 }

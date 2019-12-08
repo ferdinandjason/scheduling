@@ -40,16 +40,18 @@
                     <tr>
                     <th class="text-center" scope="row">{{periode.getStringForm()}}</th>
                     {% for kelas in prasarana %}
+                        {% set kosong = 1 %}
                         {% for jadwal in jadwalKuliah %}
                             {% if jadwal.getPrasarana().getNama() == kelas.getNama() 
                                 AND jadwal.getPeriodeKuliah().getMulai() == periode.getMulai() 
                                 AND jadwal.getPeriodeKuliah().getSelesai() == periode.getSelesai() %}
+                                {% set kosong = 0 %}
                             <th class="text-center" scope="row">
                                 <div>{{jadwal.getKelas().getMataKuliah().getNama()}}</div>
                                 <div>{{jadwal.getKodeMatkulNamaKelasSKS()}}</div>
                                 <div>{{jadwal.getDosen().getNama()}}</div>
                                 <form method="POST" action="{{ url('/kelola-jadwal/' ~jadwal.getId()~ '/hapus') }}" onsubmit="return confirm('Apakah yakin untuk menghapus data?')">
-                                    <a class="btn btn-sm btn-circle btn-outline-info mr-5 mb-5" role="button"href="#">
+                                    <a class="btn btn-sm btn-circle btn-outline-info mr-5 mb-5" role="button"href="{{ url('/kelola-jadwal/' ~jadwal.getId()~ '/edit') }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                     <button type="submit" class="btn btn-sm btn-circle btn-outline-danger mr-5 mb-5">
@@ -57,8 +59,10 @@
                                     </button>
                                 </form>
                             </th>
-                            
                             {% endif %}
+                        {%if kosong == 1 %}
+                        <th class="text-center" scope="row">-</th>
+                        {% endif %}
                         {% endfor %}
                     {% endfor %}
                     </tr>
