@@ -3,6 +3,7 @@
 namespace Siakad\Scheduling\Application;
 
 use Siakad\Scheduling\Domain\Model\MahasiswaPerwalianRepository;
+use Siakad\Scheduling\Exception\MahasiswaPerwalianNotFoundException;
 
 class MelihatMahasiswaPerwalianService
 {
@@ -14,7 +15,14 @@ class MelihatMahasiswaPerwalianService
     }
 
     public function execute(MelihatMahasiswaPerwalianRequest $request) {
-        $mahasiswa = $this->mahasiswaPerwalianRepository->findByDosenWali($request->dosenId);
-        return new MelihatMahasiswaPerwalianResponse($mahasiswa);
+        $message = null;
+
+        try {
+            $mahasiswa = $this->mahasiswaPerwalianRepository->findByDosenWali($request->dosenId);
+        } catch (MahasiswaPerwalianNotFoundException $exception) {
+            $message = $exception->getMessage();
+        }
+
+        return new MelihatMahasiswaPerwalianResponse($mahasiswa, $message);
     }
 }

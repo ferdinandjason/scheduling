@@ -5,6 +5,7 @@ namespace Siakad\Scheduling\Infrastructure;
 use Phalcon\Db\Column;
 use Siakad\Scheduling\Domain\Model\Prasarana;
 use Siakad\Scheduling\Domain\Model\PrasaranaRepository;
+use Siakad\scheduling\exception\PrasaranaNotFoundException;
 
 class SqlPrasaranaRepository implements PrasaranaRepository
 {
@@ -35,14 +36,16 @@ class SqlPrasaranaRepository implements PrasaranaRepository
     public function all()
     {
         $result = $this->connection->executePrepared(
-            $this->statement['all'],
-            [],
-            []
+            $this->statement['all'], [], []
         );
 
         $prasarana = array();
         foreach ($result as $item) {
             array_push($prasarana, self::transformResultSetToEntity($item));
+        }
+
+        if( count($prasarana) == 0) {
+            throw new PrasaranaNotFoundException('No Prasarana Found');
         }
 
         return $prasarana;

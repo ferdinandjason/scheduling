@@ -4,13 +4,10 @@ namespace Siakad\Scheduling\Application;
 
 use Siakad\Scheduling\Domain\Response\MessageResponse;
 
-class MengelolaJadwalKuliahResponse extends MessageResponse
+class MengelolaPeriodeSemesterResponse extends MessageResponse
 {
-    public $data;
-
-    public function __construct($data, $message)
+    public function __construct($message = null)
     {
         parent::__construct($message);
-        $this->data = $data;
     }
 }

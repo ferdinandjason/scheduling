@@ -3,6 +3,7 @@
 namespace Siakad\Scheduling\Application;
 
 use Siakad\Scheduling\Domain\Model\PeriodeKuliahRepository;
+use Siakad\scheduling\exception\PeriodeKuliahNotFoundException;
 
 class MelihatPeriodeKuliahService
 {
@@ -16,11 +17,18 @@ class MelihatPeriodeKuliahService
     public function execute(MelihatPeriodeKuliahRequest $request)
     {
         $periodeKuliah = null;
-        if($request->hasIdPeriodeKuliah()) {
-            $periodeKuliah = $this->periodeKuliahRepository->byId($request->idPeriodeKuliah);
-        } else {
-            $periodeKuliah = $this->periodeKuliahRepository->all();
+        $message = null;
+
+        try{
+            if($request->hasIdPeriodeKuliah()) {
+                $periodeKuliah = $this->periodeKuliahRepository->byId($request->idPeriodeKuliah);
+            } else {
+                $periodeKuliah = $this->periodeKuliahRepository->all();
+            }
+        } catch (PeriodeKuliahNotFoundException $exception) {
+            $message = $exception->getMessage();
         }
-        return new MelihatPeriodeKuliahResponse($periodeKuliah);
+
+        return new MelihatPeriodeKuliahResponse($periodeKuliah, $message);
     }
 }

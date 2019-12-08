@@ -3,6 +3,7 @@
 namespace Siakad\Scheduling\Application;
 
 use Siakad\Scheduling\Domain\Model\JadwalKelasRepository;
+use Siakad\Scheduling\Exception\JadwalKelasNotFoundException;
 
 class MelihatJadwalMahasiswaPerwalianService
 {
@@ -14,7 +15,15 @@ class MelihatJadwalMahasiswaPerwalianService
     }
 
     public function execute(MelihatJadwalMahasiswaPerwalianRequest $request) {
-        $jadwalKelas = $this->jadwalKelasRepository->byMahasiswa($request->nrpMahasiswa);
-        return new MelihatJadwalKuliahProdiResponse($jadwalKelas);
+        $message = null;
+        $jadwalKelas = null;
+
+        try {
+            $jadwalKelas = $this->jadwalKelasRepository->byMahasiswa($request->nrpMahasiswa);
+        } catch (JadwalKelasNotFoundException $exception) {
+            $message = $exception->getMessage();
+        }
+
+        return new MelihatJadwalKuliahProdiResponse($jadwalKelas, $message);
     }
 }

@@ -25,6 +25,10 @@ class PeriodeKuliahController extends Controller
             new MelihatPeriodeKuliahRequest()
         );
 
+        if($response->hasMessage()) {
+            $this->flashSession->warning($response->message);
+        }
+
         $this->view->setVar('periodeKuliah', $response->data);
         return $this->view->pick('jadwal/periode-kuliah');
     }
@@ -36,11 +40,15 @@ class PeriodeKuliahController extends Controller
             $jamSelesai = $this->request->getPost('jam_selesai');
 
             $service = new MengelolaPeriodeKuliahService($this->periodeKuliahRepository);
-            $service->execute(new MengelolaPeriodeKuliahRequest(
+            $response = $service->execute(new MengelolaPeriodeKuliahRequest(
                 null, $jamMulai,$jamSelesai
             ));
 
-            $this->flashSession->success('Periode kuliah tersimpan!');
+            if($response->hasMessage()) {
+                $this->flashSession->warning($response->message);
+            } else {
+                $this->flashSession->success('Periode kuliah tersimpan!');
+            }
         }
 
         $periodeKuliahNull = new PeriodeKuliah(null, null, null);
@@ -58,19 +66,28 @@ class PeriodeKuliahController extends Controller
             $jamSelesai = $this->request->getPost('jam_selesai');
 
             $service = new MengelolaPeriodeKuliahService($this->periodeKuliahRepository);
-            $service->execute(new MengelolaPeriodeKuliahRequest(
+            $response = $service->execute(new MengelolaPeriodeKuliahRequest(
                 $id, $jamMulai,$jamSelesai
             ));
 
-            $this->flashSession->success('Periode kuliah diperbarui!');
+            if($response->hasMessage()) {
+                $this->flashSession->warning($response->message);
+            } else {
+                $this->flashSession->success('Periode kuliah diperbarui!');
+            }
         }
 
         $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
         $response = $service->execute(
             new MelihatPeriodeKuliahRequest($id)
         );
-        $this->view->setVar('periodeKuliah', $response->data);
+
+        if($response->hasMessage()) {
+            $this->flashSession->warning($response->message);
+        }
+
         $this->view->setVar('action', 'Edit');
+        $this->view->setVar('periodeKuliah', $response->data);
         return $this->view->pick('jadwal/periode-kuliah-tambah');
     }
 
@@ -80,9 +97,13 @@ class PeriodeKuliahController extends Controller
             $id = $this->request->getPost($id);
 
             $service = new MengelolaPeriodeKuliahService($this->periodeKuliahRepository);
-            $service->delete($id);
+            $response = $service->delete($id);
 
-            $this->flashSession->notice('Data telah dihapus!');
+            if($response->hasMessage()) {
+                $this->flashSession->warning($response->message);
+            } else {
+                $this->flashSession->notice('Data telah dihapus!');
+            }
         }
         return $this->response->redirect('/periode-kuliah');
     }

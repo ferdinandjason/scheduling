@@ -5,6 +5,8 @@ namespace Siakad\Scheduling\Infrastructure;
 use Phalcon\Db\Column;
 use Siakad\Scheduling\Domain\Model\Semester;
 use Siakad\Scheduling\Domain\Model\SemesterRepository;
+use Siakad\Scheduling\Exception\DatabaseErrorException;
+use Siakad\Scheduling\Exception\SemesterNotFoundException;
 
 class SqlSemesterRepository implements SemesterRepository
 {
@@ -103,6 +105,10 @@ class SqlSemesterRepository implements SemesterRepository
         foreach ($result as $item) {
             array_push($semester, self::transformResultSetToEntity($item));
         }
+
+        if (count($semester) == 0) {
+            throw new SemesterNotFoundException("No Semester found!");
+        }
         
         return $semester;
     }
@@ -122,6 +128,8 @@ class SqlSemesterRepository implements SemesterRepository
         foreach ($result as $item) {
             return self::transformResultSetToEntity($item);
         }
+
+        throw new SemesterNotFoundException("Semester with id = {$id} not found");
     }
 
     public function save(Semester $periodeSemester)
@@ -142,6 +150,11 @@ class SqlSemesterRepository implements SemesterRepository
                 $statementData,
                 $this->statementTypes['save']
             );
+
+            if($this->connection->lastInsertId() != 0) {
+                throw new DatabaseErrorException("Semester {$periodeSemester->getNama()} failed to save");
+            }
+
         }
         else {
             $statementData = [
@@ -160,6 +173,10 @@ class SqlSemesterRepository implements SemesterRepository
                 $statementData,
                 $this->statementTypes['update']
             );
+
+            if($this->connection->affectedRows() == 0) {
+                throw new SemesterNotFoundException("Semester with id = {$periodeSemester->getId()} not found");
+            }
         }
     }
 
@@ -173,5 +190,9 @@ class SqlSemesterRepository implements SemesterRepository
             $statementData,
             $this->statementTypes['delete']
         );
+
+        if($this->connection->affectedRows() == 0) {
+            throw new SemesterNotFoundException("Semester with id = {$id} not found");
+        }
     }
 }

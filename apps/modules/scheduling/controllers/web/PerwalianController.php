@@ -22,6 +22,11 @@ class PerwalianController extends Controller {
         $response = $service->execute(
             new MelihatMahasiswaPerwalianRequest($id)
         );
+
+        if($response->hasMessage()) {
+            $this->flashSession->warning($response->message);
+        }
+
         $this->view->setVar('mahasiswaPerwalian', $response->data);
         return $this->view->pick('jadwal/mahasiswa-perwalian');
     }
@@ -31,6 +36,7 @@ class PerwalianController extends Controller {
         $response = $service->execute(
             new MelihatJadwalMahasiswaPerwalianRequest($nrpMahasiswa)
         );
+
         $this->view->setVar('jadwalKuliah', $response->data);
         return $this->view->pick('jadwal/mahasiswa-jadwal');
     }

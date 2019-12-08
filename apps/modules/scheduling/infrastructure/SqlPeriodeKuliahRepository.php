@@ -5,6 +5,8 @@ namespace Siakad\Scheduling\Infrastructure;
 use Phalcon\Db\Column;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliah;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliahRepository;
+use Siakad\Scheduling\Exception\DatabaseErrorException;
+use Siakad\scheduling\exception\PeriodeKuliahNotFoundException;
 
 class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
 {
@@ -81,6 +83,10 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             array_push($periodeKuliah, self::transformResultSetToEntity($item));
         }
 
+        if (count($periodeKuliah) == 0) {
+            throw new PeriodeKuliahNotFoundException("No Periode Kuliah found!");
+        }
+
         return $periodeKuliah;
     }
 
@@ -99,6 +105,8 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
         foreach ($result as $item) {
             return self::transformResultSetToEntity($item);
         }
+
+        throw new PeriodeKuliahNotFoundException("Periode Kuliah with id = {$id} not found");
     }
 
     public function save(PeriodeKuliah $periodeKuliah)
@@ -114,6 +122,10 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
                 $statementData,
                 $this->statementTypes['save']
             );
+
+            if($this->connection->lastInsertId() != 0) {
+                throw new DatabaseErrorException("Periode Kuliah {$periodeKuliah->getNama()} failed to save");
+            }
         }
         else {
             $statementData = [
@@ -127,6 +139,10 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
                 $statementData,
                 $this->statementTypes['update']
             );
+
+            if($this->connection->afftectedRows() == 0) {
+                throw new PeriodeKuliahNotFoundException("Periode Kuliah with id = {$periodeKuliah->getId()} not found");
+            }
         }
     }
 
@@ -140,5 +156,9 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             $statementData,
             $this->statementTypes['delete']
         );
+
+        if($this->connection->afftectedRows() == 0) {
+            throw new PeriodeKuliahNotFoundException("Periode Kuliah with id = {$id} not found");
+        }
     }
 }

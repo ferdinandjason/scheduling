@@ -25,6 +25,10 @@ class SemesterController extends Controller
             new MelihatPeriodeSemesterRequest()
         );
 
+        if($response->hasMessage()) {
+            $this->flashSession->warning($response->message);
+        }
+
         $this->view->setVar('periodeSemester', $response->data);
         return $this->view->pick('jadwal/periode-semester');
     }
@@ -41,14 +45,18 @@ class SemesterController extends Controller
             $tanggalSelesai = $this->request->getPost('tanggal_selesai');
 
             $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
-            $service->execute(
+            $response = $service->execute(
                 new MengelolaPeriodeSemesterRequest(
                     null, $nama, $singkatan, $tahunAjaran, $semester,
                     $aktif, $tanggalMulai, $tanggalSelesai
                 )
             );
 
-            $this->flashSession->success('Semester berhasil ditambah!');
+            if($response->hasMessage()) {
+                $this->flashSession->warning($response->message);
+            } else {
+                $this->flashSession->success('Semester berhasil ditambah!');
+            }
         }
 
         $semesterNull = new Semester(null, null, null, null, null, null, null, null);
@@ -71,20 +79,28 @@ class SemesterController extends Controller
             $tanggalSelesai = $this->request->getPost('tanggal_selesai');
 
             $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
-            $service->execute(
+            $response = $service->execute(
                 new MengelolaPeriodeSemesterRequest(
                     $idSemester, $nama, $singkatan, $tahunAjaran, $semester,
                     $aktif, $tanggalMulai, $tanggalSelesai
                 )
             );
 
-            $this->flashSession->success('Semester diperbarui!');
+            if($response->hasMessage()) {
+                $this->flashSession->warning($response->message);
+            } else {
+                $this->flashSession->success('Semester diperbarui!');
+            }
         }
 
         $service = new MelihatPeriodeSemesterService($this->semesterRepository);
         $response = $service->execute((
             new MelihatPeriodeSemesterRequest($id)
         ));
+
+        if($response->hasMessage()) {
+            $this->flashSession->warning($response->message);
+        }
 
         $this->view->setVar('action', 'Edit');
         $this->view->setVar('periodeSemester', $response->data);
@@ -98,9 +114,13 @@ class SemesterController extends Controller
             $id = $this->request->getPost('id_semester');
 
             $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
-            $service->delete($id);
+            $response = $service->delete($id);
 
-            $this->flashSession->notice('Data telah dihapus!');
+            if($response->hasMessage()) {
+                $this->flashSession->warning($response->message);
+            } else {
+                $this->flashSession->notice('Data telah dihapus!');
+            }
         }
 
         return $this->response->redirect('/semester');

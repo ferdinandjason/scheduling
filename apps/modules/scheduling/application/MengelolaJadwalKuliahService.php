@@ -3,6 +3,7 @@
 namespace Siakad\Scheduling\Application;
 
 use Siakad\Scheduling\Domain\Model\JadwalKelasRepository;
+use Siakad\Scheduling\Exception\JadwalKelasNotFoundException;
 
 class MengelolaJadwalKuliahService
 {
@@ -16,15 +17,20 @@ class MengelolaJadwalKuliahService
     public function execute(MengelolaJadwalKuliahRequest $request)
     {
         $jadwalKuliahByDay = null;
+        $message = null;
 
-        if($request->hasParameters()) {
-            $jadwalKuliahByDay = $this->jadwalKelasRepository->byDay(
-                $request->day
-            );
-        } else {
-            $jadwalKuliahByDay = $this->jadwalKelasRepository->all();
+        try {
+            if($request->hasParameters()) {
+                $jadwalKuliahByDay = $this->jadwalKelasRepository->byDay(
+                    $request->day
+                );
+            } else {
+                $jadwalKuliahByDay = $this->jadwalKelasRepository->all();
+            }
+        } catch (JadwalKelasNotFoundException $exception) {
+            $message = $exception->getMessage();
         }
 
-        return new MengelolaJadwalKuliahResponse($jadwalKuliahByDay);
+        return new MengelolaJadwalKuliahResponse($jadwalKuliahByDay, $message);
     }
 }

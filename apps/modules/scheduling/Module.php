@@ -14,6 +14,7 @@ class Module implements ModuleDefinitionInterface
 
         $loader->registerNamespaces([
             'Siakad\Scheduling\Domain\Model' => __DIR__ . '/domain/model',
+            'Siakad\Scheduling\Domain\Response' => __DIR__ . '/domain/response',
             'Siakad\Scheduling\Infrastructure' => __DIR__ . '/infrastructure',
             'Siakad\Scheduling\Application' => __DIR__ . '/application',
             'Siakad\Scheduling\Controllers\Web' => __DIR__ . '/controllers/web',

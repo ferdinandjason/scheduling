@@ -3,6 +3,7 @@
 namespace Siakad\Scheduling\Application;
 
 use Siakad\Scheduling\Domain\Model\SemesterRepository;
+use Siakad\Scheduling\Exception\SemesterNotFoundException;
 
 class MelihatPeriodeSemesterService
 {
@@ -16,11 +17,18 @@ class MelihatPeriodeSemesterService
     public function execute(MelihatPeriodeSemesterRequest $request)
     {
         $semester = null;
-        if($request->hasIdSemester()) {
-            $semester = $this->semesterRepository->byId($request->idSemester);
-        } else {
-            $semester = $this->semesterRepository->all();
+        $message = null;
+
+        try {
+            if($request->hasIdSemester()) {
+                $semester = $this->semesterRepository->byId($request->idSemester);
+            } else {
+                $semester = $this->semesterRepository->all();
+            }
+        } catch (SemesterNotFoundException $exception) {
+            $message = $exception->getMessage();
         }
-        return new MelihatPeriodeSemesterResponse($semester);
+
+        return new MelihatPeriodeSemesterResponse($semester, $message);
     }
 }

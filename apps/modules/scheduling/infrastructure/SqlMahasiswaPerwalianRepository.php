@@ -6,6 +6,7 @@ use Phalcon\Db\Column;
 use Siakad\Scheduling\Domain\Model\Dosen;
 use Siakad\Scheduling\Domain\Model\Mahasiswa;
 use Siakad\Scheduling\Domain\Model\MahasiswaPerwalianRepository;
+use Siakad\Scheduling\Exception\MahasiswaPerwalianNotFoundException;
 
 class SqlMahasiswaPerwalianRepository implements MahasiswaPerwalianRepository {
     private $connection;
@@ -59,6 +60,10 @@ class SqlMahasiswaPerwalianRepository implements MahasiswaPerwalianRepository {
         $mahasiswaPerwalian = array();
         foreach ($result as $item) {
             array_push($mahasiswaPerwalian, self::transformResultSetToEntity($item));
+        }
+
+        if( count($mahasiswaPerwalian) == 0) {
+            throw new MahasiswaPerwalianNotFoundException('No Mahasiswa Perwalian with this criteria');
         }
 
         return $mahasiswaPerwalian;

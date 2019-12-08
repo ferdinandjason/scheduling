@@ -11,6 +11,7 @@ use Siakad\Scheduling\Domain\Model\MataKuliah;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliah;
 use Siakad\Scheduling\Domain\Model\Prasarana;
 use Siakad\Scheduling\Domain\Model\Semester;
+use Siakad\Scheduling\Exception\JadwalKelasNotFoundException;
 
 class SqlJadwalKelasRepository implements JadwalKelasRepository
 {
@@ -162,6 +163,10 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             array_push($jadwalKelas, self::transformResultSetToEntity($item));
         }
 
+        if ( count($jadwalKelas) == 0) {
+            throw new JadwalKelasNotFoundException("No Jadwal Kelas found");
+        }
+
         return $jadwalKelas;
     }
 
@@ -181,6 +186,10 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
         $jadwalKelas = array();
         foreach ($result as $item) {
             array_push($jadwalKelas, self::transformResultSetToEntity($item));
+        }
+
+        if ( count($jadwalKelas) == 0) {
+            throw new JadwalKelasNotFoundException("No Jadwal Kelas found with this criteria");
         }
 
         return $jadwalKelas;
@@ -203,6 +212,10 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             array_push($jadwalKelas, self::transformResultSetToEntity($item));
         }
 
+        if ( count($jadwalKelas) == 0) {
+            throw new JadwalKelasNotFoundException("No Jadwal Kelas found with this criteria");
+        }
+
         return $jadwalKelas;
         
     }
@@ -222,6 +235,16 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
         foreach ($result as $item) {
             array_push($jadwalKelas, self::transformResultSetToEntity($item));
         }
+
+        if ( count($jadwalKelas) == 0) {
+            throw new JadwalKelasNotFoundException("No Jadwal Kelas found with this criteria");
+        }
+        
         return $jadwalKelas;
+    }
+
+    public function byDosen($id)
+    {
+
     }
 }
