@@ -226,8 +226,11 @@
                                         <a href="{{ url ('/semester') }}">Semester</a>
                                     </li>
                                     <li>
-                                            <a href="{{ url ('/jadwal/prodi') }}">Jadwal Kuliah</a>
-                                        </li>
+                                        <a href="{{ url ('/jadwal/prodi') }}">Jadwal Kuliah</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url ('/kelola-jadwal') }}">Kelola Jadwal Kuliah</a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-main-heading">

@@ -86,4 +86,10 @@ class JadwalKelas
         $this->dosen = $dosen;
     }
 
+    public function getKodeMatkulNamaKelasSKS()
+    {
+        return $this->kelas->getMataKuliah()->getKodeMatkul().
+            " (".$this->kelas->getNama().") ".
+            $this->kelas->getSksKelas();
+    }
 }

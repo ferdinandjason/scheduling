@@ -29,6 +29,7 @@ class JadwalController extends Controller
         $service = new MengelolaJadwalKuliahService($this->jadwalKuliahRepository);
 
         $day = $this->request->get('day');
+        if($day == NULL) $day = 0;
         $response = $service->execute(
             new MengelolaJadwalKuliahRequest($day)
         );
@@ -48,5 +49,16 @@ class JadwalController extends Controller
         $this->view->setVar('prasarana', $prasarana->data);
         $this->view->setVar('periodeKuliah', $periodeKuliah->data);
         return $this->view->pick('kelola-jadwal/index');
+    }
+
+    public function deleteAction($id)
+    {
+        if ($this->request->isPost()) {
+            $service = new MengelolaJadwalKuliahService($this->jadwalKuliahRepository);
+            $service->delete($id);
+
+            $this->flashSession->notice('Data telah dihapus!');
+        }
+        return $this->response->redirect('/kelola-jadwal');
     }
 }

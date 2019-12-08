@@ -15,16 +15,13 @@ class MengelolaJadwalKuliahService
 
     public function execute(MengelolaJadwalKuliahRequest $request)
     {
-        $jadwalKuliahByDay = null;
-
-        if($request->hasParameters()) {
-            $jadwalKuliahByDay = $this->jadwalKelasRepository->byDay(
-                $request->day
-            );
-        } else {
-            $jadwalKuliahByDay = $this->jadwalKelasRepository->all();
-        }
+        $jadwalKuliahByDay = $this->jadwalKelasRepository->byDay($request->day);
 
         return new MengelolaJadwalKuliahResponse($jadwalKuliahByDay);
+    }
+
+    public function delete($id)
+    {
+        $this->jadwalKelasRepository->delete($id);
     }
 }
