@@ -12,7 +12,7 @@ class SqlMahasiswaPerwalianRepository implements MahasiswaPerwalianRepository {
     private $statement;
     private $statementTypes;
 
-    const INDEX_NRP = 1, INDEX_NAMA = 2, INDEX_ID_DOSEN_WALI = 3, INDEX_NAMA_DOSEN_WALI = 4;
+    const INDEX_NRP = 0, INDEX_NAMA = 1, INDEX_ID_DOSEN_WALI = 2, INDEX_NAMA_DOSEN_WALI = 3;
 
     public function __construct($di)
     {

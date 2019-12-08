@@ -69,3 +69,11 @@ $router->add('/semester/{id}/hapus',[
     'controller' => 'semester',
     'action' => 'delete'
 ]);
+
+/* Perwalian */
+$router->add('/dosen/{id}/perwalian', [
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'perwalian',
+    'action' => 'perwalian'
+]);
