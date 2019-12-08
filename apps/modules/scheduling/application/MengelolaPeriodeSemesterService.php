@@ -2,7 +2,7 @@
 
 namespace Siakad\Scheduling\Application;
 
-use Siakad\Scheduling\Domain\Model\PeriodeKuliah;
+use Siakad\Scheduling\Domain\Model\Semester;
 use Siakad\Scheduling\Domain\Model\SemesterRepository;
 
 class MengelolaPeriodeSemesterService
@@ -16,7 +16,18 @@ class MengelolaPeriodeSemesterService
 
     public function execute(MengelolaPeriodeSemesterRequest $request)
     {
-        $this->semesterRepository->save($request->semesterData);
+        $this->semesterRepository->save(
+            new Semester(
+                $request->id,
+                $request->nama,
+                $request->singkatan,
+                $request->tahunAjaran,
+                $request->semester,
+                $request->aktif,
+                $request->tanggalMulai,
+                $request->tanggalSelesai
+            )
+        );
     }
 
     public function delete($id)

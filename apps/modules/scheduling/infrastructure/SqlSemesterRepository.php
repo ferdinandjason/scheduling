@@ -12,7 +12,9 @@ class SqlSemesterRepository implements SemesterRepository
     private $statement;
     private $statementTypes;
 
-    const INDEX_ID = 0, INDEX_NAMA = 1, INDEX_SINGKATAN = 2, INDEX_TAHUN_AJARAN = 3, INDEX_SEMESTER = 4, INDEX_AKTIF = 5, INDEX_TANGGAL_MULAI = 6, INDEX_TANGGAL_SELESAI = 7;
+    const INDEX_ID = 0, INDEX_NAMA = 1, INDEX_SINGKATAN = 2, INDEX_TAHUN_AJARAN = 3, INDEX_SEMESTER = 4,
+
+        INDEX_AKTIF = 5, INDEX_TANGGAL_MULAI = 6, INDEX_TANGGAL_SELESAI = 7;
 
     public function __construct($di)
     {
