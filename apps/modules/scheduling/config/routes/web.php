@@ -77,3 +77,10 @@ $router->add('/dosen/{id}/perwalian', [
     'controller' => 'perwalian',
     'action' => 'perwalian'
 ]);
+
+$router->add('/jadwal/perwalian/{nrpMahasiswa}', [
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'perwalian',
+    'action' => 'jadwalMahasiswa'
+]);

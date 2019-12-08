@@ -26,8 +26,7 @@
                         <th class="text-center" scope="row">{{ mahasiswa.getNama() }}</th>
                         <th class="text-center" scope="row">
                             <a class="btn btn-sm btn-circle btn-outline-info mr-5 mb-5" role="button"
-                            href="#"
-                            >
+                            href="{{ url('/jadwal/perwalian/' ~ mahasiswa.getNRP()) }}">
                                 <i class="fa fa-eye"></i></a>
                         </th>
                     </tr>
