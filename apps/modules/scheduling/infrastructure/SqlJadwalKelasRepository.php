@@ -217,5 +217,11 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             $statementData,
             $this->statementTypes['find_by_day']
         );
+
+        $jadwalKelas = array();
+        foreach ($result as $item) {
+            array_push($jadwalKelas, self::transformResultSetToEntity($item));
+        }
+        return $jadwalKelas;
     }
 }
