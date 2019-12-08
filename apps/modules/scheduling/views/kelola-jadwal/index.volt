@@ -14,11 +14,11 @@
                 <div class="" style="display: flex;">
                     <div class="form-material" style="display: flex;padding-top:0">
                         <select class="form-control" id="day" name="day" style="width: 100px;">
-                            <option value="Senin">Senin</option>
-                            <option value="Selasa">Selasa</option>
-                            <option value="Rabu">Rabu</option>
-                            <option value="Kamis">Kamis</option>
-                            <option value="Jumat">Jumat</option>
+                            <option value="0" {% if request.getQuery('day') == 0 %}selected {% endif %}>Senin</option>
+                            <option value="1" {% if request.getQuery('day') == 1 %}selected {% endif %}>Selasa</option>
+                            <option value="2" {% if request.getQuery('day') == 2 %}selected {% endif %}>Rabu</option>
+                            <option value="3" {% if request.getQuery('day') == 3 %}selected {% endif %}>Kamis</option>
+                            <option value="4" {% if request.getQuery('day') == 4 %}selected {% endif %}>Jumat</option>
                         </select>
                         <button type="submit" class="btn btn-alt-primary">Cari</button>
                     </div>
@@ -46,23 +46,22 @@
                                 AND jadwal.getPeriodeKuliah().getSelesai() == periode.getSelesai() %}
                             <th class="text-center" scope="row">
                                 <div>{{jadwal.getKelas().getMataKuliah().getNama()}}</div>
-                                <div>{{jadwal.getKelas().getMataKuliah().getKodeMatkul()}}</div>
+                                <div>{{jadwal.getKodeMatkulNamaKelasSKS()}}</div>
                                 <div>{{jadwal.getDosen().getNama()}}</div>
+                                <form method="POST" action="{{ url('/kelola-jadwal/' ~jadwal.getId()~ '/hapus') }}" onsubmit="return confirm('Apakah yakin untuk menghapus data?')">
+                                    <a class="btn btn-sm btn-circle btn-outline-info mr-5 mb-5" role="button"href="#">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <button type="submit" class="btn btn-sm btn-circle btn-outline-danger mr-5 mb-5">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
                             </th>
+                            
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
                     </tr>
-                    <!-- <tr>
-                        <th class="text-center" scope="row">{{ jadwal.getKelas().getMataKuliah().getKodeMatkul() }}</th>
-                        <th class="text-center" scope="row">{{ jadwal.getKelas().getMataKuliah().getNama() }}</th>
-                        <th class="text-center" scope="row">{{ jadwal.getKelas().getSksKelas() }}</th>
-                        <th class="text-center" scope="row">{{ jadwal.getKelas().getNama() }}</th>
-                        <th class="text-center" scope="row">{{ jadwal.getHariString() }}</th>
-                        <th class="text-center" scope="row">{{ jadwal.getPeriodeKuliah().getStringForm() }}</th>
-                        <th class="text-center" scope="row">{{ jadwal.getPrasarana().getNama() }}</th>
-                        <th class="text-center" scope="row">{{ jadwal.getDosen().getNama() }}</th>
-                    </tr> -->
                 {% endfor %}
             </tbody>
         </table>

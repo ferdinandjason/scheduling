@@ -20,17 +20,16 @@ class MengelolaJadwalKuliahService
         $message = null;
 
         try {
-            if($request->hasParameters()) {
-                $jadwalKuliahByDay = $this->jadwalKelasRepository->byDay(
-                    $request->day
-                );
-            } else {
-                $jadwalKuliahByDay = $this->jadwalKelasRepository->all();
-            }
+            $jadwalKuliahByDay = $this->jadwalKelasRepository->byDay($request->day);
         } catch (JadwalKelasNotFoundException $exception) {
             $message = $exception->getMessage();
         }
 
         return new MengelolaJadwalKuliahResponse($jadwalKuliahByDay, $message);
+    }
+
+    public function delete($id)
+    {
+        $this->jadwalKelasRepository->delete($id);
     }
 }

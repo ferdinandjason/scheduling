@@ -6,14 +6,9 @@ class MengelolaJadwalKuliahRequest
 {
     public $day;
 
-    public function __construct($day = null)
+    public function __construct($day = 0)
     {
         $this->day = $day;
-    }
-
-    public function hasParameters()
-    {
-        return $this->day != null;
     }
     
 }

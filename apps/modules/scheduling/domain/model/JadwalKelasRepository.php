@@ -7,5 +7,6 @@ interface JadwalKelasRepository
     public function all();
     public function byPeriodeKuliah($tipe, $tahun);
     public function byMahasiswa($nrp);
-    public function byDosen($id);
+    public function byDay($day);
+    public function delete($id);
 }

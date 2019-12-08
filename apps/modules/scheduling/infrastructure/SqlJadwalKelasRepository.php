@@ -82,6 +82,9 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                                     INNER JOIN `aktivitas_mengajar` on `jadwal_kelas`.id_kelas = `aktivitas_mengajar`.`id_kelas`
                                     INNER JOIN `dosen` ON `aktivitas_mengajar`.id_dosen = `dosen`.`id`
                 WHERE `jadwal_kelas`.`hari` = :day;
+            "),
+            'delete' => $this->connection->prepare("
+                DELETE FROM `jadwal_kelas` WHERE id = :id;
             ")
         ];
 
@@ -95,7 +98,10 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                 'nrpMahasiswa' => Column::BIND_PARAM_STR
             ],
             'find_by_day' => [
-                'day' => Column::BIND_PARAM_STR,
+                'day' => Column::BIND_PARAM_INT,
+            ],
+            'delete' => [
+                'id' => Column::BIND_PARAM_INT
             ]
         ];
 
@@ -243,8 +249,20 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
         return $jadwalKelas;
     }
 
-    public function byDosen($id)
+    public function delete($id)
     {
+        $statementData = [
+            'id' => $id
+        ];
 
+        $result = $this->connection->executePrepared(
+            $this->statement['delete'], 
+            $statementData, 
+            $this->statementTypes['delete']
+        );
+
+        if($this->connection->affectedRows() == 0) {
+            throw new JadwalKelasNotFoundException("Jadwal Kelas with id = {$id} not found");
+        }
     }
 }
