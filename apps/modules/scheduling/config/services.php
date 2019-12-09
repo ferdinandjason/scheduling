@@ -6,6 +6,7 @@ use Siakad\Scheduling\Infrastructure\SqlMahasiswaPerwalianRepository;
 use Siakad\Scheduling\Infrastructure\SqlPeriodeKuliahRepository;
 use Siakad\Scheduling\Infrastructure\SqlSemesterRepository;
 use Siakad\Scheduling\Infrastructure\SqlPrasaranaRepository;
+use Siakad\Scheduling\Infrastructure\SqlKelasRepository;
 
 $di['voltServiceMail'] = function($view) use ($di) {
 
@@ -61,5 +62,10 @@ $di->setShared('sql_prasarana_repository', function() use ($di) {
 
 $di->setShared('sql_mahasiswa_perwalian_repository', function() use ($di) {
     $repo = new SqlMahasiswaPerwalianRepository($di);
+    return $repo;
+});
+
+$di->setShared('sql_kelas_repository', function() use ($di) {
+    $repo = new SqlKelasRepository($di);
     return $repo;
 });

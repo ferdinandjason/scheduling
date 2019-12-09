@@ -23,4 +23,9 @@ class MengelolaJadwalKuliahRequest
     {
         return $this->id != null;
     }
+
+    public function hasDay()
+    {
+        return $this->day != null;
+    }
 }

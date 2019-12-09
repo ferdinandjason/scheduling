@@ -18,6 +18,13 @@ $router->add('/kelola-jadwal',[
     'action' => 'index'
 ]);
 
+$router->add('/kelola-jadwal/tambah',[
+    'namespace' => $namespaceWeb,
+    'module' => 'scheduling',
+    'controller' => 'jadwal',
+    'action' => 'create'
+]);
+
 $router->add('/kelola-jadwal/{id}/hapus',[
     'namespace' => $namespaceWeb,
     'module' => 'scheduling',

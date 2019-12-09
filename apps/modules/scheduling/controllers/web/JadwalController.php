@@ -16,12 +16,14 @@ class JadwalController extends Controller
     private $jadwalKuliahRepository;
     private $prasaranaRepository;
     private $periodeKuliahRepository;
+    private $kelasRepository;
 
     public function initialize()
     {
         $this->jadwalKuliahRepository = $this->di->getShared('sql_jadwal_kelas_repository');
         $this->prasaranaRepository = $this->di->getShared('sql_prasarana_repository');
         $this->periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
+        $this->kelasRepository = $this->di->getShared('sql_kelas_repository');
     }
 
     public function indexAction()
@@ -29,14 +31,18 @@ class JadwalController extends Controller
         $service = new MengelolaJadwalKuliahService(
             $this->jadwalKuliahRepository, 
             $this->prasaranaRepository,
-            $this->periodeKuliahRepository
+            $this->periodeKuliahRepository,
+            $this->kelasRepository
         );
 
         $day = $this->request->get('day');
-        if($day == NULL) $day = 0;
+        if($day == NULL) $day = '0';
+        
         $response = $service->execute(
             new MengelolaJadwalKuliahRequest(null, $day, null, null, null)
         );
+
+        // var_dump($response);exit(0);
 
         $this->view->setVar('jadwalKuliah', $response->data);
         $this->view->setVar('prasarana', $response->prasarana);
@@ -50,7 +56,8 @@ class JadwalController extends Controller
             $service = new MengelolaJadwalKuliahService(
                 $this->jadwalKuliahRepository, 
                 $this->prasaranaRepository,
-                $this->periodeKuliahRepository);
+                $this->periodeKuliahRepository,
+                $this->kelasRepository);
             $service->delete($id);
 
             $this->flashSession->notice('Data telah dihapus!');
@@ -63,19 +70,21 @@ class JadwalController extends Controller
         $service = new MengelolaJadwalKuliahService(
             $this->jadwalKuliahRepository, 
             $this->prasaranaRepository,
-            $this->periodeKuliahRepository);
+            $this->periodeKuliahRepository,
+            $this->kelasRepository);
         
             if ($this->request->isPost()) {
                 $service = new MengelolaJadwalKuliahService(
                     $this->jadwalKuliahRepository, 
                     $this->prasaranaRepository,
-                    $this->periodeKuliahRepository);
+                    $this->periodeKuliahRepository,
+                    $this->kelasRepository);
                 
                 $idKelas = $this->request->getPost('id_kelas');
                 $idPeriodeKuliah = $this->request->get('id_periode_kuliah');
                 $idPrasarana = $this->request->get('id_prasarana');
                 $hari = $this->request->get('hari'); 
-                $service->edit(new MengelolaJadwalKuliahRequest(
+                $service->save(new MengelolaJadwalKuliahRequest(
                     $id,
                     $hari,
                     $idKelas,
@@ -86,10 +95,6 @@ class JadwalController extends Controller
                 $this->flashSession->notice('Data telah diubah!');
             }
         
-        $service = new MengelolaJadwalKuliahService(
-            $this->jadwalKuliahRepository, 
-            $this->prasaranaRepository,
-            $this->periodeKuliahRepository);
         $response = $service->execute(new MengelolaJadwalKuliahRequest($id, null, null, null, null));
 
         $this->view->setVar('jadwalKuliah', $response->data);
@@ -97,5 +102,39 @@ class JadwalController extends Controller
         $this->view->setVar('prasarana', $response->prasarana);
         $this->view->setVar('periodeKuliah', $response->periode);
         return $this->view->pick('kelola-jadwal/edit');
+    }
+
+    public function createAction()
+    {
+        $service = new MengelolaJadwalKuliahService(
+            $this->jadwalKuliahRepository, 
+            $this->prasaranaRepository,
+            $this->periodeKuliahRepository,
+            $this->kelasRepository);
+
+        if($this->request->getPost('id_kelas') != null){
+            $hari =$this->request->getPost('hari');
+            $idPrasarana = $this->request->getPost('id_prasarana');
+            $idPeriodeKuliah = $this->request->getPost('id_periode_kuliah');
+            $idKelas = $this->request->getPost('id_kelas');
+            $service->save(new MengelolaJadwalKuliahRequest(
+                null,
+                $hari,
+                $idPrasarana,
+                $idPeriodeKuliah,
+                $idKelas,
+            ));
+            return $this->response->redirect('/kelola-jadwal?day='.$hari);
+
+        }
+        
+        $kelas = $service->getAllKelas();
+        $this->view->setVar('jadwalKuliah', $kelas);
+        $this->view->setVar('hari', $this->request->getPost('hari'));
+        $this->view->setVar('kelas', $this->request->getPost('kelas'));
+        $this->view->setVar('periode', $this->request->getPost('periode'));
+        $this->view->setVar('id_prasarana', $this->request->getPost('id_prasarana'));
+        $this->view->setVar('id_periode', $this->request->getPost('id_periode'));
+        return $this->view->pick('kelola-jadwal/create');
     }
 }

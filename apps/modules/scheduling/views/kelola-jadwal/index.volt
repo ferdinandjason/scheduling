@@ -60,10 +60,21 @@
                                 </form>
                             </th>
                             {% endif %}
-                        {%if kosong == 1 %}
-                        <th class="text-center" scope="row">-</th>
-                        {% endif %}
                         {% endfor %}
+                        {%if kosong == 1 %}
+                            <th class="text-center" scope="row">
+                                <form method="POST" action="{{ url('/kelola-jadwal/tambah') }}">
+                                    <input type="hidden" id="periode" name="periode" value="{{periode.getStringForm()}}">
+                                    <input type="hidden" id="periode" name="id_periode" value="{{periode.getId()}}">
+                                    <input type="hidden" id="kelas" name="kelas" value="{{kelas.getNama()}}">
+                                    <input type="hidden" id="periode" name="id_prasarana" value="{{kelas.getId()}}">
+                                    <input type="hidden" id="hari" name="hari" value="{{request.getQuery('day')}}">
+                                    <button type="submit" class="btn btn-sm btn-circle btn-outline-success mr-5 mb-5">
+                                            <i class="fa fa-plus-circle"></i>
+                                        </button>
+                                </form>
+                            </th>
+                        {% endif %}
                     {% endfor %}
                     </tr>
                 {% endfor %}

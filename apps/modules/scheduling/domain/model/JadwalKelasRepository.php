@@ -2,8 +2,6 @@
 
 namespace Siakad\Scheduling\Domain\Model;
 
-use Siakad\Scheduling\Application\MengelolaJadwalKuliahRequest;
-
 interface JadwalKelasRepository
 {
     public function all();

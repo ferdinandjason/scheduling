@@ -100,6 +100,10 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             'update' => $this->connection->prepare("
                 UPDATE jadwal_kelas SET id_kelas=:id_kelas, id_periode_kuliah=:id_periode_kuliah, id_prasarana=:id_prasarana, hari=:hari
                 WHERE  id = :id;
+            "),
+            'create' => $this->connection->prepare("
+                INSERT INTO `jadwal_kelas` (`id`, `id_kelas`, `id_periode_kuliah`, `id_prasarana`, `hari`) 
+                VALUES (NULL, :id_kelas, :id_periode_kuliah, :id_prasarana, :hari);
             ")
         ];
 
@@ -123,6 +127,12 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             ],
             'update' => [
                 'id' => Column::BIND_PARAM_INT,
+                'id_kelas' => Column::BIND_PARAM_INT,
+                'id_periode_kuliah' => Column::BIND_PARAM_INT,
+                'id_prasarana' => Column::BIND_PARAM_INT,
+                'hari' => Column::BIND_PARAM_INT
+            ],
+            'create' => [
                 'id_kelas' => Column::BIND_PARAM_INT,
                 'id_periode_kuliah' => Column::BIND_PARAM_INT,
                 'id_prasarana' => Column::BIND_PARAM_INT,
@@ -305,18 +315,32 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
 
     public function save($id, $idKelas, $idPeriodeKuliah, $idPrasarana, $hari)
     {
-        $statementData = [
-            'id' => $id,
-            'id_kelas' => $idKelas,
-            'id_periode_kuliah' => $idPeriodeKuliah,
-            'id_prasarana' => $idPrasarana,
-            'hari' => $hari
-        ];
+        if ($id == null){
+            $statementData = [
+                'id_kelas' => $idKelas,
+                'id_periode_kuliah' => $idPeriodeKuliah,
+                'id_prasarana' => $idPrasarana,
+                'hari' => $hari
+            ];
+            $this->connection->executePrepared(
+                $this->statement['create'], 
+                $statementData, 
+                $this->statementTypes['create']
+            );
 
-        $result = $this->connection->executePrepared(
-            $this->statement['update'], 
-            $statementData, 
-            $this->statementTypes['update']
-        );
+        } else{
+            $statementData = [
+                'id' => $id,
+                'id_kelas' => $idKelas,
+                'id_periode_kuliah' => $idPeriodeKuliah,
+                'id_prasarana' => $idPrasarana,
+                'hari' => $hari
+            ];
+            $this->connection->executePrepared(
+                $this->statement['update'], 
+                $statementData, 
+                $this->statementTypes['update']
+            );
+        }
     }
 }
