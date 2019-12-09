@@ -59,8 +59,26 @@ class MengelolaJadwalKuliahService
         $this->jadwalKelasRepository->delete($id);
     }
 
+    public function isAvailable($id, $idPeriodeKuliah, $idPrasarana, $day)
+    {
+        $response = $this->jadwalKelasRepository->countByPeriodePrasaranaHari(
+            $idPeriodeKuliah,
+            $idPrasarana,
+            $day   
+        );
+
+        return !$response['count'] || ($response['count'] == '1' && $response['id'] == $id);
+    }
+
     public function save(MengelolaJadwalKuliahRequest $request)
     {
+        if($request->id != null)
+        {
+            if(!$this->isAvailable($request->id, $request->idPeriodeKuliah, $request->idPrasarana, $request->day)){
+                return 0;
+            }
+        }
+
         $this->jadwalKelasRepository->save(
             $request->id,
             $request->idKelas,
@@ -68,6 +86,8 @@ class MengelolaJadwalKuliahService
             $request->idPrasarana,
             $request->day
         );
+
+        return 1;
     }
 
     public function getAllKelas()

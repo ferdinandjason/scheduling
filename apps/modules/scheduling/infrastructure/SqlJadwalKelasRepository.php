@@ -104,6 +104,12 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             'create' => $this->connection->prepare("
                 INSERT INTO `jadwal_kelas` (`id`, `id_kelas`, `id_periode_kuliah`, `id_prasarana`, `hari`) 
                 VALUES (NULL, :id_kelas, :id_periode_kuliah, :id_prasarana, :hari);
+            "),
+            'countByPeriodePrasaranaHari' => $this->connection->prepare("
+                SELECT COUNT(id) as count, id 
+                FROM jadwal_kelas 
+                WHERE id_prasarana=:id_prasarana AND id_periode_kuliah=:id_periode_kuliah AND hari=:hari
+                GROUP BY id;
             ")
         ];
 
@@ -137,7 +143,12 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                 'id_periode_kuliah' => Column::BIND_PARAM_INT,
                 'id_prasarana' => Column::BIND_PARAM_INT,
                 'hari' => Column::BIND_PARAM_INT
-            ]
+            ],
+            'countByPeriodePrasaranaHari' => [
+                'id_periode_kuliah' => Column::BIND_PARAM_INT,
+                'id_prasarana' => Column::BIND_PARAM_INT,
+                'hari' => Column::BIND_PARAM_INT
+            ],
         ];
 
     }
@@ -341,6 +352,23 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                 $statementData, 
                 $this->statementTypes['update']
             );
+        }
+    }
+
+    public function countByPeriodePrasaranaHari($idPeriodeKuliah, $idPrasarana, $hari)
+    {
+        $statementData = [
+            'id_periode_kuliah' => $idPeriodeKuliah,
+            'id_prasarana' => $idPrasarana,
+            'hari' => $hari
+        ];
+        $result = $this->connection->executePrepared(
+            $this->statement['countByPeriodePrasaranaHari'], 
+            $statementData, 
+            $this->statementTypes['countByPeriodePrasaranaHari']
+        );
+        foreach ($result as $item){
+            return $item;
         }
     }
 }

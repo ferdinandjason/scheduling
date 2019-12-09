@@ -11,4 +11,5 @@ interface JadwalKelasRepository
     public function delete($id);
     public function byId($id);
     public function save($id, $idKelas, $idPeriodeKuliah, $idPrasarana, $hari);
+    public function countByPeriodePrasaranaHari($idPeriodeKuliah, $idPrasarana, $hari);
 }

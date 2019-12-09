@@ -84,15 +84,19 @@ class JadwalController extends Controller
                 $idPeriodeKuliah = $this->request->get('id_periode_kuliah');
                 $idPrasarana = $this->request->get('id_prasarana');
                 $hari = $this->request->get('hari'); 
-                $service->save(new MengelolaJadwalKuliahRequest(
+                $save = $service->save(new MengelolaJadwalKuliahRequest(
                     $id,
                     $hari,
                     $idKelas,
                     $idPeriodeKuliah,
                     $idPrasarana
                 ));
-    
-                $this->flashSession->notice('Data telah diubah!');
+
+                if(!$save){
+                    $this->flashSession->warning('Tempat/Waktu tidak Tersedia!');
+                } else {
+                    $this->flashSession->notice('Data telah diubah!');
+                }
             }
         
         $response = $service->execute(new MengelolaJadwalKuliahRequest($id, null, null, null, null));
