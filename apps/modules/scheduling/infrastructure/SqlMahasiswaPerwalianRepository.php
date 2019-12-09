@@ -62,10 +62,6 @@ class SqlMahasiswaPerwalianRepository implements MahasiswaPerwalianRepository {
             array_push($mahasiswaPerwalian, self::transformResultSetToEntity($item));
         }
 
-        if( count($mahasiswaPerwalian) == 0) {
-            throw new MahasiswaPerwalianNotFoundException('No Mahasiswa Perwalian with this criteria');
-        }
-
         return $mahasiswaPerwalian;
     }
 }

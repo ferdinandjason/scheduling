@@ -5,7 +5,7 @@ $namespaceWeb = 'Siakad\Scheduling\Controllers\Web';
 $router->add('/jadwal/prodi',[
     'namespace' => $namespaceWeb,
     'module' => 'scheduling',
-    'controller' => 'scheduling',
+    'controller' => 'jadwal',
     'action' => 'prodi'
 ]);
 

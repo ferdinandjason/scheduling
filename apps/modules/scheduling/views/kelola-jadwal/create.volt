@@ -55,7 +55,7 @@
 
                     <button type="submit" class="btn btn-alt-primary mr-5 mb-5">
                         <i class="fa fa-floppy-o"></i> Simpan</button>
-                    <a class="btn btn-alt-secondary mr-5 mb-5" role="button" href="{{ url('/kelola-jadwal/create') }}">
+                    <a class="btn btn-alt-secondary mr-5 mb-5" role="button" href="{{ url('/kelola-jadwal') }}">
                         <i class="fa fa-times"></i> Batal</a>
                 </form>
             </div>

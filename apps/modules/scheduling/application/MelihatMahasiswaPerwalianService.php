@@ -16,6 +16,7 @@ class MelihatMahasiswaPerwalianService
 
     public function execute(MelihatMahasiswaPerwalianRequest $request) {
         $message = null;
+        $mahasiswa = null;
 
         try {
             $mahasiswa = $this->mahasiswaPerwalianRepository->findByDosenWali($request->dosenId);

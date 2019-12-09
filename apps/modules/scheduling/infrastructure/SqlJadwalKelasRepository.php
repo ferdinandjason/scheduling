@@ -11,6 +11,7 @@ use Siakad\Scheduling\Domain\Model\MataKuliah;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliah;
 use Siakad\Scheduling\Domain\Model\Prasarana;
 use Siakad\Scheduling\Domain\Model\Semester;
+use Siakad\Scheduling\Exception\DatabaseErrorException;
 use Siakad\Scheduling\Exception\JadwalKelasNotFoundException;
 
 class SqlJadwalKelasRepository implements JadwalKelasRepository
@@ -215,10 +216,6 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             array_push($jadwalKelas, self::transformResultSetToEntity($item));
         }
 
-        if ( count($jadwalKelas) == 0) {
-            throw new JadwalKelasNotFoundException("No Jadwal Kelas found");
-        }
-
         return $jadwalKelas;
     }
 
@@ -240,10 +237,6 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             array_push($jadwalKelas, self::transformResultSetToEntity($item));
         }
 
-        if ( count($jadwalKelas) == 0) {
-            throw new JadwalKelasNotFoundException("No Jadwal Kelas found with this criteria");
-        }
-
         return $jadwalKelas;
     }
 
@@ -262,10 +255,6 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
         $jadwalKelas = array();
         foreach ($result as $item) {
             array_push($jadwalKelas, self::transformResultSetToEntity($item));
-        }
-
-        if ( count($jadwalKelas) == 0) {
-            throw new JadwalKelasNotFoundException("No Jadwal Kelas found with this criteria");
         }
 
         return $jadwalKelas;
@@ -333,11 +322,16 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                 'id_prasarana' => $idPrasarana,
                 'hari' => $hari
             ];
+
             $this->connection->executePrepared(
                 $this->statement['create'], 
                 $statementData, 
                 $this->statementTypes['create']
             );
+
+            if($this->connection->lastInsertId() != 0) {
+                throw new DatabaseErrorException("Jadwal Kelas with id = {$id} failed to save");
+            }
 
         } else{
             $statementData = [
@@ -347,11 +341,16 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                 'id_prasarana' => $idPrasarana,
                 'hari' => $hari
             ];
+
             $this->connection->executePrepared(
                 $this->statement['update'], 
                 $statementData, 
                 $this->statementTypes['update']
             );
+
+            if($this->connection->afftectedRows() == 0) {
+                throw new JadwalKelasNotFoundException("Jadwal Kelas with id = {$id} not found");
+            }
         }
     }
 
@@ -362,11 +361,13 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             'id_prasarana' => $idPrasarana,
             'hari' => $hari
         ];
+
         $result = $this->connection->executePrepared(
             $this->statement['countByPeriodePrasaranaHari'], 
             $statementData, 
             $this->statementTypes['countByPeriodePrasaranaHari']
         );
+
         foreach ($result as $item){
             return $item;
         }

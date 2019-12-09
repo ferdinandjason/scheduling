@@ -44,10 +44,6 @@ class SqlPrasaranaRepository implements PrasaranaRepository
             array_push($prasarana, self::transformResultSetToEntity($item));
         }
 
-        if( count($prasarana) == 0) {
-            throw new PrasaranaNotFoundException('No Prasarana Found');
-        }
-
         return $prasarana;
     }
 }

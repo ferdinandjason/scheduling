@@ -70,8 +70,8 @@
                                     <input type="hidden" id="periode" name="id_prasarana" value="{{kelas.getId()}}">
                                     <input type="hidden" id="hari" name="hari" value="{{request.getQuery('day')}}">
                                     <button type="submit" class="btn btn-sm btn-circle btn-outline-success mr-5 mb-5">
-                                            <i class="fa fa-plus-circle"></i>
-                                        </button>
+                                        <i class="fa fa-plus-circle"></i>
+                                    </button>
                                 </form>
                             </th>
                         {% endif %}

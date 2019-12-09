@@ -106,10 +106,6 @@ class SqlSemesterRepository implements SemesterRepository
             array_push($semester, self::transformResultSetToEntity($item));
         }
 
-        if (count($semester) == 0) {
-            throw new SemesterNotFoundException("No Semester found!");
-        }
-        
         return $semester;
     }
 
@@ -128,8 +124,6 @@ class SqlSemesterRepository implements SemesterRepository
         foreach ($result as $item) {
             return self::transformResultSetToEntity($item);
         }
-
-        throw new SemesterNotFoundException("Semester with id = {$id} not found");
     }
 
     public function save(Semester $periodeSemester)

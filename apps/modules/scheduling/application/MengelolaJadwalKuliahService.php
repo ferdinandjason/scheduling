@@ -89,9 +89,4 @@ class MengelolaJadwalKuliahService
 
         return 1;
     }
-
-    public function getAllKelas()
-    {
-        return $this->kelasRepository->all();
-    }
 }

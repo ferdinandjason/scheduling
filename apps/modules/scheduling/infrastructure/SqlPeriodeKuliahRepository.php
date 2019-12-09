@@ -83,10 +83,6 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             array_push($periodeKuliah, self::transformResultSetToEntity($item));
         }
 
-        if (count($periodeKuliah) == 0) {
-            throw new PeriodeKuliahNotFoundException("No Periode Kuliah found!");
-        }
-
         return $periodeKuliah;
     }
 
@@ -105,8 +101,6 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
         foreach ($result as $item) {
             return self::transformResultSetToEntity($item);
         }
-
-        throw new PeriodeKuliahNotFoundException("Periode Kuliah with id = {$id} not found");
     }
 
     public function save(PeriodeKuliah $periodeKuliah)
