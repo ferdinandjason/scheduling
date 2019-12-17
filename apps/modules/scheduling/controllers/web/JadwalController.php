@@ -58,7 +58,8 @@ class JadwalController extends Controller
                 $this->jadwalKuliahRepository, 
                 $this->prasaranaRepository,
                 $this->periodeKuliahRepository,
-                $this->kelasRepository);
+                $this->kelasRepository
+            );
             $service->delete($id);
 
             $this->flashSession->notice('Data telah dihapus!');
@@ -126,9 +127,9 @@ class JadwalController extends Controller
                 new MengelolaJadwalKuliahRequest(
                     null,
                     $hari,
-                    $idPrasarana,
+                    $idKelas,
                     $idPeriodeKuliah,
-                    $idKelas
+                    $idPrasarana
                 )
             );
 

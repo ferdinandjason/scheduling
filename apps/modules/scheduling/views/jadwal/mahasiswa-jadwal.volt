@@ -3,6 +3,9 @@
 {% block title %}Jadwal Kuliah Mahasiswa{% endblock %}
 
 {% block content %}
+
+<a class="btn btn-info" href="{{ url('/dosen/1/perwalian') }}">Back</a><br />
+
 <div class="block">
     <div class="block-header block-header-default">
         <h3 class="block-title">Jadwal Kuliah Mahasiswa</h3>

@@ -291,10 +291,6 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             $statementData, 
             $this->statementTypes['delete']
         );
-
-        if($this->connection->affectedRows() == 0) {
-            throw new JadwalKelasNotFoundException("Jadwal Kelas with id = {$id} not found");
-        }
     }
 
     public function byId($id)
@@ -323,13 +319,13 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                 'hari' => $hari
             ];
 
-            $this->connection->executePrepared(
+            $success = $this->connection->executePrepared(
                 $this->statement['create'], 
                 $statementData, 
                 $this->statementTypes['create']
             );
 
-            if($this->connection->lastInsertId() != 0) {
+            if(!$success) {
                 throw new DatabaseErrorException("Jadwal Kelas with id = {$id} failed to save");
             }
 
@@ -342,13 +338,13 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                 'hari' => $hari
             ];
 
-            $this->connection->executePrepared(
+            $success = $this->connection->executePrepared(
                 $this->statement['update'], 
                 $statementData, 
                 $this->statementTypes['update']
             );
 
-            if($this->connection->afftectedRows() == 0) {
+            if(!$success) {
                 throw new JadwalKelasNotFoundException("Jadwal Kelas with id = {$id} not found");
             }
         }

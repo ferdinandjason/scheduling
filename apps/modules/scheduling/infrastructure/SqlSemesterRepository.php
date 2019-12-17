@@ -139,13 +139,13 @@ class SqlSemesterRepository implements SemesterRepository
                 'tanggalSelesai' => $periodeSemester->getTanggalSelesai(),
             ];
 
-            $result = $this->connection->executePrepared(
+            $success = $this->connection->executePrepared(
                 $this->statement['save'],
                 $statementData,
                 $this->statementTypes['save']
             );
 
-            if($this->connection->lastInsertId() != 0) {
+            if(!$success) {
                 throw new DatabaseErrorException("Semester {$periodeSemester->getNama()} failed to save");
             }
 
@@ -162,13 +162,13 @@ class SqlSemesterRepository implements SemesterRepository
                 'id' => $periodeSemester->getId(),
             ];
 
-            $result = $this->connection->executePrepared(
+            $success = $this->connection->executePrepared(
                 $this->statement['update'],
                 $statementData,
                 $this->statementTypes['update']
             );
 
-            if($this->connection->affectedRows() == 0) {
+            if(!$success) {
                 throw new SemesterNotFoundException("Semester with id = {$periodeSemester->getId()} not found");
             }
         }
@@ -184,9 +184,5 @@ class SqlSemesterRepository implements SemesterRepository
             $statementData,
             $this->statementTypes['delete']
         );
-
-        if($this->connection->affectedRows() == 0) {
-            throw new SemesterNotFoundException("Semester with id = {$id} not found");
-        }
     }
 }

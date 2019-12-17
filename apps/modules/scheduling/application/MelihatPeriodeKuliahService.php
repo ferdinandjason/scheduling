@@ -3,7 +3,7 @@
 namespace Siakad\Scheduling\Application;
 
 use Siakad\Scheduling\Domain\Model\PeriodeKuliahRepository;
-use Siakad\scheduling\exception\PeriodeKuliahNotFoundException;
+use Siakad\Scheduling\Exception\PeriodeKuliahNotFoundException;
 
 class MelihatPeriodeKuliahService
 {

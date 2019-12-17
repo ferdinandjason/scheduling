@@ -2,8 +2,16 @@
 
 {% block title %}Jadwal Kuliah Prodi{% endblock %}
 
+{% block styles%}
+<style>
+    .content {
+        max-width:100% !important;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="block">
+<div class="block" style="max-width: 100% !important;">
     <div class="block-header block-header-default">
         <h3 class="block-title">Jadwal Kuliah Prodi</h3>
     </div>
@@ -47,11 +55,11 @@
                                 AND jadwal.getPeriodeKuliah().getSelesai() == periode.getSelesai() %}
                                 {% set kosong = 0 %}
                             <th class="text-center" scope="row">
-                                <div>{{jadwal.getKelas().getMataKuliah().getNama()}}</div>
+                                <div>{{jadwal.getKelas().getMataKuliah().getNama()}} - {{jadwal.getKelas().getNama()}}</div>
                                 <div>{{jadwal.getKodeMatkulNamaKelasSKS()}}</div>
                                 <div>{{jadwal.getDosen().getNama()}}</div>
-                                <form method="GET" action="{{ url('/kelola-jadwal/' ~jadwal.getId()~ '/hapus') }}" onsubmit="return confirm('Apakah yakin untuk menghapus data?')">
-                                    <a class="btn btn-sm btn-circle btn-outline-info mr-5 mb-5" role="button"href="{{ url('/kelola-jadwal/' ~jadwal.getId()~ '/edit') }}">
+                                <form method="POST" action="{{ url('/kelola-jadwal/' ~jadwal.getId()~ '/hapus') }}" onsubmit="return confirm('Apakah yakin untuk menghapus data?')">
+                                    <a class="btn btn-sm btn-circle btn-outline-info mr-5 mb-5" role="button" href="{{ url('/kelola-jadwal/' ~jadwal.getId()~ '/edit') }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                     <button type="submit" class="btn btn-sm btn-circle btn-outline-danger mr-5 mb-5">
@@ -68,7 +76,7 @@
                                     <input type="hidden" id="periode" name="id_periode" value="{{periode.getId()}}">
                                     <input type="hidden" id="kelas" name="kelas" value="{{kelas.getNama()}}">
                                     <input type="hidden" id="periode" name="id_prasarana" value="{{kelas.getId()}}">
-                                    <input type="hidden" id="hari" name="hari" value="{{request.getQuery('day')}}">
+                                    <input type="hidden" id="hari" name="hari" value="{% if request.getQuery('day') != null %} {{request.getQuery('day')}} {% else %} {{0}} {% endif %}">
                                     <button type="submit" class="btn btn-sm btn-circle btn-outline-success mr-5 mb-5">
                                         <i class="fa fa-plus-circle"></i>
                                     </button>

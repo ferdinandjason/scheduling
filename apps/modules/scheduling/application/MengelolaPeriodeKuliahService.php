@@ -5,7 +5,7 @@ namespace Siakad\Scheduling\Application;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliah;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliahRepository;
 use Siakad\Scheduling\Exception\DatabaseErrorException;
-use Siakad\scheduling\exception\PeriodeKuliahNotFoundException;
+use Siakad\Scheduling\Exception\PeriodeKuliahNotFoundException;
 
 class MengelolaPeriodeKuliahService
 {

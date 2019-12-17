@@ -6,7 +6,7 @@ use Phalcon\Db\Column;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliah;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliahRepository;
 use Siakad\Scheduling\Exception\DatabaseErrorException;
-use Siakad\scheduling\exception\PeriodeKuliahNotFoundException;
+use Siakad\Scheduling\Exception\PeriodeKuliahNotFoundException;
 
 class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
 {
@@ -111,14 +111,14 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
                 'selesai' => $periodeKuliah->getSelesai()
             ];
 
-            $result = $this->connection->executePrepared(
+            $success = $this->connection->executePrepared(
                 $this->statement['save'],
                 $statementData,
                 $this->statementTypes['save']
             );
 
-            if($this->connection->lastInsertId() != 0) {
-                throw new DatabaseErrorException("Periode Kuliah {$periodeKuliah->getNama()} failed to save");
+            if(!$success) {
+                throw new DatabaseErrorException("Periode Kuliah failed to save");
             }
         }
         else {
@@ -128,13 +128,13 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
                 'selesai' => $periodeKuliah->getSelesai()
             ];
 
-            $result = $this->connection->executePrepared(
+            $success = $this->connection->executePrepared(
                 $this->statement['update'],
                 $statementData,
                 $this->statementTypes['update']
             );
 
-            if($this->connection->afftectedRows() == 0) {
+            if(!$success) {
                 throw new PeriodeKuliahNotFoundException("Periode Kuliah with id = {$periodeKuliah->getId()} not found");
             }
         }
@@ -150,9 +150,5 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             $statementData,
             $this->statementTypes['delete']
         );
-
-        if($this->connection->afftectedRows() == 0) {
-            throw new PeriodeKuliahNotFoundException("Periode Kuliah with id = {$id} not found");
-        }
     }
 }
