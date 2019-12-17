@@ -22,12 +22,12 @@ class SemesterController extends Controller
     public function indexAction()
     {
         $service = new MelihatPeriodeSemesterService($this->semesterRepository);
-        $response = $service->execute(
-            new MelihatPeriodeSemesterRequest()
-        );
-
-        if($response->hasMessage()) {
-            $this->flashSession->warning($response->message);
+        try {
+            $response = $service->execute(
+                new MelihatPeriodeSemesterRequest()
+            );
+        } catch (ApplicationException $exception) {
+            $this->flashSession->warning($exception->getMessage());
         }
 
         $this->view->setVar('periodeSemester', $response->data);

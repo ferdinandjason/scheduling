@@ -314,9 +314,7 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                 $this->statementTypes['create']
             );
 
-            if(!$success) {
-                throw new DatabaseErrorException("Jadwal Kelas with id = {$id} failed to save");
-            }
+            return $success;
 
         } else{
             $statementData = [
@@ -333,9 +331,7 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
                 $this->statementTypes['update']
             );
 
-            if(!$success) {
-                throw new JadwalKelasNotFoundException("Jadwal Kelas with id = {$id} not found");
-            }
+            return $success;
         }
     }
 

@@ -22,12 +22,12 @@ class PeriodeKuliahController extends Controller
     public function indexAction()
     {
         $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
-        $response = $service->execute(
-            new MelihatPeriodeKuliahRequest()
-        );
-
-        if($response->hasMessage()) {
-            $this->flashSession->warning($response->message);
+        try {
+            $response = $service->execute(
+                new MelihatPeriodeKuliahRequest()
+            );
+        } catch (ApplicationException $exception) {
+            $this->flashSession->warning($exception->getMessage());
         }
 
         $this->view->setVar('periodeKuliah', $response->data);
