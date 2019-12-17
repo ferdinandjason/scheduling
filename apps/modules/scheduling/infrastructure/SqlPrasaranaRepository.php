@@ -20,11 +20,18 @@ class SqlPrasaranaRepository implements PrasaranaRepository
         $this->statement = [
             'all' => $this->connection->prepare("
                 SELECT * FROM `prasarana`;
+            "),
+            'find_by_id' => $this->connection->prepare("
+                SELECT * FROM `prasarana`
+                WHERE `id` = :id;
             ")
         ];
 
         $this->statementTypes = [
-            'all' => []
+            'all' => [],
+            'find_by_id' => [
+                Column::BIND_PARAM_INT,
+            ]
         ];
     }
 
@@ -45,5 +52,21 @@ class SqlPrasaranaRepository implements PrasaranaRepository
         }
 
         return $prasarana;
+    }
+
+    public function byId($id)
+    {
+        $statementData = [
+            'id' => $id
+        ];
+        $result = $this->connection->executePrepared(
+            $this->statement['find_by_id'],
+            $statementData,
+            $this->statementTypes['find_by_id']
+        );
+
+        foreach ($result as $item){
+            return self::transformResultSetToEntity($item);
+        }
     }
 }

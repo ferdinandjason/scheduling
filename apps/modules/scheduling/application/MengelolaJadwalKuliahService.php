@@ -2,30 +2,34 @@
 
 namespace Siakad\Scheduling\Application;
 
-use Siakad\Scheduling\Domain\Model\JadwalKelasRepository;
+use Siakad\Scheduling\Domain\Model\DosenRepository;
+use Siakad\Scheduling\Domain\Model\JadwalKelas;
+use Siakad\Scheduling\Domain\Model\JadwalKuliahProdiRepository;
 use Siakad\Scheduling\Domain\Model\PrasaranaRepository;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliahRepository;
-use Siakad\Scheduling\Exception\JadwalKelasNotFoundException;
 use Siakad\Scheduling\Domain\Model\KelasRepository;
 
 class MengelolaJadwalKuliahService
 {
-    private $jadwalKelasRepository;
+    private $jadwalKuliahProdiRepository;
     private $prasaranaRepository;
     private $periodeKuliahRepository;
     private $kelasRepository;
+    private $dosenRepository;
 
     public function __construct(
-        JadwalKelasRepository $jadwalKelasRepository, 
+        JadwalKuliahProdiRepository $jadwalKuliahProdiRepository,
         PrasaranaRepository $prasaranaRepository, 
         PeriodeKuliahRepository $periodeKuliahRepository,
-        KelasRepository $kelasRepository
+        KelasRepository $kelasRepository,
+        DosenRepository $dosenRepository
     )
     {
-        $this->jadwalKelasRepository = $jadwalKelasRepository;
+        $this->jadwalKuliahProdiRepository = $jadwalKuliahProdiRepository;
         $this->prasaranaRepository = $prasaranaRepository;
         $this->periodeKuliahRepository = $periodeKuliahRepository;
         $this->kelasRepository = $kelasRepository;
+        $this->dosenRepository = $dosenRepository;
     }
 
     public function execute(MengelolaJadwalKuliahRequest $request)
@@ -38,17 +42,11 @@ class MengelolaJadwalKuliahService
         $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
         $periodeKuliah = $service->execute(new MelihatPeriodeKuliahRequest())->data;
 
+        $jadwalKuliahProdi = $this->jadwalKuliahProdiRepository->byDay($request->day);
+
         if($request->hasId()){
-            try{
-                $jadwalById = $this->jadwalKelasRepository->byId($request->id);
-            } catch (JadwalKelasNotFoundException $exception) {
-                $message = $exception->getMessage();
-            }
-            $jadwalKuliah = $this->jadwalKelasRepository->all();
 
             return new MengelolaJadwalKuliahResponse($jadwalKuliah, $periodeKuliah, $prasarana, $jadwalById, $message);
-        } else if($request->hasDay()) {
-            $jadwalKuliah = $this->jadwalKelasRepository->byDay($request->day);
         }
 
         return new MengelolaJadwalKuliahResponse($jadwalKuliah, $periodeKuliah, $prasarana, null, $message);
@@ -70,23 +68,30 @@ class MengelolaJadwalKuliahService
         return !$response['count'] || ($response['count'] == '1' && $response['id'] == $id);
     }
 
-    public function save(MengelolaJadwalKuliahRequest $request)
+    public function saveJadwalKuliahService(MengelolaJadwalKuliahRequest $request)
     {
-        if($request->id != null)
-        {
-            if(!$this->isAvailable($request->id, $request->idPeriodeKuliah, $request->idPrasarana, $request->day)){
-                return 0;
-            }
-        }
+        $jadwalKuliah = $this->jadwalKuliahProdiRepository->byDay($request->day);
 
-        $this->jadwalKelasRepository->save(
-            $request->id,
-            $request->idKelas,
-            $request->idPeriodeKuliah,
-            $request->idPrasarana,
-            $request->day
+        $kelas = $this->kelasRepository->byId($request->idKelas);
+        $periodeKuliah = $this->periodeKuliahRepository->byId($request->idPeriodeKuliah);
+        $prasarana = $this->prasaranaRepository->byId($request->idPrasarana);
+        $dosen = $this->dosenRepository->byIdKelas($request->idKelas);
+
+        $newJadwalKuliah = $jadwalKuliah->addJadwalKuliahProdi(
+            new JadwalKelas(
+                null,
+                $kelas,
+                $periodeKuliah,
+                $prasarana,
+                $request->day,
+                $dosen
+            )
         );
+        $this->jadwalKuliahProdiRepository->save($newJadwalKuliah);
+    }
 
-        return 1;
+    public function updateJadwalKuliahService(MengelolaJadwalKuliahRequest $request)
+    {
+
     }
 }

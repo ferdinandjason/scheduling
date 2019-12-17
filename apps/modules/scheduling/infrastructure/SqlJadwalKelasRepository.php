@@ -87,7 +87,7 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             'delete' => $this->connection->prepare("
                 DELETE FROM `jadwal_kelas` WHERE id = :id;
             "),
-            'byId' => $this->connection->prepare("
+            'find_by_id' => $this->connection->prepare("
                 SELECT *
                 FROM `jadwal_kelas` INNER JOIN `kelas` ON `jadwal_kelas`.`id_kelas` = `kelas`.`id`
                                     INNER JOIN `periode_kuliah` ON `jadwal_kelas`.`id_periode_kuliah` = `periode_kuliah`.`id`
@@ -105,12 +105,6 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             'create' => $this->connection->prepare("
                 INSERT INTO `jadwal_kelas` (`id`, `id_kelas`, `id_periode_kuliah`, `id_prasarana`, `hari`) 
                 VALUES (NULL, :id_kelas, :id_periode_kuliah, :id_prasarana, :hari);
-            "),
-            'countByPeriodePrasaranaHari' => $this->connection->prepare("
-                SELECT COUNT(id) as count, id 
-                FROM jadwal_kelas 
-                WHERE id_prasarana=:id_prasarana AND id_periode_kuliah=:id_periode_kuliah AND hari=:hari
-                GROUP BY id;
             ")
         ];
 
@@ -129,7 +123,7 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             'delete' => [
                 'id' => Column::BIND_PARAM_INT
             ],
-            'byId' => [
+            'find_by_id' => [
                 'id' => Column::BIND_PARAM_INT
             ],
             'update' => [
@@ -141,11 +135,6 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             ],
             'create' => [
                 'id_kelas' => Column::BIND_PARAM_INT,
-                'id_periode_kuliah' => Column::BIND_PARAM_INT,
-                'id_prasarana' => Column::BIND_PARAM_INT,
-                'hari' => Column::BIND_PARAM_INT
-            ],
-            'countByPeriodePrasaranaHari' => [
                 'id_periode_kuliah' => Column::BIND_PARAM_INT,
                 'id_prasarana' => Column::BIND_PARAM_INT,
                 'hari' => Column::BIND_PARAM_INT
@@ -299,9 +288,9 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
             'id' => $id
         ];
         $result = $this->connection->executePrepared(
-            $this->statement['byId'], 
+            $this->statement['find_by_id'],
             $statementData, 
-            $this->statementTypes['byId']
+            $this->statementTypes['find_by_id']
         );
 
         foreach ($result as $item){
@@ -350,22 +339,4 @@ class SqlJadwalKelasRepository implements JadwalKelasRepository
         }
     }
 
-    public function countByPeriodePrasaranaHari($idPeriodeKuliah, $idPrasarana, $hari)
-    {
-        $statementData = [
-            'id_periode_kuliah' => $idPeriodeKuliah,
-            'id_prasarana' => $idPrasarana,
-            'hari' => $hari
-        ];
-
-        $result = $this->connection->executePrepared(
-            $this->statement['countByPeriodePrasaranaHari'], 
-            $statementData, 
-            $this->statementTypes['countByPeriodePrasaranaHari']
-        );
-
-        foreach ($result as $item){
-            return $item;
-        }
-    }
 }
