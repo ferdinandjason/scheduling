@@ -69,7 +69,11 @@ class MengelolaJadwalKuliahService
                 $dosen
             )
         );
-        $this->jadwalKuliahProdiRepository->save($newJadwalKuliah);
+        $success = $this->jadwalKuliahProdiRepository->save($newJadwalKuliah);
+
+        if(!$success) {
+            throw new ApplicationException("Jadwal Kuliah failed to be saved");
+        }
     }
 
     public function updateJadwalKuliahService(MengelolaJadwalKuliahRequest $request)
@@ -81,5 +85,9 @@ class MengelolaJadwalKuliahService
             $request->idPrasarana,
             $request->day
         );
+
+        if(!$success) {
+            throw new ApplicationException("Jadwal Kuliah failed to be saved");
+        }
     }
 }
