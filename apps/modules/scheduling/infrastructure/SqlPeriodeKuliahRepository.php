@@ -141,6 +141,7 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
     }
 
     public function delete($id) {
+
         $statementData = [
             'id' => $id,
         ];
