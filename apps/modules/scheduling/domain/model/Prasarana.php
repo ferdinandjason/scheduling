@@ -18,19 +18,9 @@ class Prasarana
         return $this->id;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
     public function getNama()
     {
         return $this->nama;
-    }
-
-    public function setNama($nama)
-    {
-        $this->nama = $nama;
     }
 
 }

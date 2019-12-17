@@ -3,6 +3,7 @@
 namespace Siakad\Scheduling\Controllers\Web;
 
 use Phalcon\Mvc\Controller;
+use Siakad\Scheduling\Application\ApplicationException;
 use Siakad\Scheduling\Application\MelihatPeriodeKuliahRequest;
 use Siakad\Scheduling\Application\MelihatPeriodeKuliahService;
 use Siakad\Scheduling\Application\MengelolaPeriodeKuliahRequest;
@@ -65,9 +66,13 @@ class PeriodeKuliahController extends Controller
         }
 
         $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
-        $response = $service->execute(
-            new MelihatPeriodeKuliahRequest($id)
-        );
+        try {
+            $response = $service->execute(
+                new MelihatPeriodeKuliahRequest($id)
+            );
+        } catch(ApplicationException $e) {
+
+        }
 
         if ($response->hasMessage()) {
             $this->flashSession->warning($response->message);
@@ -82,7 +87,11 @@ class PeriodeKuliahController extends Controller
     {
         if ($this->request->isPost()) {
             $service = new MengelolaPeriodeKuliahService($this->periodeKuliahRepository);
-            $response = $service->delete($id);
+            try {
+                $response = $service->delete($id);
+            } catch (ApplicationException $e) {
+
+            }
 
             if($response->hasMessage()) {
                 $this->flashSession->warning($response->message);
@@ -96,11 +105,11 @@ class PeriodeKuliahController extends Controller
     private function saveAction($request) {
         $periodeKuliahRequest = null;
         
-        $jamMulai = $this->request->getPost['jam_mulai'];
-        $jamSelesai = $this->request->getPost['jam_selesai'];
+        $jamMulai = $request['jam_mulai'];
+        $jamSelesai = $request['jam_selesai'];
 
         if (array_key_exists('id_periode_kuliah', $request)) {
-            $id = $this->request->getPost('id_periode_kuliah');
+            $id = $request['id_periode_kuliah'];
             $periodeKuliahRequest = new MengelolaPeriodeKuliahRequest(
                 $id, $jamMulai,$jamSelesai);
         } else {
@@ -109,7 +118,11 @@ class PeriodeKuliahController extends Controller
         }
 
         $service = new MengelolaPeriodeKuliahService($this->periodeKuliahRepository);
-        $response = $service->execute($periodeKuliahRequest);
+        try {
+            $response = $service->execute($periodeKuliahRequest);
+        } catch(ApplicationException $e) {
+
+        }
 
         return $response;
     }

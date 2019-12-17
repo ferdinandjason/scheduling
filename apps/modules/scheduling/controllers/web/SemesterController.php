@@ -3,6 +3,7 @@
 namespace Siakad\Scheduling\Controllers\Web;
 
 use Phalcon\Mvc\Controller;
+use Siakad\Scheduling\Application\ApplicationException;
 use Siakad\Scheduling\Application\MelihatPeriodeSemesterRequest;
 use Siakad\Scheduling\Application\MelihatPeriodeSemesterService;
 use Siakad\Scheduling\Application\MengelolaPeriodeSemesterRequest;
@@ -65,9 +66,13 @@ class SemesterController extends Controller
         }
 
         $service = new MelihatPeriodeSemesterService($this->semesterRepository);
-        $response = $service->execute((
-            new MelihatPeriodeSemesterRequest($id)
-        ));
+        try {
+            $response = $service->execute(
+                new MelihatPeriodeSemesterRequest($id)
+            );
+        } catch (ApplicationException $e) {
+
+        }
 
         if($response->hasMessage()) {
             $this->flashSession->warning($response->message);
@@ -122,8 +127,12 @@ class SemesterController extends Controller
         }
 
         $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
-        if ($this)
-        $response = $service->execute($periodeSemesterRequest);
+        
+        try {
+            $response = $service->execute($periodeSemesterRequest);
+        } catch (ApplicationException $e) {
+
+        }
 
         return $response;
     }
