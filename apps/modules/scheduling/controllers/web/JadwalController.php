@@ -122,7 +122,7 @@ class JadwalController extends Controller
         $periodeKuliah = $service->execute(new MelihatPeriodeKuliahRequest())->data;
 
         $this->view->setVar('jadwalKuliah', $jadwalKuliah);
-        $this->view->setVar('jadwal', $response->jadwal);
+        $this->view->setVar('jadwal', $jadwal);
         $this->view->setVar('prasarana', $prasarana);
         $this->view->setVar('periodeKuliah', $periodeKuliah);
         return $this->view->pick('kelola-jadwal/edit');
