@@ -54,7 +54,7 @@
                                 AND jadwal.getPeriodeKuliah().getMulai() == periode.getMulai() 
                                 AND jadwal.getPeriodeKuliah().getSelesai() == periode.getSelesai() %}
                                 {% set kosong = 0 %}
-                            <th class="text-center" scope="row">
+                            <th class="text-center" scope="row"{% if !jadwal.isValid() %} style="background:red" {% endif %}>
                                 <div>{{jadwal.getKelas().getMataKuliah().getNama()}} - {{jadwal.getKelas().getNama()}}</div>
                                 <div>{{jadwal.getKodeMatkulNamaKelasSKS()}}</div>
                                 <div>{{jadwal.getDosen().getNama()}}</div>
