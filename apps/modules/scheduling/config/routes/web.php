@@ -39,7 +39,7 @@ $router->add('/kelola-jadwal/{id}/edit',[
     'action' => 'edit'
 ]);
 
-$router->add('/kelola-jadwal/validasi',[
+$router->add('/kelola-jadwal/{hari}/validasi',[
     'namespace' => $namespaceWeb,
     'module' => 'scheduling',
     'controller' => 'jadwal',
