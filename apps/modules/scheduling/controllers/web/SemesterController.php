@@ -36,22 +36,8 @@ class SemesterController extends Controller
     public function addAction()
     {
         if($this->request->isPost()) {
-            $nama = $this->request->getPost('nama');
-            $singkatan = $this->request->getPost('singkatan');
-            $tahunAjaran = $this->request->getPost('tahun_ajaran');
-            $semester = $this->request->getPost('semester');
-            $aktif = $this->request->getPost('aktif');
-            $tanggalMulai = $this->request->getPost('tanggal_mulai');
-            $tanggalSelesai = $this->request->getPost('tanggal_selesai');
-
-            $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
-            $response = $service->execute(
-                new MengelolaPeriodeSemesterRequest(
-                    null, $nama, $singkatan, $tahunAjaran, $semester,
-                    $aktif, $tanggalMulai, $tanggalSelesai
-                )
-            );
-
+            $response = $this->saveAction($this->request->getPost());
+            
             if($response->hasMessage()) {
                 $this->flashSession->warning($response->message);
             } else {
@@ -69,22 +55,7 @@ class SemesterController extends Controller
     public function editAction($id)
     {
         if ($this->request->isPost()) {
-            $idSemester = $this->request->getPost('id_semester');
-            $nama = $this->request->getPost('nama');
-            $singkatan = $this->request->getPost('singkatan');
-            $tahunAjaran = $this->request->getPost('tahun_ajaran');
-            $semester = $this->request->getPost('semester');
-            $aktif = $this->request->getPost('aktif');
-            $tanggalMulai = $this->request->getPost('tanggal_mulai');
-            $tanggalSelesai = $this->request->getPost('tanggal_selesai');
-
-            $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
-            $response = $service->execute(
-                new MengelolaPeriodeSemesterRequest(
-                    $idSemester, $nama, $singkatan, $tahunAjaran, $semester,
-                    $aktif, $tanggalMulai, $tanggalSelesai
-                )
-            );
+            $response = $this->saveAction($this->request->getPost());
 
             if($response->hasMessage()) {
                 $this->flashSession->warning($response->message);
@@ -124,5 +95,36 @@ class SemesterController extends Controller
         }
 
         return $this->response->redirect('/semester');
+    }
+
+    private function saveAction($request) {
+        $periodeSemesterRequest = null;
+        
+        $nama = $request['nama'];
+        $singkatan = $request['singkatan'];
+        $tahunAjaran = $request['tahun_ajaran'];
+        $semester = $request['semester'];
+        $aktif = $request['aktif'];
+        $tanggalMulai = $request['tanggal_mulai'];
+        $tanggalSelesai = $request['tanggal_selesai'];
+
+        if (array_key_exists('id_semester', $request)) {
+            $idSemester = $request['id_semester'];
+            $periodeSemesterRequest = new MengelolaPeriodeSemesterRequest(
+                $idSemester, $nama, $singkatan, $tahunAjaran, $semester,
+                $aktif, $tanggalMulai, $tanggalSelesai
+            );
+        } else {
+            $periodeSemesterRequest = new MengelolaPeriodeSemesterRequest(
+                null, $nama, $singkatan, $tahunAjaran, $semester,
+                $aktif, $tanggalMulai, $tanggalSelesai
+            );
+        }
+
+        $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
+        if ($this)
+        $response = $service->execute($periodeSemesterRequest);
+
+        return $response;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Siakad\scheduling\exception;
+namespace Siakad\Scheduling\Domain\Exception;
 
 use Exception;
 

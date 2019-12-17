@@ -20,7 +20,7 @@ class Module implements ModuleDefinitionInterface
             'Siakad\Scheduling\Controllers\Web' => __DIR__ . '/controllers/web',
             'Siakad\Scheduling\Controllers\Api' => __DIR__ . '/controllers/api',
             'Siakad\Scheduling\Controllers\Validators' => __DIR__ . '/controllers/validators',
-            'Siakad\Scheduling\Exception' => __DIR__ . '/exception',
+            'Siakad\Scheduling\Domain\Exception' => __DIR__ . '/domain/exception',
         ]);
 
         $loader->register();

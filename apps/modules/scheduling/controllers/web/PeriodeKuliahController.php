@@ -36,13 +36,7 @@ class PeriodeKuliahController extends Controller
     public function addAction()
     {
         if ($this->request->isPost()) {
-            $jamMulai = $this->request->getPost('jam_mulai');
-            $jamSelesai = $this->request->getPost('jam_selesai');
-
-            $service = new MengelolaPeriodeKuliahService($this->periodeKuliahRepository);
-            $response = $service->execute(new MengelolaPeriodeKuliahRequest(
-                null, $jamMulai,$jamSelesai
-            ));
+            $response = $this->saveAction($this->request->getPost());
 
             if($response->hasMessage()) {
                 $this->flashSession->warning($response->message);
@@ -61,14 +55,7 @@ class PeriodeKuliahController extends Controller
     public function editAction($id)
     {
         if ($this->request->isPost()) {
-            $id = $this->request->getPost('id_periode_kuliah');
-            $jamMulai = $this->request->getPost('jam_mulai');
-            $jamSelesai = $this->request->getPost('jam_selesai');
-
-            $service = new MengelolaPeriodeKuliahService($this->periodeKuliahRepository);
-            $response = $service->execute(new MengelolaPeriodeKuliahRequest(
-                $id, $jamMulai,$jamSelesai
-            ));
+            $response = $this->saveAction($this->request->getPost());
 
             if($response->hasMessage()) {
                 $this->flashSession->warning($response->message);
@@ -82,7 +69,7 @@ class PeriodeKuliahController extends Controller
             new MelihatPeriodeKuliahRequest($id)
         );
 
-        if($response->hasMessage()) {
+        if ($response->hasMessage()) {
             $this->flashSession->warning($response->message);
         }
 
@@ -104,5 +91,26 @@ class PeriodeKuliahController extends Controller
             }
         }
         return $this->response->redirect('/periode-kuliah');
+    }
+
+    private function saveAction($request) {
+        $periodeKuliahRequest = null;
+        
+        $jamMulai = $this->request->getPost['jam_mulai'];
+        $jamSelesai = $this->request->getPost['jam_selesai'];
+
+        if (array_key_exists('id_periode_kuliah', $request)) {
+            $id = $this->request->getPost('id_periode_kuliah');
+            $periodeKuliahRequest = new MengelolaPeriodeKuliahRequest(
+                $id, $jamMulai,$jamSelesai);
+        } else {
+            $periodeKuliahRequest = new MengelolaPeriodeKuliahRequest(
+                null, $jamMulai,$jamSelesai);
+        }
+
+        $service = new MengelolaPeriodeKuliahService($this->periodeKuliahRepository);
+        $response = $service->execute($periodeKuliahRequest);
+
+        return $response;
     }
 }
