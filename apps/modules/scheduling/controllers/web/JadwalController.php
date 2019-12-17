@@ -18,6 +18,7 @@ use Siakad\Scheduling\Application\MelihatPrasaranaService;
 use Siakad\Scheduling\Application\MelihatPeriodeKuliahService;
 use Siakad\Scheduling\Application\MelihatPeriodeKuliahRequest;
 use Siakad\Scheduling\Application\MelihatPeriodeKuliahResponse;
+use Siakad\Scheduling\Application\ApplicationException;
 
 class JadwalController extends Controller
 {
@@ -45,16 +46,28 @@ class JadwalController extends Controller
         $day = $this->request->get('day');
         if($day == NULL) $day = '0';
 
-        $service = new MelihatJadwalKuliahService($this->jadwalKuliahProdiRepository);
-        $jadwalKuliahProdi = $service->execute(
-            new MelihatJadwalKuliahRequest($day)
-        )->data;
+        try{
+            $service = new MelihatJadwalKuliahService($this->jadwalKuliahProdiRepository);
+            $jadwalKuliahProdi = $service->execute(
+                new MelihatJadwalKuliahRequest($day)
+            )->data;
+        } catch (ApplicationException $exception){
+            $this->flashSession->warning($exception->getMessage());
+        }
 
-        $service = new MelihatPrasaranaService($this->prasaranaRepository);
-        $prasarana = $service->execute()->data;
+        try{
+            $service = new MelihatPrasaranaService($this->prasaranaRepository);
+            $prasarana = $service->execute()->data;
+        } catch (ApplicationException $exception){
+            $this->flashSession->warning($exception->getMessage());
+        }
 
-        $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
-        $periodeKuliah = $service->execute(new MelihatPeriodeKuliahRequest())->data;
+        try{
+            $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
+            $periodeKuliah = $service->execute(new MelihatPeriodeKuliahRequest())->data;
+        } catch (ApplicationException $exception){
+            $this->flashSession->warning($exception->getMessage());
+        }
 
         $this->view->setVar('jadwalKuliah', $jadwalKuliahProdi->getJadwalKelas());
         $this->view->setVar('prasarana', $prasarana);
@@ -65,15 +78,19 @@ class JadwalController extends Controller
     public function deleteAction($id)
     {
         if ($this->request->isPost()) {
-            $service = new MengelolaJadwalKuliahService(
-                $this->jadwalKuliahRepository,
-                $this->jadwalKuliahProdiRepository,
-                $this->prasaranaRepository,
-                $this->periodeKuliahRepository,
-                $this->kelasRepository,
-                $this->dosenRepository
-            );
-            $service->delete($id);
+            try{
+                $service = new MengelolaJadwalKuliahService(
+                    $this->jadwalKuliahRepository,
+                    $this->jadwalKuliahProdiRepository,
+                    $this->prasaranaRepository,
+                    $this->periodeKuliahRepository,
+                    $this->kelasRepository,
+                    $this->dosenRepository
+                );
+                $service->delete($id);
+            } catch (ApplicationException $exception){
+                $this->flashSession->warning($exception->getMessage());
+            }
 
             $this->flashSession->notice('Data telah dihapus!');
         }
@@ -89,40 +106,60 @@ class JadwalController extends Controller
             $idPeriodeKuliah = $this->request->get('id_periode_kuliah');
             $idPrasarana = $this->request->get('id_prasarana');
 
-            $service = new MengelolaJadwalKuliahService(
-                $this->jadwalKuliahRepository,
-                $this->jadwalKuliahProdiRepository,
-                $this->prasaranaRepository,
-                $this->periodeKuliahRepository,
-                $this->kelasRepository,
-                $this->dosenRepository
-            );
-            $service->execute(
-                new MengelolaJadwalKuliahRequest(
-                    $id,
-                    $hari,
-                    $idKelas,
-                    $idPeriodeKuliah,
-                    $idPrasarana
-                )
-            );
+            try{
+                $service = new MengelolaJadwalKuliahService(
+                    $this->jadwalKuliahRepository,
+                    $this->jadwalKuliahProdiRepository,
+                    $this->prasaranaRepository,
+                    $this->periodeKuliahRepository,
+                    $this->kelasRepository,
+                    $this->dosenRepository
+                );
+                $service->execute(
+                    new MengelolaJadwalKuliahRequest(
+                        $id,
+                        $hari,
+                        $idKelas,
+                        $idPeriodeKuliah,
+                        $idPrasarana
+                    )
+                );
+            } catch (ApplicationException $exception){
+                $this->flashSession->warning($exception->getMessage());
+            }
         }
 
-        $service = new MelihatJadwalKuliahService($this->jadwalKuliahProdiRepository);
-        $jadwalKuliahProdi = $service->execute(
-            new MelihatJadwalKuliahRequest($hari)
-        )->data;
+        try{
+            $service = new MelihatJadwalKuliahService($this->jadwalKuliahProdiRepository);
+            $jadwalKuliahProdi = $service->execute(
+                new MelihatJadwalKuliahRequest($hari)
+            )->data;
+        } catch (ApplicationException $exception){
+            $this->flashSession->warning($exception->getMessage());
+        }
+        
+        try{
+            $service = new MelihatSatuJadwalKuliahService($this->jadwalKuliahRepository);
+            $jadwal = $service->execute(
+                new MelihatSatuJadwalKuliahRequest($id)
+            )->data;
+        } catch (ApplicationException $exception){
+            $this->flashSession->warning($exception->getMessage());
+        }
 
-        $service = new MelihatSatuJadwalKuliahService($this->jadwalKuliahRepository);
-        $jadwal = $service->execute(
-            new MelihatSatuJadwalKuliahRequest($id)
-        )->data;
+        try{
+            $service = new MelihatPrasaranaService($this->prasaranaRepository);
+            $prasarana = $service->execute()->data;
+        } catch (ApplicationException $exception){
+            $this->flashSession->warning($exception->getMessage());
+        }
 
-        $service = new MelihatPrasaranaService($this->prasaranaRepository);
-        $prasarana = $service->execute()->data;
-
-        $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
-        $periodeKuliah = $service->execute(new MelihatPeriodeKuliahRequest())->data;
+        try{
+            $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
+            $periodeKuliah = $service->execute(new MelihatPeriodeKuliahRequest())->data;
+        } catch (ApplicationException $exception){
+            $this->flashSession->warning($exception->getMessage());
+        }
 
         $this->view->setVar('jadwalKuliah', $jadwalKuliahProdi->getJadwalKelas());
         $this->view->setVar('jadwal', $jadwal);
@@ -134,35 +171,43 @@ class JadwalController extends Controller
     public function createAction()
     {
         if($this->request->getPost('id_kelas') != null){
-            $service = new MengelolaJadwalKuliahService(
-                $this->jadwalKuliahRepository,
-                $this->jadwalKuliahProdiRepository,
-                $this->prasaranaRepository,
-                $this->periodeKuliahRepository,
-                $this->kelasRepository,
-                $this->dosenRepository
-            );
-
-            $hari =$this->request->getPost('hari');
-            $idPrasarana = $this->request->getPost('id_prasarana');
-            $idPeriodeKuliah = $this->request->getPost('id_periode_kuliah');
-            $idKelas = $this->request->getPost('id_kelas');
-
-            $service->execute(
-                new MengelolaJadwalKuliahRequest(
-                    null,
-                    $hari,
-                    $idKelas,
-                    $idPeriodeKuliah,
-                    $idPrasarana
-                )
-            );
+            try{
+                $service = new MengelolaJadwalKuliahService(
+                    $this->jadwalKuliahRepository,
+                    $this->jadwalKuliahProdiRepository,
+                    $this->prasaranaRepository,
+                    $this->periodeKuliahRepository,
+                    $this->kelasRepository,
+                    $this->dosenRepository
+                );
+    
+                $hari =$this->request->getPost('hari');
+                $idPrasarana = $this->request->getPost('id_prasarana');
+                $idPeriodeKuliah = $this->request->getPost('id_periode_kuliah');
+                $idKelas = $this->request->getPost('id_kelas');
+    
+                $service->execute(
+                    new MengelolaJadwalKuliahRequest(
+                        null,
+                        $hari,
+                        $idKelas,
+                        $idPeriodeKuliah,
+                        $idPrasarana
+                    )
+                );
+            } catch (ApplicationException $exception){
+                $this->flashSession->warning($exception->getMessage());
+            }
 
             return $this->response->redirect('/kelola-jadwal?day='.$hari);
         }
-        
-        $service = new MelihatKelasService($this->kelasRepository);
-        $kelas = $service->execute()->data;
+
+        try{
+            $service = new MelihatKelasService($this->kelasRepository);
+            $kelas = $service->execute()->data;
+        } catch (ApplicationException $exception){
+            $this->flashSession->warning($exception->getMessage());
+        }
 
         $this->view->setVar('jadwalKuliah', $kelas);
         $this->view->setVar('hari', $this->request->getPost('hari'));
@@ -179,13 +224,17 @@ class JadwalController extends Controller
         $periodeKuliahTipe = $this->request->get('tipe');
         $periodeKuliahTahun = $this->request->get('tahun');
 
-        $service = new MelihatJadwalKuliahProdiService($this->jadwalKuliahRepository);
-        $response = $service->execute(
-            new MelihatJadwalKuliahProdiRequest(
-                $periodeKuliahTipe,
-                $periodeKuliahTahun
-            )
-        );
+        try{
+            $service = new MelihatJadwalKuliahProdiService($this->jadwalKuliahRepository);
+            $response = $service->execute(
+                new MelihatJadwalKuliahProdiRequest(
+                    $periodeKuliahTipe,
+                    $periodeKuliahTahun
+                )
+            );
+        } catch (ApplicationException $exception){
+            $this->flashSession->warning($exception->getMessage());
+        }
 
         $this->view->setVar('jadwalKuliah', $response->data);
         return $this->view->pick('jadwal/prodi');
@@ -196,14 +245,26 @@ class JadwalController extends Controller
         $day = $this->request->get('day');
         if($day == NULL) $day = '0';
 
-        $service = new MemvalidasiJadwalKuliahProdiService($this->jadwalKuliahProdiRepository);
-        $jadwalKuliahProdi = $service->execute($day)->data;
+        try{
+            $service = new MemvalidasiJadwalKuliahProdiService($this->jadwalKuliahProdiRepository);
+            $jadwalKuliahProdi = $service->execute($day)->data;
+        } catch (ApplicationException $exception){
+            $this->flashSession->warning($exception->getMessage());
+        }
 
-        $service = new MelihatPrasaranaService($this->prasaranaRepository);
-        $prasarana = $service->execute()->data;
+        try{
+            $service = new MelihatPrasaranaService($this->prasaranaRepository);
+            $prasarana = $service->execute()->data;
+        } catch (ApplicationException $exception){
+            $this->flashSession->warning($exception->getMessage());
+        }
 
-        $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
-        $periodeKuliah = $service->execute(new MelihatPeriodeKuliahRequest())->data;
+        try{
+            $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
+            $periodeKuliah = $service->execute(new MelihatPeriodeKuliahRequest())->data;
+        } catch (ApplicationException $exception){
+            $this->flashSession->warning($exception->getMessage());
+        }
 
         $this->view->setVar('jadwalKuliah', $jadwalKuliahProdi->getJadwalKelas());
         $this->view->setVar('prasarana', $prasarana);
