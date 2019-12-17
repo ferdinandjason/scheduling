@@ -18,10 +18,9 @@ class MelihatJadwalMahasiswaPerwalianService
         $message = null;
         $jadwalKelas = null;
 
-        try {
-            $jadwalKelas = $this->jadwalKelasRepository->byMahasiswa($request->nrpMahasiswa);
-        } catch (JadwalKelasNotFoundException $exception) {
-            $message = $exception->getMessage();
+        $jadwalKelas = $this->jadwalKelasRepository->byMahasiswa($request->nrpMahasiswa);
+        if (!$jadwalKelas) {
+            throw new ApplicationException("Mahasiswa with NRP = {$request->nrpMahasiswa} not found");
         }
 
         return new MelihatJadwalKuliahProdiResponse($jadwalKelas, $message);

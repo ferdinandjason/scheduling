@@ -18,10 +18,9 @@ class MelihatMahasiswaPerwalianService
         $message = null;
         $mahasiswa = null;
 
-        try {
-            $mahasiswa = $this->mahasiswaPerwalianRepository->findByDosenWali($request->dosenId);
-        } catch (MahasiswaPerwalianNotFoundException $exception) {
-            $message = $exception->getMessage();
+        $mahasiswa = $this->mahasiswaPerwalianRepository->findByDosenWali($request->dosenId);
+        if (!$mahasiswa) {
+            throw new ApplicationException("Dosen with id = {$request->dosenId} not found");
         }
 
         return new MelihatMahasiswaPerwalianResponse($mahasiswa, $message);

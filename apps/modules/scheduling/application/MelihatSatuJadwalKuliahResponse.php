@@ -1,10 +1,10 @@
 <?php
 
+
 namespace Siakad\Scheduling\Application;
 
-use Siakad\Scheduling\Domain\Response\MessageResponse;
 
-class MelihatPrasaranaResponse
+class MelihatSatuJadwalKuliahResponse
 {
     public $data;
 

@@ -38,12 +38,7 @@ class PeriodeKuliahController extends Controller
     {
         if ($this->request->isPost()) {
             $response = $this->saveAction($this->request->getPost());
-
-            if($response->hasMessage()) {
-                $this->flashSession->warning($response->message);
-            } else {
-                $this->flashSession->success('Periode kuliah tersimpan!');
-            }
+            $this->flashSession->success($response->message);
         }
 
         $periodeKuliahNull = new PeriodeKuliah(null, null, null);
@@ -57,12 +52,7 @@ class PeriodeKuliahController extends Controller
     {
         if ($this->request->isPost()) {
             $response = $this->saveAction($this->request->getPost());
-
-            if($response->hasMessage()) {
-                $this->flashSession->warning($response->message);
-            } else {
-                $this->flashSession->success('Periode kuliah diperbarui!');
-            }
+            $this->flashSession->success($response->message);
         }
 
         $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
@@ -71,15 +61,16 @@ class PeriodeKuliahController extends Controller
                 new MelihatPeriodeKuliahRequest($id)
             );
         } catch(ApplicationException $e) {
-
+            $this->flashSession->warning($e->message);
+            return $this->response->redirect('/periode-kuliah');
         }
 
         if ($response->hasMessage()) {
             $this->flashSession->warning($response->message);
         }
 
-        $this->view->setVar('action', 'Edit');
         $this->view->setVar('periodeKuliah', $response->data);
+        $this->view->setVar('action', 'Edit');
         return $this->view->pick('jadwal/periode-kuliah-tambah');
     }
 
@@ -90,14 +81,12 @@ class PeriodeKuliahController extends Controller
             try {
                 $response = $service->delete($id);
             } catch (ApplicationException $e) {
-
+                $this->flashSession->warning($e->message);
+                return $this->response->redirect('/periode-kuliah');
             }
 
-            if($response->hasMessage()) {
-                $this->flashSession->warning($response->message);
-            } else {
-                $this->flashSession->notice('Data telah dihapus!');
-            }
+            $this->flashSession->notice($response->message);
+
         }
         return $this->response->redirect('/periode-kuliah');
     }
@@ -121,7 +110,8 @@ class PeriodeKuliahController extends Controller
         try {
             $response = $service->execute($periodeKuliahRequest);
         } catch(ApplicationException $e) {
-
+            $this->flashSession->warning($e->message);
+            return $this->response->redirect('/periode-kuliah');
         }
 
         return $response;

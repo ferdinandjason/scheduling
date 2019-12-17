@@ -6,6 +6,7 @@ use Siakad\Scheduling\Domain\Model\KelasRepository;
 use Siakad\Scheduling\Domain\Model\Kelas;
 use Siakad\Scheduling\Domain\Model\MataKuliah;
 use Siakad\Scheduling\Domain\Model\Semester;
+use Phalcon\Db\Column;
 
 class SqlKelasRepository implements KelasRepository
 {

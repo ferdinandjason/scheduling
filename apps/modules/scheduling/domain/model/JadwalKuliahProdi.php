@@ -37,4 +37,9 @@ class JadwalKuliahProdi
             }
         }
     }
+
+    public function getJadwalKelas()
+    {
+        return $this->jadwalKelasArray;
+    }
 }

@@ -1,7 +1,9 @@
 <?php
 
 use Phalcon\Mvc\View;
+use Siakad\Scheduling\Infrastructure\SqlDosenRepository;
 use Siakad\Scheduling\Infrastructure\SqlJadwalKelasRepository;
+use Siakad\Scheduling\Infrastructure\SqlJadwalKuliahProdiRepository;
 use Siakad\Scheduling\Infrastructure\SqlMahasiswaPerwalianRepository;
 use Siakad\Scheduling\Infrastructure\SqlPeriodeKuliahRepository;
 use Siakad\Scheduling\Infrastructure\SqlSemesterRepository;
@@ -67,5 +69,15 @@ $di->setShared('sql_mahasiswa_perwalian_repository', function() use ($di) {
 
 $di->setShared('sql_kelas_repository', function() use ($di) {
     $repo = new SqlKelasRepository($di);
+    return $repo;
+});
+
+$di->setShared('sql_jadwal_kuliah_prodi_repository', function () use ($di) {
+    $repo = new SqlJadwalKuliahProdiRepository($di);
+    return $repo;
+});
+
+$di->setShared('sql_dosen_repository', function () use ($di) {
+$repo = new SqlDosenRepository($di);
     return $repo;
 });

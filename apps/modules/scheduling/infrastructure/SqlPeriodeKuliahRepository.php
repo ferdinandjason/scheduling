@@ -3,6 +3,7 @@
 namespace Siakad\Scheduling\Infrastructure;
 
 use Phalcon\Db\Column;
+use Siakad\Scheduling\Application\ApplicationException;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliah;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliahRepository;
 use Siakad\Scheduling\Exception\DatabaseErrorException;
@@ -116,10 +117,7 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
                 $statementData,
                 $this->statementTypes['save']
             );
-
-            if(!$success) {
-                throw new DatabaseErrorException("Periode Kuliah failed to save");
-            }
+            return $success;
         }
         else {
             $statementData = [
@@ -134,9 +132,7 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
                 $this->statementTypes['update']
             );
 
-            if(!$success) {
-                throw new PeriodeKuliahNotFoundException("Periode Kuliah with id = {$periodeKuliah->getId()} not found");
-            }
+            return $success;
         }
     }
 
@@ -146,10 +142,12 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             'id' => $id,
         ];
 
-        $result = $this->connection->executePrepared(
+        $success = $this->connection->executePrepared(
             $this->statement['delete'],
             $statementData,
             $this->statementTypes['delete']
         );
+
+        return $success;
     }
 }

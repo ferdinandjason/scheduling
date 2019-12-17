@@ -25,7 +25,8 @@ class PerwalianController extends Controller {
                 new MelihatMahasiswaPerwalianRequest($id)
             );
         } catch (ApplicationException $e) {
-            
+            $this->flashSession->warning($e->message);
+            return $this->response->redirect('/dosen/1/perwalian');
         }
 
         if($response->hasMessage()) {
@@ -38,9 +39,14 @@ class PerwalianController extends Controller {
 
     public function jadwalMahasiswaAction($nrpMahasiswa) {
         $service = new MelihatJadwalMahasiswaPerwalianService($this->jadwalKuliahRepository);
-        $response = $service->execute(
-            new MelihatJadwalMahasiswaPerwalianRequest($nrpMahasiswa)
-        );
+        try {
+            $response = $service->execute(
+                new MelihatJadwalMahasiswaPerwalianRequest($nrpMahasiswa)
+            );
+        } catch (ApplicationException $e) {
+            $this->flashSession->warning($e->message);
+            return $this->response->redirect('/dosen/1/perwalian');
+        }
 
         $this->view->setVar('jadwalKuliah', $response->data);
         return $this->view->pick('jadwal/mahasiswa-jadwal');
