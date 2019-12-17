@@ -26,19 +26,9 @@ class AktivitasMengajar
         return $this->dosen;
     }
 
-    public function setDosen($dosen)
-    {
-        $this->dosen = $dosen;
-    }
-
     public function getKelas()
     {
         return $this->kelas;
-    }
-
-    public function setKelas($kelas)
-    {
-        $this->kelas = $kelas;
     }
 
     public function getSKSMengajar()
@@ -46,19 +36,9 @@ class AktivitasMengajar
         return $this->sksMengajar;
     }
 
-    public function setSKSMengajar($sksMengajar)
-    {
-        $this->sksMengajar = $sksMengajar;
-    }
-
     public function getRencanaTatapMuka()
     {
         return $this->rencanaTatapMuka;
-    }
-
-    public function setRencanaTatapMuka($rencanaTatapMuka)
-    {
-        $this->rencanaTatapMuka = $rencanaTatapMuka;
     }
 
     public function getRealisasiTatapMuka()
@@ -66,19 +46,9 @@ class AktivitasMengajar
         return $this->realisasiTatapMuka;
     }
 
-    public function setRealisasiTatapMuka($realisasiTatapMuka)
-    {
-        $this->realisasiTatapMuka = $realisasiTatapMuka;
-    }
-
     public function getValidasiTatapMuka()
     {
         return $this->validasiTatapMuka;
-    }
-
-    public function setValidasiTatapMuka($validasiTatapMuka)
-    {
-        $this->validasiTatapMuka = $validasiTatapMuka;
     }
 
 }

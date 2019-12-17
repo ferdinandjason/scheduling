@@ -20,29 +20,9 @@ class Mahasiswa
         return $this->nrp;
     }
 
-    public function setNRP($nrp)
-    {
-        $this->nrp = $nrp;
-    }
-
     public function getNama()
     {
         return $this->nama;
-    }
-
-    public function setNama($nama)
-    {
-        $this->nama = $nama;
-    }
-
-    public function getDosenWali()
-    {
-        return $this->dosenWali;
-    }
-
-    public function setDosenWali($dosenWali)
-    {
-        $this->dosenWali = $dosenWali;
     }
 
 }
