@@ -187,4 +187,9 @@ class JadwalController extends Controller
         $this->view->setVar('jadwalKuliah', $response->data);
         return $this->view->pick('jadwal/prodi');
     }
+
+    public function validasiAction()
+    {
+        
+    }
 }
