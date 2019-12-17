@@ -97,6 +97,11 @@ class JadwalKelas
         $this->valid = $valid;
     }
 
+    public function isValid()
+    {
+        return $this->valid == true;
+    }
+
     public function getKodeMatkulNamaKelasSKS()
     {
         return $this->kelas->getMataKuliah()->getKodeMatkul().
