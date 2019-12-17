@@ -40,9 +40,7 @@ class SemesterController extends Controller
             $response = $this->saveAction($this->request->getPost());
             
             if($response->hasMessage()) {
-                $this->flashSession->warning($response->message);
-            } else {
-                $this->flashSession->success('Semester berhasil ditambah!');
+                $this->flashSession->success($response->message);
             }
         }
 
@@ -59,9 +57,7 @@ class SemesterController extends Controller
             $response = $this->saveAction($this->request->getPost());
 
             if($response->hasMessage()) {
-                $this->flashSession->warning($response->message);
-            } else {
-                $this->flashSession->success('Semester diperbarui!');
+                $this->flashSession->success($response->message);
             }
         }
 
@@ -99,8 +95,6 @@ class SemesterController extends Controller
 
             if($response->hasMessage()) {
                 $this->flashSession->warning($response->message);
-            } else {
-                $this->flashSession->notice('Data telah dihapus!');
             }
         }
 

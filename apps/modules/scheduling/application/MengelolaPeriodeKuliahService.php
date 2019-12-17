@@ -4,7 +4,6 @@ namespace Siakad\Scheduling\Application;
 
 use Siakad\Scheduling\Domain\Model\PeriodeKuliah;
 use Siakad\Scheduling\Domain\Model\PeriodeKuliahRepository;
-use Siakad\Scheduling\Exception\PeriodeKuliahNotFoundException;
 
 class MengelolaPeriodeKuliahService
 {
@@ -17,7 +16,6 @@ class MengelolaPeriodeKuliahService
 
     public function execute(MengelolaPeriodeKuliahRequest $request)
     {
-        $message = null;
         $periode = PeriodeKuliah::convertToTimestamp($request->id, $request->mulai, $request->selesai);
 
         $success = $this->periodeKuliahRepository->save($periode);
@@ -25,18 +23,16 @@ class MengelolaPeriodeKuliahService
             throw new ApplicationException("Periode Kuliah failed to be saved");
         }
     
-        return new MengelolaPeriodeKuliahResponse($message);
+        return new MengelolaPeriodeKuliahResponse('Periode kuliah tersimpan!');
     }
 
     public function delete($id)
     {
-        $message = null;
-
         $success = $this->periodeKuliahRepository->delete($id);
         if(!$success) {
-            throw new PeriodeKuliahNotFoundException("Periode Kuliah with id = {$id} not found");
+            throw new ApplicationException("Periode Kuliah with id = {$id} not found");
         }
 
-        return new MengelolaPeriodeKuliahResponse($message);
+        return new MengelolaPeriodeKuliahResponse("Data telah dihapus!");
     }
 }
