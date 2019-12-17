@@ -30,19 +30,9 @@ class Semester
         return $this->id;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
     public function getNama()
     {
         return $this->nama;
-    }
-
-    public function setNama($nama)
-    {
-        $this->nama = $nama;
     }
 
     public function getSingkatan()
@@ -50,19 +40,9 @@ class Semester
         return $this->singkatan;
     }
 
-    public function setSingkatan($singkatan)
-    {
-        $this->singkatan = $singkatan;
-    }
-
     public function getTahunAjaran()
     {
         return $this->tahunAjaran;
-    }
-
-    public function setTahunAjaran($tahunAjaran)
-    {
-        $this->tahunAjaran = $tahunAjaran;
     }
 
     public function getSemester()
@@ -70,19 +50,9 @@ class Semester
         return $this->semester;
     }
 
-    public function setSemester($semester)
-    {
-        $this->semester = $semester;
-    }
-
     public function getAktif()
     {
         return $this->aktif;
-    }
-
-    public function setAktif($aktif)
-    {
-        $this->aktif = $aktif;
     }
 
     public function getTanggalMulai()
@@ -90,19 +60,8 @@ class Semester
         return $this->tanggalMulai;
     }
 
-    public function setTanggalMulai($tanggalMulai)
-    {
-        $this->tanggalMulai = $tanggalMulai;
-    }
-
     public function getTanggalSelesai()
     {
         return $this->tanggalSelesai;
     }
-
-    public function setTanggalSelesai($tanggalSelesai)
-    {
-        $this->tanggalSelesai = $tanggalSelesai;
-    }
-
 }

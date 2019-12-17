@@ -3,6 +3,7 @@
 namespace Siakad\Scheduling\Controllers\Web;
 
 use Phalcon\Mvc\Controller;
+use Siakad\Scheduling\Application\ApplicationException;
 use Siakad\Scheduling\Application\MelihatJadwalMahasiswaPerwalianRequest;
 use Siakad\Scheduling\Application\MelihatJadwalMahasiswaPerwalianService;
 use Siakad\Scheduling\Application\MelihatMahasiswaPerwalianRequest;
@@ -19,9 +20,13 @@ class PerwalianController extends Controller {
 
     public function perwalianAction($id) {
         $service = new MelihatMahasiswaPerwalianService($this->mahasiswaPerwalianRepository);
-        $response = $service->execute(
-            new MelihatMahasiswaPerwalianRequest($id)
-        );
+        try {
+            $response = $service->execute(
+                new MelihatMahasiswaPerwalianRequest($id)
+            );
+        } catch (ApplicationException $e) {
+            
+        }
 
         if($response->hasMessage()) {
             $this->flashSession->warning($response->message);

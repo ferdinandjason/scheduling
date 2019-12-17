@@ -2,7 +2,6 @@
 
 namespace Siakad\Scheduling\Infrastructure;
 
-use Phalcon\Db\Column;
 use Siakad\Scheduling\Domain\Model\KelasRepository;
 use Siakad\Scheduling\Domain\Model\Kelas;
 use Siakad\Scheduling\Domain\Model\MataKuliah;
