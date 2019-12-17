@@ -59,7 +59,7 @@
                                 <div>{{jadwal.getKodeMatkulNamaKelasSKS()}}</div>
                                 <div>{{jadwal.getDosen().getNama()}}</div>
                                 <form method="POST" action="{{ url('/kelola-jadwal/' ~jadwal.getId()~ '/hapus') }}" onsubmit="return confirm('Apakah yakin untuk menghapus data?')">
-                                    <a class="btn btn-sm btn-circle btn-outline-info mr-5 mb-5" role="button" href="{{ url('/kelola-jadwal/' ~jadwal.getId()~ '/edit') }}">
+                                    <a class="btn btn-sm btn-circle btn-outline-info mr-5 mb-5" role="button" href="{{ url('/kelola-jadwal/' ~jadwal.getId()~ '/edit?hari=') ~ request.getQuery('day') }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                     <button type="submit" class="btn btn-sm btn-circle btn-outline-danger mr-5 mb-5">

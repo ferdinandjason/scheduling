@@ -36,4 +36,10 @@ class MataKuliah
         return $this->nama;
     }
 
+    public function getNamaMatkulNamaKelasSKS()
+    {
+        return $this->nama.
+            " (".$this->kelas->getNama().") ".
+            $this->kelas->getSksKelas();
+    }
 }

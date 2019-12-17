@@ -44,7 +44,7 @@
                         <label>Mata Kuliah</label>
                         <select class="form-control" name="id_kelas">
                             {% for mataKuliah in jadwalKuliah %}
-                                <option value={{mataKuliah['id_kelas']}}>{{mataKuliah['nama_matkul']}} {{mataKuliah['nama_kelas']}}</option>
+                                <option value={{mataKuliah.getId()}}>{{mataKuliah.getMataKuliah().getNama()}} {{mataKuliah.getNama()}}</option>
                             {% endfor %}
                         </select>
                     </div>

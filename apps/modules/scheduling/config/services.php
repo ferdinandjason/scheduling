@@ -5,6 +5,7 @@ use Siakad\Scheduling\Infrastructure\SqlDosenRepository;
 use Siakad\Scheduling\Infrastructure\SqlJadwalKelasRepository;
 use Siakad\Scheduling\Infrastructure\SqlJadwalKuliahProdiRepository;
 use Siakad\Scheduling\Infrastructure\SqlMahasiswaPerwalianRepository;
+use Siakad\Scheduling\Infrastructure\SqlMataKuliahRepository;
 use Siakad\Scheduling\Infrastructure\SqlPeriodeKuliahRepository;
 use Siakad\Scheduling\Infrastructure\SqlSemesterRepository;
 use Siakad\Scheduling\Infrastructure\SqlPrasaranaRepository;
@@ -78,6 +79,11 @@ $di->setShared('sql_jadwal_kuliah_prodi_repository', function () use ($di) {
 });
 
 $di->setShared('sql_dosen_repository', function () use ($di) {
-$repo = new SqlDosenRepository($di);
+    $repo = new SqlDosenRepository($di);
+    return $repo;
+});
+
+$di->setShared('sql_mata_kuliah_repository', function () use ($di) {
+    $repo = new SqlMataKuliahRepository($di);
     return $repo;
 });

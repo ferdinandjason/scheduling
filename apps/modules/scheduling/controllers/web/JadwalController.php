@@ -27,6 +27,7 @@ class JadwalController extends Controller
     private $periodeKuliahRepository;
     private $kelasRepository;
     private $dosenRepository;
+    private $mataKuliahRepository;
 
     public function initialize()
     {
@@ -36,6 +37,7 @@ class JadwalController extends Controller
         $this->periodeKuliahRepository = $this->di->getShared('sql_periode_kuliah_repository');
         $this->kelasRepository = $this->di->getShared('sql_kelas_repository');
         $this->dosenRepository = $this->di->getShared('sql_dosen_repository');
+        $this->mataKuliahRepository = $this->di->getShared('sql_mata_kuliah_repository');
     }
 
     public function indexAction()
@@ -107,7 +109,7 @@ class JadwalController extends Controller
         }
 
         $service = new MelihatJadwalKuliahService($this->jadwalKuliahProdiRepository);
-        $jadwalKuliah = $service->execute(
+        $jadwalKuliahProdi = $service->execute(
             new MelihatJadwalKuliahRequest($hari)
         )->data;
 
@@ -122,7 +124,7 @@ class JadwalController extends Controller
         $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
         $periodeKuliah = $service->execute(new MelihatPeriodeKuliahRequest())->data;
 
-        $this->view->setVar('jadwalKuliah', $jadwalKuliah);
+        $this->view->setVar('jadwalKuliah', $jadwalKuliahProdi->getJadwalKelas());
         $this->view->setVar('jadwal', $jadwal);
         $this->view->setVar('prasarana', $prasarana);
         $this->view->setVar('periodeKuliah', $periodeKuliah);

@@ -46,7 +46,7 @@
                         <label>Mata Kuliah</label>
                         <select class="form-control" name="id_kelas">
                             {% for mataKuliah in jadwalKuliah %}
-                                <option value={{mataKuliah.getKelas().getId()}} {% if mataKuliah.getId() == jadwal.getId() %} selected {% endif %}>{{mataKuliah.getNamaMatkulNamaKelasSKS()}}</option>
+                                <option value={{mataKuliah.getId()}} {% if mataKuliah.getId() == jadwal.getId() %} selected {% endif %}>{{mataKuliah.getNamaMatkulNamaKelasSKS()}}</option>
                             {% endfor %}
                         </select>
                     </div>

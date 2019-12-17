@@ -67,7 +67,7 @@ class SqlKelasRepository implements KelasRepository
             new MataKuliah(
                 $item[self::INDEX_ID_MATKUL],
                 $item[self::INDEX_KODE_MATKUL],
-                $item[self::INDEX_NAMA_KELAS],
+                $item[self::INDEX_NAMA_MATKUL],
                 $item[self::INDEX_NAMA_INGGRIS_MATKUL],
                 $item[self::INDEX_SKS_MATKUL],
                 $item[self::INDEX_DESKRIPSI_MATKUL]
