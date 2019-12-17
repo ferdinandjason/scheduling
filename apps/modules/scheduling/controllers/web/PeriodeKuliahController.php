@@ -94,7 +94,6 @@ class PeriodeKuliahController extends Controller
     public function deleteAction($id)
     {
         if ($this->request->isPost()) {
-            $id = $this->request->getPost($id);
 
             $service = new MengelolaPeriodeKuliahService($this->periodeKuliahRepository);
             $response = $service->delete($id);

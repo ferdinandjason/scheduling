@@ -117,8 +117,8 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
                 $this->statementTypes['save']
             );
 
-            if($this->connection->lastInsertId() != 0) {
-                throw new DatabaseErrorException("Periode Kuliah {$periodeKuliah->getNama()} failed to save");
+            if($this->connection->lastInsertId() == 0) {
+                throw new DatabaseErrorException("Periode Kuliah failed to save");
             }
         }
         else {
@@ -134,13 +134,14 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
                 $this->statementTypes['update']
             );
 
-            if($this->connection->afftectedRows() == 0) {
-                throw new PeriodeKuliahNotFoundException("Periode Kuliah with id = {$periodeKuliah->getId()} not found");
-            }
+            // if($this->connection->afftectedRows() == 0) {
+            //     throw new PeriodeKuliahNotFoundException("Periode Kuliah with id = {$periodeKuliah->getId()} not found");
+            // }
         }
     }
 
     public function delete($id) {
+
         $statementData = [
             'id' => $id,
         ];
@@ -151,8 +152,8 @@ class SqlPeriodeKuliahRepository implements PeriodeKuliahRepository
             $this->statementTypes['delete']
         );
 
-        if($this->connection->afftectedRows() == 0) {
-            throw new PeriodeKuliahNotFoundException("Periode Kuliah with id = {$id} not found");
-        }
+        // if($this->connection->afftectedRows() == 0) {
+        //     throw new PeriodeKuliahNotFoundException("Periode Kuliah with id = {$id} not found");
+        // }
     }
 }
