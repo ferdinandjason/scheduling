@@ -2,9 +2,7 @@
 
 namespace Siakad\Scheduling\Application;
 
-use Siakad\Scheduling\Domain\Response\MessageResponse;
-
-class MelihatPrasaranaResponse
+class MelihatJadwalKuliahResponse
 {
     public $data;
 

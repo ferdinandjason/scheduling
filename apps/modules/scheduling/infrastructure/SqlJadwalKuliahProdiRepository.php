@@ -4,6 +4,8 @@ namespace Siakad\Scheduling\Infrastructure;
 
 use Siakad\Scheduling\Domain\Model\JadwalKuliahProdiRepository;
 use Siakad\Scheduling\Domain\Model\JadwalKuliahProdi;
+use Phalcon\Db\Column;
+
 class SqlJadwalKuliahProdiRepository implements JadwalKuliahProdiRepository
 {
     private $connection;
@@ -35,7 +37,7 @@ class SqlJadwalKuliahProdiRepository implements JadwalKuliahProdiRepository
         ];
     }
 
-    public function byDay($day)
+    public function byDay($day) : JadwalKuliahProdi
     {
         $statementData = [
             'day' => $day,

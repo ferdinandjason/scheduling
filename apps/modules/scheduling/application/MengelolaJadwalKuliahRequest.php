@@ -9,16 +9,14 @@ class MengelolaJadwalKuliahRequest
     public $idKelas;
     public $idPeriodeKuliah;
     public $idPrasarana;
-    public $idDosen;
 
-    public function __construct($id, $day, $idKelas, $idPeriodeKuliah, $idPrasarana, $idDosen)
+    public function __construct($id, $day, $idKelas, $idPeriodeKuliah, $idPrasarana)
     {
         $this->id = $id;
         $this->day = $day;
         $this->idKelas = $idKelas;
         $this->idPeriodeKuliah = $idPeriodeKuliah;
         $this->idPrasarana = $idPrasarana;
-        $this->idDosen = $idDosen;
     }
 
     public function hasId()
