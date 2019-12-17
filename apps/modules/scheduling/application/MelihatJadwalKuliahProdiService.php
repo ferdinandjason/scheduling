@@ -19,17 +19,13 @@ class MelihatJadwalKuliahProdiService
         $jadwalKuliahByPeriodeKuliah = null;
         $message = null;
 
-        try {
-            if($request->hasParameters()) {
-                $jadwalKuliahByPeriodeKuliah = $this->jadwalKelasRepository->byPeriodeKuliah(
-                    $request->periodeKuliahTipe,
-                    $request->periodeKuliahTahun
-                );
-            } else {
-                $jadwalKuliahByPeriodeKuliah = $this->jadwalKelasRepository->all();
-            }
-        } catch (JadwalKelasNotFoundException $exception) {
-            $message = $exception->getMessage();
+        if($request->hasParameters()) {
+            $jadwalKuliahByPeriodeKuliah = $this->jadwalKelasRepository->byPeriodeKuliah(
+                $request->periodeKuliahTipe,
+                $request->periodeKuliahTahun
+            );
+        } else {
+            $jadwalKuliahByPeriodeKuliah = $this->jadwalKelasRepository->all();
         }
 
         return new MelihatJadwalKuliahProdiResponse($jadwalKuliahByPeriodeKuliah, $message);
