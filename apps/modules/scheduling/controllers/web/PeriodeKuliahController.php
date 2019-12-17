@@ -38,12 +38,7 @@ class PeriodeKuliahController extends Controller
     {
         if ($this->request->isPost()) {
             $response = $this->saveAction($this->request->getPost());
-
-            if($response->hasMessage()) {
-                $this->flashSession->warning($response->message);
-            } else {
-                $this->flashSession->success('Periode kuliah tersimpan!');
-            }
+            $this->flashSession->success($response->message);
         }
 
         $periodeKuliahNull = new PeriodeKuliah(null, null, null);
@@ -57,12 +52,7 @@ class PeriodeKuliahController extends Controller
     {
         if ($this->request->isPost()) {
             $response = $this->saveAction($this->request->getPost());
-
-            if($response->hasMessage()) {
-                $this->flashSession->warning($response->message);
-            } else {
-                $this->flashSession->success('Periode kuliah diperbarui!');
-            }
+            $this->flashSession->success($response->message);
         }
 
         $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
@@ -95,11 +85,8 @@ class PeriodeKuliahController extends Controller
                 return $this->response->redirect('/periode-kuliah');
             }
 
-            if($response->hasMessage()) {
-                $this->flashSession->warning($response->message);
-            } else {
-                $this->flashSession->notice('Data telah dihapus!');
-            }
+            $this->flashSession->notice($response->message);
+
         }
         return $this->response->redirect('/periode-kuliah');
     }
