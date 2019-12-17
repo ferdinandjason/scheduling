@@ -19,14 +19,13 @@ class MelihatPeriodeKuliahService
         $periodeKuliah = null;
         $message = null;
 
-        try{
-            if($request->hasIdPeriodeKuliah()) {
-                $periodeKuliah = $this->periodeKuliahRepository->byId($request->idPeriodeKuliah);
-            } else {
-                $periodeKuliah = $this->periodeKuliahRepository->all();
+        if($request->hasIdPeriodeKuliah()) {
+            $periodeKuliah = $this->periodeKuliahRepository->byId($request->idPeriodeKuliah);
+            if ($periodeKuliah == null) {
+                throw new ApplicationException("Periode Kuliah with id = {$request->idPeriodeKuliah} not found");
             }
-        } catch (PeriodeKuliahNotFoundException $exception) {
-            $message = $exception->getMessage();
+        } else {
+            $periodeKuliah = $this->periodeKuliahRepository->all();
         }
 
         return new MelihatPeriodeKuliahResponse($periodeKuliah, $message);

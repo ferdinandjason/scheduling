@@ -71,7 +71,8 @@ class SemesterController extends Controller
                 new MelihatPeriodeSemesterRequest($id)
             );
         } catch (ApplicationException $e) {
-
+            $this->flashSession->warning($e->message);
+            return $this->response->redirect('/semester');
         }
 
         if($response->hasMessage()) {
@@ -90,7 +91,11 @@ class SemesterController extends Controller
             $id = $this->request->getPost('id_semester');
 
             $service = new MengelolaPeriodeSemesterService($this->semesterRepository);
-            $response = $service->delete($id);
+            try {
+                $response = $service->delete($id);
+            } catch (ApplicationException $e) {
+                $this->flashSession->warning($e->message);
+            }
 
             if($response->hasMessage()) {
                 $this->flashSession->warning($response->message);
@@ -131,7 +136,8 @@ class SemesterController extends Controller
         try {
             $response = $service->execute($periodeSemesterRequest);
         } catch (ApplicationException $e) {
-
+            $this->flashSession->warning($e->message);
+            return $this->response->redirect('/semester');
         }
 
         return $response;

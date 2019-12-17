@@ -144,11 +144,7 @@ class SqlSemesterRepository implements SemesterRepository
                 $statementData,
                 $this->statementTypes['save']
             );
-
-            if(!$success) {
-                throw new DatabaseErrorException("Semester {$periodeSemester->getNama()} failed to save");
-            }
-
+            return $success;
         }
         else {
             $statementData = [
@@ -167,10 +163,7 @@ class SqlSemesterRepository implements SemesterRepository
                 $statementData,
                 $this->statementTypes['update']
             );
-
-            if(!$success) {
-                throw new SemesterNotFoundException("Semester with id = {$periodeSemester->getId()} not found");
-            }
+            return $success;
         }
     }
 
@@ -184,5 +177,7 @@ class SqlSemesterRepository implements SemesterRepository
             $statementData,
             $this->statementTypes['delete']
         );
+
+        return $result;
     }
 }

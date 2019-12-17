@@ -2,7 +2,9 @@
 
 namespace Siakad\Scheduling\Application;
 
-class ApplicationException {
+use Exception;
+
+class ApplicationException extends Exception {
     public $message;
 
     public function __construct($message)

@@ -19,14 +19,13 @@ class MelihatPeriodeSemesterService
         $semester = null;
         $message = null;
 
-        try {
-            if($request->hasIdSemester()) {
-                $semester = $this->semesterRepository->byId($request->idSemester);
-            } else {
-                $semester = $this->semesterRepository->all();
+        if($request->hasIdSemester()) {
+            $semester = $this->semesterRepository->byId($request->idSemester);
+            if (!$semester) {
+                throw new ApplicationException("Semester with id = {$request->idSemester} not found");
             }
-        } catch (SemesterNotFoundException $exception) {
-            $message = $exception->getMessage();
+        } else {
+            $semester = $this->semesterRepository->all();
         }
 
         return new MelihatPeriodeSemesterResponse($semester, $message);
