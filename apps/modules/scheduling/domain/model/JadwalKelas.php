@@ -10,6 +10,7 @@ class JadwalKelas
     private $prasarana;
     private $hari;
     private $dosen;
+    private $valid;
 
     public function __construct($id, Kelas $kelas, PeriodeKuliah $periodeKuliah, Prasarana $prasarana, $hari, Dosen $dosen)
     {
@@ -84,6 +85,16 @@ class JadwalKelas
     public function setDosen($dosen)
     {
         $this->dosen = $dosen;
+    }
+
+    public function getValid()
+    {
+        return $this->valid;
+    }
+
+    public function setValid($valid)
+    {
+        $this->valid = $valid;
     }
 
     public function getKodeMatkulNamaKelasSKS()
