@@ -90,7 +90,7 @@
         </table>
     </div>
     <div style="text-align:center">
-        <a class="btn btn-sm btn-circle btn-outline-info mr-5 mb-5" role="button" href="{{ url('/kelola-jadwal/' ~request.getQuery('day')~ '/validasi') }}">
+        <a class="btn btn-sm btn-circle btn-outline-info mr-5 mb-5" role="button" href="{{ url('/kelola-jadwal/' ~request.getQuery('day')~ '/validasi?day=' ~request.getQuery('day') ) }}">
             <i class="fa fa-save"></i>
         </a>
     </div>

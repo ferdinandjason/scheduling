@@ -28,8 +28,9 @@ class JadwalKuliahProdi
             {
                 $jadwalKelas = $this->jadwalKelasArray[$i];
                 $jadwalKelas2 = $this->jadwalKelasArray[$j];
+
                 if($jadwalKelas->getDosen()->getId() == $jadwalKelas2->getDosen()->getId() &&
-                    $jadwalKelas->getPeriodeKelas()->getId() == $jadwalKelas2->getPeriodeKelas()->getId())
+                    $jadwalKelas->getPeriodeKuliah()->getId() == $jadwalKelas2->getPeriodeKuliah()->getId())
                     {
                         $jadwalKelas->setValid(0);
                         $jadwalKelas2->setValid(0);

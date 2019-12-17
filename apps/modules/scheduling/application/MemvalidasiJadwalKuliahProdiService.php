@@ -18,5 +18,6 @@ class MemvalidasiJadwalKuliahProdiService
     {
         $jadwalKuliahProdi = $this->jadwalKuliahProdiRepository->byDay($day);
         $jadwalKuliahProdi->validasi();
+        return new MemvalidasiJadwalKuliahProdiResponse($jadwalKuliahProdi);
     }
 }

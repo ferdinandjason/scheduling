@@ -11,6 +11,7 @@ use Siakad\Scheduling\Application\MelihatJadwalKuliahService;
 use Siakad\Scheduling\Application\MelihatKelasService;
 use Siakad\Scheduling\Application\MelihatSatuJadwalKuliahRequest;
 use Siakad\Scheduling\Application\MelihatSatuJadwalKuliahService;
+use Siakad\Scheduling\Application\MemvalidasiJadwalKuliahProdiService;
 use Siakad\Scheduling\Application\MengelolaJadwalKuliahService;
 use Siakad\Scheduling\Application\MengelolaJadwalKuliahRequest;
 use Siakad\Scheduling\Application\MelihatPrasaranaService;
@@ -190,6 +191,21 @@ class JadwalController extends Controller
 
     public function validasiAction()
     {
-        
+        $day = $this->request->get('day');
+        if($day == NULL) $day = '0';
+
+        $service = new MemvalidasiJadwalKuliahProdiService($this->jadwalKuliahProdiRepository);
+        $jadwalKuliahProdi = $service->execute($day)->data;
+
+        $service = new MelihatPrasaranaService($this->prasaranaRepository);
+        $prasarana = $service->execute()->data;
+
+        $service = new MelihatPeriodeKuliahService($this->periodeKuliahRepository);
+        $periodeKuliah = $service->execute(new MelihatPeriodeKuliahRequest())->data;
+
+        $this->view->setVar('jadwalKuliah', $jadwalKuliahProdi->getJadwalKelas());
+        $this->view->setVar('prasarana', $prasarana);
+        $this->view->setVar('periodeKuliah', $periodeKuliah);
+        return $this->view->pick('kelola-jadwal/index');
     }
 }
